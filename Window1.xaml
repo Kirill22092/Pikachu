@@ -9,19 +9,19 @@
         Title="Window1" 
         Height="396" 
         Width="291" 
-        Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid Height="378" 
           VerticalAlignment="Top" Margin="0,1,-1,0">
-        <TextBlock Margin="0,47,0,0" 
+        <TextBlock x:Name="Auth" Margin="0,30,0,0" 
                    TextWrapping="Wrap" 
                    Text="Авторизация" 
                    FontSize="20" 
                    FontWeight="Bold" 
                    TextAlignment="Center" 
-                   Height="24" 
+                   Height="90" 
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Center" 
-                   Width="129" 
+                   Width="288" 
                    Foreground="White">
         </TextBlock>
         <TextBox x:Name="LoginBox"
@@ -78,7 +78,7 @@
             Style="{StaticResource MaterialDesignFlatButton}"
             Padding="0,0,0,0"
             HorizontalAlignment="Right" 
-            Margin="0,13,13,0" 
+            Margin="0,8,8,0" 
             IsCancel="True"
             VerticalAlignment="Top" Height="21" Width="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand">
             <Button.RenderTransform>

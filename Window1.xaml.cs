@@ -18,6 +18,10 @@ namespace Pikachu
             LoginBox.Foreground = LoginBox.BorderBrush;
             PassBox.Foreground = PassBox.BorderBrush;
             stand = PassBox.BorderBrush;
+#if DEBUG
+            LoginBox.Text = "XXX";
+            PassBox.Password = "2";
+#endif
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -78,6 +82,11 @@ namespace Pikachu
             HintAssist.SetHelperText(PassBox, "");
             PassBox.Foreground = stand;
             PassBox.BorderBrush = (Brush)PassBox.FindResource("PrimaryHueMidBrush");
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }
