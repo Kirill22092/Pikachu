@@ -68,7 +68,7 @@
                     <GridViewColumn Header="Options">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content=">>>"/>
+                                <Button Content="{materialDesign:PackIcon ArrowRightBold}" Height="24"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
