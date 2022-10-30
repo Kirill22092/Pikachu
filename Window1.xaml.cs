@@ -1,18 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Pikachu
 {
@@ -59,7 +47,6 @@ namespace Pikachu
                 HintAssist.SetHelperText(LoginBox, "Поле не может быть пустым");
                 LoginBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
                 LoginBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-
             }
             else
             {
@@ -76,7 +63,6 @@ namespace Pikachu
                 HintAssist.SetHelperText(PassBox, "Поле не может быть пустым");
                 PassBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
                 PassBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-
             }
             else
             {
