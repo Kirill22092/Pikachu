@@ -59,7 +59,19 @@ namespace Pikachu
 				last_status="Выпущен",
 				last_name="Родионов"
 			});
-			lvDataBinding.ItemsSource = pr;
+            pr.Add(new pribors
+            {
+                pribor_num = "55577",
+                pribor_tip = "SGOES",
+                pribor_mat = "Алюминий",
+                pribor_gaz = "Метан",
+                pribor_exp = "USA",
+                pribor_range = "0-100",
+                last_date = "20-20-20",
+                last_status = "Выпущен",
+                last_name = "Родионов"
+            });
+            lvDataBinding.ItemsSource = pr;
 		}
 		public class pribors
         {
