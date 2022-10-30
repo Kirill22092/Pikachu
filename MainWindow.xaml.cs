@@ -35,8 +35,8 @@ namespace Pikachu
         NpgsqlConnection iConnect = new("Server=127.0.0.1;Port=5432;User Id=postgres;Password=Scorp610;Database=pikachu");
         public MainWindow()
         {
-            Conn_init(iConnect);
-            login(0, "");
+            Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
+            login(0, ""); //вызываем окно логина
             InitializeComponent();
         }
         private async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
@@ -51,13 +51,13 @@ namespace Pikachu
             };
             try
             {
-                iConnect.Open();
+                iConnect.Open(); //открываем соеднение с БД
                 string sql = "SELECT * FROM names;";
-                iQuery = new(sql, iConnect);
+                iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
                 var reader = await iQuery.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
-                    names_key.Add(reader.GetInt32(0));
+                    names_key.Add(reader.GetInt32(0)); //...и заносим полученные данные в списки
                     names_title.Add(reader.GetString(1));
                     names_rights.Add(reader.GetString(2));
                     names_pass.Add(reader.GetString(3));
@@ -89,9 +89,9 @@ namespace Pikachu
 
         public void login(int b, string l)
         {
-            if (!isOpen) { return; } //проверка есть ли соединение
-            Window1 log1 = new();
-            switch (b)
+            if (!isOpen) { return; } //проверка есть ли соединение (недоделано)
+            Window1 log1 = new(); //создаем экземляр окна
+            switch (b) //меняем цвет и подсказки в текстбоксах, если есть входящие параметры
             {
                 case 1:
                 HintAssist.SetHelperText(log1.PassBox, "Неверный пароль");
@@ -107,29 +107,29 @@ namespace Pikachu
                     log1.LoginBox.Text = l;
                     break;
             }
-            if (log1.ShowDialog() == true)
+            if (log1.ShowDialog() == true) //вызов окна логина и проверка возвращенного результата
             {                
-                int i=names_title.FindIndex(p => p == log1.Login);
+                int i=names_title.FindIndex(p => p == log1.Login); //поиск введенного логина в списке имён
                 if (i > -1)
                 {
-                    if (BCrypt.Verify(log1.Password, names_pass[i]))
+                    if (BCrypt.Verify(log1.Password, names_pass[i])) //проверка пароля
                     {
                         iLogin = names_key[i];
                     } else
                     { 
                         iLogin = -1;
-                        login(1,log1.Login);
+                        login(1,log1.Login); //пароль не подошёл, вызываем метод login ещё раз
                     }
                 } 
                 else
                 {
                     iLogin = -1;
-                    login(2, log1.Login);
+                    login(2, log1.Login); //логина нет в списке, вызываем метод ещё раз
                 }
             }
             else
             {
-                Application.Current.Shutdown();
+                Application.Current.Shutdown(); //окно логина было закрыто, закрываем программу
             }
         }
 
