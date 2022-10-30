@@ -89,7 +89,11 @@ namespace Pikachu
 
         public void login(int b, string l)
         {
-            if (!isOpen) { return; } //проверка есть ли соединение (недоделано)
+            if (!isOpen) //проверка есть ли соединение
+            {
+                iLogin = -1;
+                return; 
+            } 
             Window1 log1 = new(); //создаем экземляр окна
             switch (b) //меняем цвет и подсказки в текстбоксах, если есть входящие параметры
             {
