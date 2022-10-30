@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="#FF282A34">
     <Grid>
-
+        
+        
     </Grid>
 </Window>
