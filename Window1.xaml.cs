@@ -9,8 +9,6 @@ namespace Pikachu
     /// </summary>
     public partial class Window1 : Window
     {
-
-        MainWindow mainWindow;
         private readonly Brush stand;
         public Window1()
         {
@@ -20,38 +18,11 @@ namespace Pikachu
             LoginBox.Foreground = LoginBox.BorderBrush;
             PassBox.Foreground = PassBox.BorderBrush;
             stand = PassBox.BorderBrush;
-            
-        }
-
-        public void ShowDialogs(MainWindow some)
-        {
-            mainWindow = some; //Получаем экземпляр главного окна и присваеваем его к глобальной переменной
-            ShowDialog(); //Показываем данное окно как диалоговое
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool[] result; //создаем массив
-            result = mainWindow.loginDialogCheck(Login, Password); //получаем результаты проверки из главного окна
-            if (result != null)
-            {
-                if (result[0] == false) //если неверный логин
-                {
-                    HintAssist.SetHelperText(LoginBox, "Неверный логин");
-                    LoginBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                    LoginBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                }
-                if (result[1] == false) //если неверный пароль
-                {
-                    HintAssist.SetHelperText(PassBox, "Неверный пароль");
-                    PassBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                    PassBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                }
-                if (result[0] && result[1]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
-                {
-                    Close();
-                }
-            }
+            this.DialogResult = true;
         }
         public string Password
         {
@@ -107,11 +78,6 @@ namespace Pikachu
             HintAssist.SetHelperText(PassBox, "");
             PassBox.Foreground = stand;
             PassBox.BorderBrush = (Brush)PassBox.FindResource("PrimaryHueMidBrush");
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
