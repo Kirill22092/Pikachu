@@ -32,11 +32,13 @@ namespace Pikachu
         List<string> names_rights = new();
         List<string> names_pass = new();
         NpgsqlCommand? iQuery;
+        Window1 log1 = new(); //создаем экземляр окна
         NpgsqlConnection iConnect = new("Server=127.0.0.1;Port=5432;User Id=postgres;Password=Scorp610;Database=pikachu");
         public MainWindow()
         {
+            log1.Hide();
             Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
-            login(0, ""); //вызываем окно логина
+            login(0); //вызываем окно логина
             InitializeComponent();
         }
         private async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
@@ -87,54 +89,38 @@ namespace Pikachu
             }
         }
 
-        public void login(int b, string l)
+        public void login(int b)
         {
-            if (!isOpen) //проверка есть ли соединение
-            {
-                iLogin = -1;
-                return; 
-            } 
-            Window1 log1 = new(); //создаем экземляр окна
-            switch (b) //меняем цвет и подсказки в текстбоксах, если есть входящие параметры
-            {
-                case 1:
-                HintAssist.SetHelperText(log1.PassBox, "Неверный пароль");
-                log1.PassBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                log1.PassBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                    log1.LoginBox.Text = l;
-                    break;
+            log1.ShowDialogs(this); //вызов диалогового окна из родного класса и передача экземпляра главного окна
+        }
 
-                case 2:
-                HintAssist.SetHelperText(log1.LoginBox, "Неверный логин");
-                log1.LoginBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                log1.LoginBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                    log1.LoginBox.Text = l;
-                    break;
-            }
-            if (log1.ShowDialog() == true) //вызов окна логина и проверка возвращенного результата
-            {                
-                int i=names_title.FindIndex(p => p == log1.Login); //поиск введенного логина в списке имён
+        public bool[] loginDialogCheck(string Login, string Password)
+        {
+            bool[] result = { false, false };
+                int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
                 if (i > -1)
                 {
-                    if (BCrypt.Verify(log1.Password, names_pass[i])) //проверка пароля
+                result[0] = true; //логин нашёлся
+                if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
                     {
-                        iLogin = names_key[i];
-                    } else
-                    { 
+                    result[1] = true; //пароль совпал
+                    iLogin = names_key[i];
+                    return result; //успех, все проверки пройдены, передаём результат
+                }
+                    else
+                    {
                         iLogin = -1;
-                        login(1,log1.Login); //пароль не подошёл, вызываем метод login ещё раз
+                    return result; //пароль не подошёл, передаём результат
                     }
-                } 
+                }
                 else
                 {
                     iLogin = -1;
-                    login(2, log1.Login); //логина нет в списке, вызываем метод ещё раз
-                }
+                result[0] = false; //логин не подошёл
+                result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
+                return result; //логина нет в списке, передаём результат
             }
-            else
-            {
-                Application.Current.Shutdown(); //окно логина было закрыто, закрываем программу
-            }
+            
         }
 
     }
