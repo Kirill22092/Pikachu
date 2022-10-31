@@ -9,7 +9,11 @@ namespace Pikachu
     /// </summary>
     public partial class Window1 : Window
     {
+
+        MainWindow mainWindow;
         private readonly Brush stand;
+        Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+
         public Window1()
         {
             InitializeComponent();
@@ -26,7 +30,32 @@ namespace Pikachu
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            bool[] result; //создаем массив
+            result = mainWindow.loginDialogCheck(Login, Password); //получаем результаты проверки из главного окна
+            if (result != null)
+            {
+                if (result[0] == false) //если неверный логин
+                {
+                    HintAssist.SetHelperText(LoginBox, "Неверный логин");
+                    LoginBox.Foreground = rd;
+                    LoginBox.BorderBrush = rd;
+                }
+                if (result[1] == false) //если неверный пароль
+                {
+                    HintAssist.SetHelperText(PassBox, "Неверный пароль");
+                    PassBox.Foreground = rd;
+                    PassBox.BorderBrush = rd;
+                }
+                if (result[2] == false) //если нет соединения
+                {
+                    Auth.Text = "Авторизация невозможна\nнет подключения\nк базе данных";
+                    Auth.Foreground = rd;
+                }
+                if (result[0] && result[1] && result[2]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
+                {
+                    Close();
+                }
+            }
         }
         public string Password
         {
@@ -49,8 +78,8 @@ namespace Pikachu
             if (LoginBox.Text == "")
             {
                 HintAssist.SetHelperText(LoginBox, "Поле не может быть пустым");
-                LoginBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                LoginBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+                LoginBox.Foreground = rd;
+                LoginBox.BorderBrush = rd;
             }
             else
             {
@@ -65,8 +94,8 @@ namespace Pikachu
             if (PassBox.Password == "")
             {
                 HintAssist.SetHelperText(PassBox, "Поле не может быть пустым");
-                PassBox.Foreground = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-                PassBox.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+                PassBox.Foreground = rd;
+                PassBox.BorderBrush = rd;
             }
             else
             {
@@ -74,6 +103,12 @@ namespace Pikachu
                 PassBox.BorderBrush = stand;
             }
             Passicon.Foreground = PassBox.BorderBrush;
+        }
+
+        public void ShowDialogs(MainWindow some)
+        {
+            mainWindow = some; //Получаем экземпляр главного окна и присваеваем его к глобальной переменной
+            ShowDialog(); //Показываем данное окно как диалоговое
         }
 
         private void PassBox_GotFocus(object sender, RoutedEventArgs e)
@@ -86,7 +121,13 @@ namespace Pikachu
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            mainWindow.Close();
+            Close();
         }
     }
 }

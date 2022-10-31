@@ -80,7 +80,7 @@
             HorizontalAlignment="Right" 
             Margin="0,8,8,0" 
             IsCancel="True"
-            VerticalAlignment="Top" Height="21" Width="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand">
+            VerticalAlignment="Top" Height="21" Width="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="Button_Click_1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
