@@ -54,8 +54,8 @@
             </RadioButton>
         </StackPanel>
         <TextBlock Margin="400,0,6,0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="200">
-  <Hyperlink Style="{StaticResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click">
-      <TextBlock x:Name="login_text"/>
+  <Hyperlink Style="{StaticResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click" Foreground="#FF4CAF50">
+      <TextBlock x:Name="login_text" Foreground="#FF4CAF50" Text="EXAMPLE"/>
 </Hyperlink>
         </TextBlock>
 

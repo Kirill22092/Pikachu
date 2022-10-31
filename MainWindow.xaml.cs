@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS4014
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +29,9 @@ namespace Pikachu
     /// </summary>
     public partial class MainWindow : Window
     {
-        Brush gr = new SolidColorBrush(Color.FromRgb(174, 234, 0));
-        Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-        Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
+        readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+        readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         bool isOpen = false;
         int iLogin = -1;
         List<int> names_key = new();
@@ -194,19 +195,27 @@ namespace Pikachu
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
         private void MainWindow1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
         }
         private void isDis_Checked(object sender, RoutedEventArgs e)
         {
-            iConnect.Close();
+            iConnect.Close(); //закрывем соединение и красим кнопочки
+            isDis.Foreground = gr;
+            isDis.BorderBrush = gr;
+            isCon.Foreground = bl;
+            isCon.BorderBrush = bl;
         }
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
-            Conn_init(iConnect);
+            Conn_init(iConnect); //открываем соединение и красим кнопочки
+            isDis.Foreground = bl;
+            isDis.BorderBrush = bl;
+            isCon.Foreground = gr;
+            isCon.BorderBrush = gr;
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
