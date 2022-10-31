@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pikachu"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1100" Background="#FF282A34" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="599" Width="1200" Background="#FF282A34" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid >
         <Button Content="{materialDesign:PackIcon Minus}" 
                 Style="{StaticResource MaterialDesignFlatButton}"
@@ -53,7 +53,13 @@
                 </StackPanel>
             </RadioButton>
         </StackPanel>
-        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347">
+        <TextBlock Margin="400,0,6,0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="200">
+  <Hyperlink Style="{StaticResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click">
+      <TextBlock x:Name="login_text"/>
+</Hyperlink>
+        </TextBlock>
+
+        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_num}" Header="Номер"/>

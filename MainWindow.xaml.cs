@@ -38,7 +38,6 @@ namespace Pikachu
         List<string> names_rights = new();
         List<string> names_pass = new();
         List<pribors> pr = new();
-        Window1 log1 = new(); //создаем экземляр окна
         NpgsqlCommand? iQuery;
         public NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" + //создаем строку подключения к БД из парамеров приложения
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
@@ -143,6 +142,7 @@ namespace Pikachu
 
         public void login()
         {
+            Window1 log1 = new(); //создаем экземляр окна
             log1.ShowDialogs(this); //вызов диалогового окна из родного класса и передача экземпляра главного окна
         }
 
@@ -157,11 +157,13 @@ namespace Pikachu
                 {
                     result[1] = true; //пароль совпал
                     iLogin = names_key[i];
+                    login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
                     return result; //успех, все проверки пройдены, передаём результат
                 }
                 else
                 {
                     iLogin = -1;
+                    login_text.Text = "Вход не выполнен";
                     return result; //пароль не подошёл, передаём результат
                 }
             }
@@ -170,12 +172,14 @@ namespace Pikachu
                 if (isOpen)
                 {
                     iLogin = -1;
+                    login_text.Text = "Вход не выполнен";
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
                     return result; //логина нет в списке, передаём результат
                 }
                 else
                 {
                     iLogin = -1;
+                    login_text.Text = "Вход не выполнен";
                     result[0] = true; //проверки логина не было, сообщения о несуществующем логине не должно быть
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
                     result[2] = false; //соединение недоступно, вешаем флаг
@@ -203,6 +207,14 @@ namespace Pikachu
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
             Conn_init(iConnect);
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
+            MainWindow1.Hide();
+            login();
+            MainWindow1.Show();
         }
     }
 }

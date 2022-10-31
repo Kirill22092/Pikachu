@@ -12,7 +12,8 @@ namespace Pikachu
 
         MainWindow mainWindow;
         private readonly Brush stand;
-        Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+        readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+        readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
 
         public Window1()
         {
@@ -53,7 +54,7 @@ namespace Pikachu
                 }
                 if (result[0] && result[1] && result[2]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
                 {
-                    Close();
+                    this.DialogResult = true;
                 }
             }
         }
@@ -67,10 +68,10 @@ namespace Pikachu
         }
         private void LoginBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            LoginIcon.Foreground = (Brush)LoginIcon.FindResource("PrimaryHueMidBrush");
+            LoginIcon.Foreground = gr;
             HintAssist.SetHelperText(LoginBox, "");
             LoginBox.Foreground = stand;
-            LoginBox.BorderBrush = (Brush)LoginBox.FindResource("PrimaryHueMidBrush");
+            LoginBox.BorderBrush = gr;
         }
 
         private void LoginBox_LostFocus(object sender, RoutedEventArgs e)
@@ -113,10 +114,10 @@ namespace Pikachu
 
         private void PassBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            Passicon.Foreground = (Brush)Passicon.FindResource("PrimaryHueMidBrush");
+            Passicon.Foreground = gr;
             HintAssist.SetHelperText(PassBox, "");
             PassBox.Foreground = stand;
-            PassBox.BorderBrush = (Brush)PassBox.FindResource("PrimaryHueMidBrush");
+            PassBox.BorderBrush = gr;
         }
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -126,8 +127,7 @@ namespace Pikachu
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            mainWindow.Close();
-            Close();
+            Application.Current.Shutdown();
         }
     }
 }
