@@ -23,6 +23,9 @@ namespace Pikachu
     using BCrypt.Net;
     using MaterialDesignColors;
     using System.Threading;
+    using System.Windows.Automation.Peers;
+    using System.Windows.Automation.Provider;
+    using System.Windows.Controls.Primitives;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -218,7 +221,7 @@ namespace Pikachu
             isCon.BorderBrush = gr;
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private async void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
             MainWindow1.Hide();
@@ -237,5 +240,11 @@ namespace Pikachu
             Debug.WriteLine($"SAMPLE 1: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
             Debug.WriteLine(FruitTextBox.Text);
         }
+
+        private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+    => Debug.WriteLine($"SAMPLE 2: Closing dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+
+        private void Sample2_DialogHost_OnDialogClosed(object sender, DialogClosedEventArgs eventArgs)
+            => Debug.WriteLine($"SAMPLE 2: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
     }
 }

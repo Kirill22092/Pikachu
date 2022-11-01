@@ -12,6 +12,7 @@
         Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid Height="378" 
           VerticalAlignment="Top" Margin="0,1,-1,0">
+        
         <TextBlock x:Name="Auth" Margin="0,30,0,0" 
                    TextWrapping="Wrap" 
                    Text="Авторизация" 
