@@ -225,5 +225,17 @@ namespace Pikachu
             login();
             MainWindow1.Show();
         }
+
+        private void DialogHost_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Debug.WriteLine($"SAMPLE 1: Closing dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+            Debug.WriteLine(FruitTextBox.Text);
+        }
+
+        private void DialogHost_DialogClosed(object sender, DialogClosedEventArgs eventArgs)
+        {
+            Debug.WriteLine($"SAMPLE 1: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+            Debug.WriteLine(FruitTextBox.Text);
+        }
     }
 }

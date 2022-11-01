@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pikachu"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         Title="MainWindow" Height="599" Width="1200" Background="#FF282A34" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid >
@@ -82,6 +82,57 @@
             </ListView.View>
         </ListView>
 
+        <materialDesign:DialogHost VerticalAlignment="Bottom"
+                                   CloseOnClickAway="True"
+                                   DialogTheme="Inherit"
+                                   DialogClosing="DialogHost_DialogClosing"
+                                   DialogClosed="DialogHost_DialogClosed"
+                                   OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
+                                   Placement="Mouse" HorizontalAlignment="Left" Width="66" Height="36">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="16">
+                    <TextBlock Text="Add a new fruit." />
+
+                    <TextBox x:Name="FruitTextBox"
+                       Margin="0,8,0,0"
+                       HorizontalAlignment="Stretch" />
+
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Margin="0,8,8,0"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                        Content="ACCEPT"
+                        IsDefault="True"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                        </Button>
+
+                        <Button Margin="0,8,8,0"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                        Content="CANCEL"
+                        IsCancel="True"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                            <Button.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+
+            <Border MinWidth="64"
+                  MinHeight="34"
+                  BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                  BorderThickness="1"
+                  ClipToBounds="True">
+                <Button HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    Content="RUN" Cursor="Hand" Width="62" />
+            </Border>
+        </materialDesign:DialogHost>
+
     </Grid>
 
     <WindowChrome.WindowChrome>
@@ -92,4 +143,5 @@
             UseAeroCaptionButtons="False" 
             ResizeBorderThickness="7"/>
     </WindowChrome.WindowChrome>
+
 </Window>
