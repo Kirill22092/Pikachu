@@ -12,7 +12,7 @@
         Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid Height="378" 
           VerticalAlignment="Top" Margin="0,1,-1,0">
-        
+
         <TextBlock x:Name="Auth" Margin="0,30,0,0" 
                    TextWrapping="Wrap" 
                    Text="Авторизация" 
@@ -91,6 +91,15 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
+        <TextBlock x:Name="AuthFailConnect" Margin="0,67,0,0" 
+            TextWrapping="Wrap" 
+            Text="Авторизация невозможна&#x0a;нет подключения к базе данных" 
+            TextAlignment="Center" 
+            Height="41" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Center" 
+            Width="288" 
+            Foreground="#FFFF6250" Visibility="Collapsed"/>
     </Grid>
     <WindowChrome.WindowChrome>
         <WindowChrome 
