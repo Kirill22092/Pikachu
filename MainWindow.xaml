@@ -212,11 +212,17 @@
   TabStripPlacement="Left" VerticalAlignment="Bottom">
             <TabItem
     Header="Внесение" Width="100">
+                <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyDown="Grid_KeyDown">
+                    <ComboBox StaysOpenOnEdit="True" Name="combo_names"  materialDesign:HintAssist.Hint=" Выберите тип прибора" materialDesign:TextFieldAssist.HasClearButton="True"
+                              HorizontalAlignment="Left" Margin="110,33,0,0" VerticalAlignment="Top" Width="190" IsEditable="True"/>
 
+                </Grid>
             </TabItem>
             <TabItem
     Header="Поиск">
-
+                <Grid>
+                    
+                </Grid>
             </TabItem>
         </TabControl>
 

@@ -35,10 +35,11 @@ namespace Pikachu
         readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
         readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
         readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        private readonly Brush stand;
         bool isOpen = false;
         int iLogin = -1;
         List<int> names_key = new();
-        List<string> names_title = new();
+        public List<string> names_title = new();
         List<string> names_rights = new();
         List<string> names_pass = new();
         List<pribors> pr = new();
@@ -49,6 +50,8 @@ namespace Pikachu
         public MainWindow()
         {
             InitializeComponent();
+            combo_names.Foreground = combo_names.BorderBrush;
+            stand = combo_names.BorderBrush;
             Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
             login(); //вызываем окно логина
             pr.Add(new pribors
@@ -148,6 +151,7 @@ namespace Pikachu
         {
             Window1 log1 = new(); //создаем экземляр окна
             log1.ShowDialogs(this); //вызов диалогового окна из родного класса и передача экземпляра главного окна
+            combo_names.ItemsSource = names_title;
         }
 
         public bool[] loginDialogCheck(string Login, string Password)
@@ -261,6 +265,68 @@ namespace Pikachu
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine(sender);
+        }
+
+        private void Grid_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (e.Source.GetType()  == typeof(ComboBox))
+            {
+                lost((ComboBox)e.Source, e);
+                e.Handled = true;
+            }
+        }
+
+        private void Grid_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (e.Source.GetType() == typeof(ComboBox))
+            {
+                got((ComboBox)e.Source, e);
+                e.Handled = true;
+            }
+        }
+        public void verify(ComboBox sender, KeyEventArgs e)
+        {
+            if (sender.Items.IndexOf(sender.Text) == -1)
+            {
+                HintAssist.SetHelperText(sender, "Неверное значение");
+                sender.Foreground = rd;
+                sender.BorderBrush = rd;
+            }
+            else 
+            {
+                sender.Foreground = stand;
+                sender.BorderBrush = stand;
+            }
+        }
+        private void lost(ComboBox sender, RoutedEventArgs e)
+        {
+            if (sender.Text == "")
+            {
+                HintAssist.SetHelperText(sender, "Поле не может быть пустым");
+                sender.Foreground = rd;
+                sender.BorderBrush = rd;
+            }
+            else
+            {
+                sender.Foreground = stand;
+                sender.BorderBrush = stand;
+            }
+        }
+
+        private void got(ComboBox sender, RoutedEventArgs e)
+        {
+            HintAssist.SetHelperText(sender, "");
+            sender.Foreground = stand;
+            sender.BorderBrush = gr;
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            Debug.WriteLine(e.Source.GetType());
+            if (e.Source.GetType() == typeof(ComboBox))
+            {
+                verify((ComboBox)e.Source, e);
+            }
         }
     }
 }
