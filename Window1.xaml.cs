@@ -52,12 +52,12 @@ namespace Pikachu
                 }
                 if (result[2] == false) //если нет соединения
                 {
-                    Auth.Text = "Авторизация невозможна\nнет подключения\nк базе данных";
-                    Auth.Foreground = rd;
+                    AuthFailConnect.Visibility = Visibility.Visible;
                 }
+                else AuthFailConnect.Visibility = Visibility.Collapsed;
                 if (result[0] && result[1] && result[2]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
                 {
-                    this.DialogResult = true;
+                    DialogResult = true;
                 }
             }
         }
