@@ -8,6 +8,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="599" Width="1200" Background="#FF282A34" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid>
+        <materialDesign:DrawerHost OpenMode="Modal" x:Name="popup" >
+            <materialDesign:DrawerHost.TopDrawerContent>
+            <StackPanel Margin="16"
+                      HorizontalAlignment="Center"
+                      Orientation="Horizontal">
+                <TextBlock Margin="4"
+                       VerticalAlignment="Center"
+                       Text="Нет подключения к базе данных" Foreground="#FFFF6250" />
+
+                <Button Margin="4"
+                    VerticalAlignment="Center"
+                    Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                    Content="Reconnect"
+                    Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand"/>
+            </StackPanel>
+            </materialDesign:DrawerHost.TopDrawerContent>
+        </materialDesign:DrawerHost>
         <Button Content="{materialDesign:PackIcon Minus}" 
                 Style="{StaticResource MaterialDesignFlatButton}"
                 Padding="0,6,0,0" 
@@ -189,6 +206,21 @@
                 </Button>
             </StackPanel>
         </materialDesign:DialogHost>
+
+        <TabControl
+  Height="190"
+  TabStripPlacement="Left" VerticalAlignment="Bottom">
+            <TabItem
+    Header="Внесение" Width="100">
+
+            </TabItem>
+            <TabItem
+    Header="Поиск">
+
+            </TabItem>
+        </TabControl>
+
+        <Button Content="Button&#xD;&#xA;" HorizontalAlignment="Left" Margin="671,21,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
 
     </Grid>
 

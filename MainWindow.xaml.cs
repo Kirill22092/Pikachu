@@ -221,7 +221,7 @@ namespace Pikachu
             isCon.BorderBrush = gr;
         }
 
-        private async void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
             MainWindow1.Hide();
@@ -251,6 +251,16 @@ namespace Pikachu
         {
             DetailWindow w = new();
             w.Show();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            popup.IsTopDrawerOpen = true;
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(sender);
         }
     }
 }

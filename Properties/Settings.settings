@@ -15,7 +15,7 @@
       <Value Profile="(Default)">Scorp610</Value>
     </Setting>
     <Setting Name="db" Type="System.String" Scope="User">
-      <Value Profile="(Default)">pikachu</Value>
+      <Value Profile="(Default)">pika</Value>
     </Setting>
   </Settings>
 </SettingsFile>
