@@ -246,5 +246,11 @@ namespace Pikachu
 
         private void Sample2_DialogHost_OnDialogClosed(object sender, DialogClosedEventArgs eventArgs)
             => Debug.WriteLine($"SAMPLE 2: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            DetailWindow w = new();
+            w.Show();
+        }
     }
 }

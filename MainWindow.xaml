@@ -82,13 +82,13 @@
             </ListView.View>
         </ListView>
 
-        <materialDesign:DialogHost VerticalAlignment="Bottom"
+        <materialDesign:DialogHost VerticalAlignment="Top"
                                    CloseOnClickAway="True"
                                    DialogTheme="Inherit"
                                    DialogClosing="DialogHost_DialogClosing"
                                    DialogClosed="DialogHost_DialogClosed"
                                    OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
-                                   Placement="Mouse" HorizontalAlignment="Left">
+                                   Placement="Mouse" HorizontalAlignment="Right" Margin="0,0,300,0">
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
                     <ProgressBar Margin="16"
@@ -133,8 +133,8 @@
                     Content="RUN" Cursor="Hand" Width="62" />
         </materialDesign:DialogHost>
 
-        <materialDesign:DialogHost>
-            <StackPanel VerticalAlignment="Center">
+        <materialDesign:DialogHost VerticalAlignment="Top" Margin="962,0,0,0">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,110,0">
                 <!--
             the request to open the dialog will bubble up to the top-most DialogHost,
             but we can used the attached property based event to handle the response
@@ -162,32 +162,28 @@
                         </StackPanel>
                     </Button.CommandParameter>
                 </Button>
-                
-                
-
                 <Button Width="128"
-                  Margin="0,32,0,0"
                   Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                   Content="PASS MODEL" Cursor="Hand" x:Name="bb1">
                     <Button.CommandParameter>
 
-                            <StackPanel Margin="16">
-                                <TextBlock Text="England win the World Cup:" />
-                                <TextBlock Margin="0,8,0,0" Text="1966-JUL-30" />
-                                <TextBlock Margin="0,8,0,0" Text="You will never see that again." />
-                                <Button Margin="0,8,0,0"
+                        <StackPanel Margin="16">
+                            <TextBlock Text="England win the World Cup:" />
+                            <TextBlock Margin="0,8,0,0" Text="1966-JUL-30" />
+                            <TextBlock Margin="0,8,0,0" Text="You will never see that again." />
+                            <Button Margin="0,8,0,0"
                   Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                   Content="AWESOME"
                   IsDefault="True"
                   Style="{StaticResource MaterialDesignFlatButton}" />
 
 
-                        <!--
+                            <!--
                 the simplest view model of all, a DateTime.
                 the view can be found in the resources of MainWindow.xaml
               -->
 
-                            </StackPanel>
+                        </StackPanel>
 
                     </Button.CommandParameter>
                 </Button>
