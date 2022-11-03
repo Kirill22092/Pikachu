@@ -17,8 +17,8 @@ namespace Pikachu
             LoginBox.Foreground = LoginBox.BorderBrush;
             PassBox.Foreground = PassBox.BorderBrush;
 #if DEBUG
-            LoginBox.Text = "XXX";
-            PassBox.Password = "2";
+            LoginBox.Text = "1";
+            PassBox.Password = "1";
 #endif
         }
 

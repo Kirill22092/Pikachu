@@ -14,18 +14,8 @@ namespace Pikachu
 
     public partial class MainWindow : Window
     {
-        internal readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
-        internal readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-        internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal readonly Brush stand;
-        private bool isOpen = false;
-        private List<int> names_key = new();
-        private List<string> names_title = new();
-        private List<string> names_rights = new();
-        private List<string> names_pass = new();
-        private List<pribors> pr = new();
         private NpgsqlCommand? iQuery;
-        private NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
+        public NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
             $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из параметров приложения
 
@@ -34,6 +24,22 @@ namespace Pikachu
             InitializeComponent();
             combo_pribors.Foreground = combo_pribors.BorderBrush;
             stand = combo_pribors.BorderBrush;
+            iConnect.StateChange += (object sender, StateChangeEventArgs e) =>          //Создаем обработчик события и метод
+            {                                                                           //на изменение состояния подключения к БД
+                if (!(e.CurrentState == ConnectionState.Open))
+                {
+                    isDis.IsChecked = true;
+                    isDis_i.Foreground = rd;
+                    isCon.IsChecked = false;
+                }
+                else
+                {
+                    isDis.IsChecked = false;
+                    isDis_i.Foreground = bl;
+                    isCon.IsChecked = true;
+                }
+                Debug.WriteLine(iConnect.State.ToString());
+            };
             Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
             login(); //вызываем окно логина
             pr.Add(new pribors
@@ -62,40 +68,11 @@ namespace Pikachu
             });
             lvDataBinding.ItemsSource = pr;
         }
-        public class pribors
-        {
-            public string? pribor_num { get; set; }
-            public string? pribor_tip { get; set; }
-            public string? pribor_mat { get; set; }
-            public string? pribor_gaz { get; set; }
-            public string? pribor_exp { get; set; }
-            public string? pribor_range { get; set; }
-            public string? last_date { get; set; }
-            public string? last_status { get; set; }
-            public string? last_name { get; set; }
-        }
         public async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
-            iConnect.StateChange += (object sender, StateChangeEventArgs e) =>
-            {
-                if (!(e.CurrentState == ConnectionState.Open))
-                {
-                    isOpen = false;
-                    isDis.IsChecked = true;
-                    isDis_i.Foreground = rd;
-                    isCon.IsChecked = false;
-                }
-                else
-                {
-                    isOpen = true;
-                    isDis.IsChecked = false;
-                    isDis_i.Foreground = bl;
-                    isCon.IsChecked = true;
-                }
-            };
             try
             {
-                if (!isOpen) iConnect.Open(); //открываем соеднение с БД
+                if (!(iConnect.State.ToString()=="Open")) iConnect.Open(); //открываем соеднение с БД
                 string sql = "SELECT * FROM names;";
                 iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
                 var reader = await iQuery.ExecuteReaderAsync();
@@ -114,17 +91,14 @@ namespace Pikachu
                 if (e.Message.Contains("28P01"))
                 {
                     MessageBox.Show("Неверный логин/пароль БД");
-                    isOpen = false;
                 }
                 else if (e.Message.Contains("3D000"))
                 {
                     MessageBox.Show("Неверное имя базы данных");
-                    isOpen = false;
                 }
                 else
                 {
                     MessageBox.Show(e.Message);
-                    isOpen = false;
                 }
             }
         }
@@ -157,7 +131,7 @@ namespace Pikachu
             }
             else
             {
-                if (isOpen)
+                if (!(iConnect.State.ToString() == "Open"))
                 {
                     login_text.Text = "Вход не выполнен";
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
