@@ -28,19 +28,21 @@ namespace Pikachu
             result = mainWindow.loginDialogCheck(LoginBox.Text, PassBox.Password); //получаем результаты проверки из главного окна
             if (result != null)
             {
-                if (result[0] == false) //если неверный логин
+                if (!result[0]) //если неверный логин
                 {
                     HintAssist.SetHelperText(LoginBox, "Неверный логин");
                     LoginBox.Foreground = mainWindow.rd;
                     LoginBox.BorderBrush = mainWindow.rd;
+                    LoginIcon.Foreground = mainWindow.rd;
                 }
-                if (result[1] == false) //если неверный пароль
+                if (!result[1]) //если неверный пароль
                 {
                     HintAssist.SetHelperText(PassBox, "Неверный пароль");
                     PassBox.Foreground = mainWindow.rd;
                     PassBox.BorderBrush = mainWindow.rd;
+                    Passicon.Foreground = mainWindow.rd;
                 }
-                AuthFailConnect.Visibility = result[2] == false ? Visibility.Visible : Visibility.Collapsed;
+                AuthFailConnect.Visibility = !result[2] ? Visibility.Visible : Visibility.Collapsed;
                 if (result[0] && result[1] && result[2]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
                 {
                     DialogResult = true;
