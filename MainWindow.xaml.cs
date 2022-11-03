@@ -1,52 +1,35 @@
-﻿#pragma warning disable CS4014
-using System;
+﻿using MaterialDesignThemes.Wpf;
+using Npgsql;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Npgsql;
-using MaterialDesignThemes.Wpf;
-using System.Diagnostics;
-using System.Data;
 
 namespace Pikachu
 {
     using BCrypt.Net;
-    using MaterialDesignColors;
-    using System.Threading;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Automation.Provider;
-    using System.Windows.Controls.Primitives;
 
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
-        readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-        readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        private readonly Brush stand;
-        bool isOpen = false;
-        int iLogin = -1;
-        List<int> names_key = new();
-        public List<string> names_title = new();
-        List<string> names_rights = new();
-        List<string> names_pass = new();
-        List<pribors> pr = new();
-        NpgsqlCommand? iQuery;
-        public NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" + //создаем строку подключения к БД из парамеров приложения
+        internal readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
+        internal readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
+        internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal readonly Brush stand;
+        private bool isOpen = false;
+        private List<int> names_key = new();
+        private List<string> names_title = new();
+        private List<string> names_rights = new();
+        private List<string> names_pass = new();
+        private List<pribors> pr = new();
+        private NpgsqlCommand? iQuery;
+        private NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
-            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};");
+            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из парамеров приложения
+
         public MainWindow()
         {
             InitializeComponent();
@@ -92,7 +75,7 @@ namespace Pikachu
             public string? last_status { get; set; }
             public string? last_name { get; set; }
         }
-        public async Task Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
+        public async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
             iConnect.StateChange += (object sender, StateChangeEventArgs e) =>
             {
@@ -101,7 +84,7 @@ namespace Pikachu
                     isOpen = false;
                     isDis.IsChecked = true;
                     isDis_i.Foreground = rd;
-                    isDis.IsChecked = true;
+                    isCon.IsChecked = false;
                 }
                 else
                 {
@@ -113,7 +96,7 @@ namespace Pikachu
             };
             try
             {
-                iConnect.Open(); //открываем соеднение с БД
+                if (!isOpen) iConnect.Open(); //открываем соеднение с БД
                 string sql = "SELECT * FROM names;";
                 iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
                 var reader = await iQuery.ExecuteReaderAsync();
@@ -149,8 +132,8 @@ namespace Pikachu
 
         public void login()
         {
-            Window1 log1 = new(); //создаем экземляр окна
-            log1.ShowDialogs(this); //вызов диалогового окна из родного класса и передача экземпляра главного окна
+            Window1 log1 = new(this); //создаем экземляр окна
+            log1.ShowDialog(); //вызов диалогового окна
             combo_pribors.ItemsSource = names_title;
         }
 
@@ -164,13 +147,11 @@ namespace Pikachu
                 if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
                 {
                     result[1] = true; //пароль совпал
-                    iLogin = names_key[i];
                     login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
                     return result; //успех, все проверки пройдены, передаём результат
                 }
                 else
                 {
-                    iLogin = -1;
                     login_text.Text = "Вход не выполнен";
                     return result; //пароль не подошёл, передаём результат
                 }
@@ -179,14 +160,12 @@ namespace Pikachu
             {
                 if (isOpen)
                 {
-                    iLogin = -1;
                     login_text.Text = "Вход не выполнен";
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
                     return result; //логина нет в списке, передаём результат
                 }
                 else
                 {
-                    iLogin = -1;
                     login_text.Text = "Вход не выполнен";
                     result[0] = true; //проверки логина не было, сообщения о несуществующем логине не должно быть
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
@@ -269,7 +248,7 @@ namespace Pikachu
 
         private void Grid_LostFocus(object sender, RoutedEventArgs e)
         {
-            if ((e.Source.GetType()  == typeof(ComboBox)))
+            if ((e.Source.GetType() == typeof(ComboBox)))
             {
                 lost(e.Source, e);
                 e.Handled = true;
@@ -302,13 +281,13 @@ namespace Pikachu
                 sender.Foreground = rd;
                 sender.BorderBrush = rd;
             }
-            else 
+            else
             {
                 sender.Foreground = stand;
                 sender.BorderBrush = stand;
             }
         }
-        private void lost(object sender, RoutedEventArgs e, int i=1)
+        private void lost(object sender, RoutedEventArgs e, int i = 1)
         {
             switch (i)
             {
@@ -328,7 +307,7 @@ namespace Pikachu
                     break;
                 case 2:
                     TextBox t = (TextBox)sender;
-                    if ((t.Text == "")  && (t.Name == "text_num"))
+                    if ((t.Text == "") && (t.Name == "text_num"))
                     {
                         HintAssist.SetHelperText(t, "Поле не может быть пустым");
                         t.Foreground = rd;
@@ -340,7 +319,7 @@ namespace Pikachu
                         t.BorderBrush = stand;
                     }
                     break;
-            }                
+            }
         }
 
         private void got(object sender, RoutedEventArgs e, int i = 1)
