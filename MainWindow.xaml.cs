@@ -3,7 +3,6 @@ using Npgsql;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,7 +27,7 @@ namespace Pikachu
         private NpgsqlCommand? iQuery;
         private NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
-            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из парамеров приложения
+            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из параметров приложения
 
         public MainWindow()
         {
