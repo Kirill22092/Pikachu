@@ -50,8 +50,8 @@ namespace Pikachu
         public MainWindow()
         {
             InitializeComponent();
-            combo_names.Foreground = combo_names.BorderBrush;
-            stand = combo_names.BorderBrush;
+            combo_pribors.Foreground = combo_pribors.BorderBrush;
+            stand = combo_pribors.BorderBrush;
             Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
             login(); //вызываем окно логина
             pr.Add(new pribors
@@ -151,7 +151,7 @@ namespace Pikachu
         {
             Window1 log1 = new(); //создаем экземляр окна
             log1.ShowDialogs(this); //вызов диалогового окна из родного класса и передача экземпляра главного окна
-            combo_names.ItemsSource = names_title;
+            combo_pribors.ItemsSource = names_title;
         }
 
         public bool[] loginDialogCheck(string Login, string Password)
@@ -269,18 +269,28 @@ namespace Pikachu
 
         private void Grid_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (e.Source.GetType()  == typeof(ComboBox))
+            if ((e.Source.GetType()  == typeof(ComboBox)))
             {
-                lost((ComboBox)e.Source, e);
+                lost(e.Source, e);
+                e.Handled = true;
+            }
+            if ((e.Source.GetType() == typeof(TextBox)))
+            {
+                lost(e.Source, e, 2);
                 e.Handled = true;
             }
         }
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (e.Source.GetType() == typeof(ComboBox))
+            if ((e.Source.GetType() == typeof(ComboBox)))
             {
-                got((ComboBox)e.Source, e);
+                got(e.Source, e);
+                e.Handled = true;
+            }
+            if ((e.Source.GetType() == typeof(TextBox)))
+            {
+                got(e.Source, e, 2);
                 e.Handled = true;
             }
         }
@@ -298,26 +308,58 @@ namespace Pikachu
                 sender.BorderBrush = stand;
             }
         }
-        private void lost(ComboBox sender, RoutedEventArgs e)
+        private void lost(object sender, RoutedEventArgs e, int i=1)
         {
-            if (sender.Text == "")
+            switch (i)
             {
-                HintAssist.SetHelperText(sender, "Поле не может быть пустым");
-                sender.Foreground = rd;
-                sender.BorderBrush = rd;
-            }
-            else
-            {
-                sender.Foreground = stand;
-                sender.BorderBrush = stand;
-            }
+                case 1:
+                    ComboBox s = (ComboBox)sender;
+                    if ((s.Text == "") && (s.Name == "combo_pribors"))
+                    {
+                        HintAssist.SetHelperText(s, "Поле не может быть пустым");
+                        s.Foreground = rd;
+                        s.BorderBrush = rd;
+                    }
+                    else
+                    {
+                        s.Foreground = stand;
+                        s.BorderBrush = stand;
+                    }
+                    break;
+                case 2:
+                    TextBox t = (TextBox)sender;
+                    if ((t.Text == "")  && (t.Name == "text_num"))
+                    {
+                        HintAssist.SetHelperText(t, "Поле не может быть пустым");
+                        t.Foreground = rd;
+                        t.BorderBrush = rd;
+                    }
+                    else
+                    {
+                        t.Foreground = stand;
+                        t.BorderBrush = stand;
+                    }
+                    break;
+            }                
         }
 
-        private void got(ComboBox sender, RoutedEventArgs e)
+        private void got(object sender, RoutedEventArgs e, int i = 1)
         {
-            HintAssist.SetHelperText(sender, "");
-            sender.Foreground = stand;
-            sender.BorderBrush = gr;
+            switch (i)
+            {
+                case 1:
+                    ComboBox s = (ComboBox)sender;
+                    HintAssist.SetHelperText(s, "");
+                    s.Foreground = stand;
+                    s.BorderBrush = gr;
+                    break;
+                case 2:
+                    TextBox t = (TextBox)sender;
+                    HintAssist.SetHelperText(t, "");
+                    t.Foreground = stand;
+                    t.BorderBrush = gr;
+                    break;
+            }
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
