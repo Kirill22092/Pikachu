@@ -26,16 +26,16 @@ namespace Pikachu
         private List<string> names_pass = new();
         private List<pribors> pr = new();
         private NpgsqlCommand? iQuery;
-        private NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" + //создаем строку подключения к БД из парамеров приложения
+        private NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
-            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};");
+            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из парамеров приложения
 
         public MainWindow()
         {
             InitializeComponent();
             combo_pribors.Foreground = combo_pribors.BorderBrush;
             stand = combo_pribors.BorderBrush;
-            _ = Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
+            Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
             login(); //вызываем окно логина
             pr.Add(new pribors
             {
@@ -75,7 +75,7 @@ namespace Pikachu
             public string? last_status { get; set; }
             public string? last_name { get; set; }
         }
-        public async Task Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
+        public async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
             iConnect.StateChange += (object sender, StateChangeEventArgs e) =>
             {
@@ -96,7 +96,7 @@ namespace Pikachu
             };
             try
             {
-                iConnect.Open(); //открываем соеднение с БД
+                if (!isOpen) iConnect.Open(); //открываем соеднение с БД
                 string sql = "SELECT * FROM names;";
                 iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
                 var reader = await iQuery.ExecuteReaderAsync();
@@ -197,7 +197,7 @@ namespace Pikachu
         }
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
-            _ = Conn_init(iConnect); //открываем соединение и красим кнопочки
+            Conn_init(iConnect); //открываем соединение и красим кнопочки
             isDis.Foreground = bl;
             isDis.BorderBrush = bl;
             isCon.Foreground = gr;
@@ -206,7 +206,7 @@ namespace Pikachu
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            _ = Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
+            Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
             MainWindow1.Hide();
             login();
             MainWindow1.Show();

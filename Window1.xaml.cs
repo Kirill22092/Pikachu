@@ -88,12 +88,6 @@ namespace Pikachu
             Passicon.Foreground = PassBox.BorderBrush;
         }
 
-        public void ShowDialogs(MainWindow some)
-        {
-            mainWindow = some; //Получаем экземпляр главного окна и присваеваем его к глобальной переменной
-            _ = ShowDialog(); //Показываем данное окно как диалоговое 
-        }
-
         private void PassBox_GotFocus(object sender, RoutedEventArgs e)
         {
             Passicon.Foreground = mainWindow.gr;
