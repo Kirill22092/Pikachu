@@ -1,15 +1,14 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Npgsql;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Pikachu
 {
+
     using BCrypt.Net;
 
     public partial class MainWindow : Window
@@ -68,14 +67,19 @@ namespace Pikachu
             });
             lvDataBinding.ItemsSource = pr;
         }
+
         public async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
             try
             {
-                if (!(iConnect.State == ConnectionState.Open)) iConnect.Open(); //открываем соеднение с БД
+                if (!(iConnect.State == ConnectionState.Open))
+                {
+                    iConnect.Open(); //открываем соеднение с БД
+                }
+
                 string sql = "SELECT * FROM names;";
                 iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
-                var reader = await iQuery.ExecuteReaderAsync();
+                NpgsqlDataReader reader = await iQuery.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
                     names_key.Add(reader.GetInt32(0)); //...и заносим полученные данные в списки
@@ -90,23 +94,23 @@ namespace Pikachu
             {
                 if (e.Message.Contains("28P01"))
                 {
-                    MessageBox.Show("Неверный логин/пароль БД");
+                    _ = MessageBox.Show("Неверный логин/пароль БД");
                 }
                 else if (e.Message.Contains("3D000"))
                 {
-                    MessageBox.Show("Неверное имя базы данных");
+                    _ = MessageBox.Show("Неверное имя базы данных");
                 }
                 else
                 {
-                    MessageBox.Show(e.Message);
+                    _ = MessageBox.Show(e.Message);
                 }
             }
         }
 
         public void login()
         {
-            Window1 log1 = new(this); //создаем экземляр окна
-            log1.ShowDialog(); //вызов диалогового окна
+            Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
+            _ = log1.ShowDialog(); //вызов диалогового окна логина
             combo_pribors.ItemsSource = names_title;
         }
 
@@ -131,7 +135,7 @@ namespace Pikachu
             }
             else
             {
-                if (!(iConnect.State == ConnectionState.Open))
+                if (iConnect.State == ConnectionState.Open)
                 {
                     login_text.Text = "Вход не выполнен";
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
@@ -152,14 +156,17 @@ namespace Pikachu
         {
             Application.Current.Shutdown();
         }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
+
         private void MainWindow1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
+
         private void isDis_Checked(object sender, RoutedEventArgs e)
         {
             iConnect.Close(); //закрывем соединение и красим кнопочки
@@ -168,6 +175,7 @@ namespace Pikachu
             isCon.Foreground = bl;
             isCon.BorderBrush = bl;
         }
+
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
             Conn_init(iConnect); //открываем соединение и красим кнопочки
@@ -198,10 +206,14 @@ namespace Pikachu
         }
 
         private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
-    => Debug.WriteLine($"SAMPLE 2: Closing dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+        {
+            Debug.WriteLine($"SAMPLE 2: Closing dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+        }
 
         private void Sample2_DialogHost_OnDialogClosed(object sender, DialogClosedEventArgs eventArgs)
-            => Debug.WriteLine($"SAMPLE 2: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+        {
+            Debug.WriteLine($"SAMPLE 2: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
+        }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -221,12 +233,12 @@ namespace Pikachu
 
         private void Grid_LostFocus(object sender, RoutedEventArgs e)
         {
-            if ((e.Source.GetType() == typeof(ComboBox)))
+            if (e.Source.GetType() == typeof(ComboBox))
             {
                 lost(e.Source, e);
                 e.Handled = true;
             }
-            if ((e.Source.GetType() == typeof(TextBox)))
+            if (e.Source.GetType() == typeof(TextBox))
             {
                 lost(e.Source, e, 2);
                 e.Handled = true;
@@ -235,17 +247,18 @@ namespace Pikachu
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e)
         {
-            if ((e.Source.GetType() == typeof(ComboBox)))
+            if (e.Source.GetType() == typeof(ComboBox))
             {
                 got(e.Source, e);
                 e.Handled = true;
             }
-            if ((e.Source.GetType() == typeof(TextBox)))
+            if (e.Source.GetType() == typeof(TextBox))
             {
                 got(e.Source, e, 2);
                 e.Handled = true;
             }
         }
+
         public void verify(ComboBox sender, KeyEventArgs e)
         {
             if (sender.Items.IndexOf(sender.Text) == -1)
@@ -260,6 +273,7 @@ namespace Pikachu
                 sender.BorderBrush = stand;
             }
         }
+
         private void lost(object sender, RoutedEventArgs e, int i = 1)
         {
             switch (i)

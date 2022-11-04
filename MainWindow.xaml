@@ -10,19 +10,19 @@
     <Grid>
         <materialDesign:DrawerHost OpenMode="Modal" x:Name="popup" >
             <materialDesign:DrawerHost.TopDrawerContent>
-            <StackPanel Margin="16"
+                <StackPanel Margin="16"
                       HorizontalAlignment="Center"
                       Orientation="Horizontal">
-                <TextBlock Margin="4"
+                    <TextBlock Margin="4"
                        VerticalAlignment="Center"
                        Text="Нет подключения к базе данных" Foreground="#FFFF6250" />
 
-                <Button Margin="4"
+                    <Button Margin="4"
                     VerticalAlignment="Center"
                     Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                     Content="Reconnect"
                     Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand"/>
-            </StackPanel>
+                </StackPanel>
             </materialDesign:DrawerHost.TopDrawerContent>
         </materialDesign:DrawerHost>
         <Button Content="{materialDesign:PackIcon Minus}" 
@@ -228,19 +228,19 @@
                     <TextBox x:Name="text_num" materialDesign:HintAssist.Hint="Номер прибора" 
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="165,5,0,0" TextWrapping="Wrap" 
                              VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
-                             Background="#0CFFFFFF" Padding="33,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                             Background="#0CFFFFFF" Padding="3,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
                              MaxLines="1" TabIndex="1" Foreground="#FFEDEDED" Height="30"/>
                     <ListBox Style="{StaticResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="165,60,0,0" Height="30" Width="150">
                         <ListBoxItem Content="РФ" />
                         <ListBoxItem Content="India" />
-                        <ListBoxItem Content="USA" />                        
+                        <ListBoxItem Content="USA" />
                     </ListBox>
                 </Grid>
             </TabItem>
             <TabItem
     Header="Поиск">
                 <Grid>
-                    
+
                 </Grid>
             </TabItem>
         </TabControl>
