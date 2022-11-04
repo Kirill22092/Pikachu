@@ -72,7 +72,7 @@ namespace Pikachu
         {
             try
             {
-                if (!(iConnect.State.ToString()=="Open")) iConnect.Open(); //открываем соеднение с БД
+                if (!(iConnect.State == ConnectionState.Open)) iConnect.Open(); //открываем соеднение с БД
                 string sql = "SELECT * FROM names;";
                 iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
                 var reader = await iQuery.ExecuteReaderAsync();
@@ -131,7 +131,7 @@ namespace Pikachu
             }
             else
             {
-                if (!(iConnect.State.ToString() == "Open"))
+                if (!(iConnect.State == ConnectionState.Open))
                 {
                     login_text.Text = "Вход не выполнен";
                     result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
