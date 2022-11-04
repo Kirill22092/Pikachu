@@ -10,6 +10,9 @@ namespace Pikachu
 {
 
     using BCrypt.Net;
+    using System;
+    using System.ComponentModel;
+    using System.Threading;
 
     public partial class MainWindow : Window
     {
@@ -27,15 +30,21 @@ namespace Pikachu
             {                                                                           //на изменение состояния подключения к БД
                 if (!(e.CurrentState == ConnectionState.Open))
                 {
-                    isDis.IsChecked = true;
-                    isDis_i.Foreground = rd;
-                    isCon.IsChecked = false;
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        isDis.IsChecked = true;
+                        isDis_i.Foreground = rd;
+                        isCon.IsChecked = false;
+                    }));
                 }
                 else
                 {
-                    isDis.IsChecked = false;
-                    isDis_i.Foreground = bl;
-                    isCon.IsChecked = true;
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        isDis.IsChecked = false;
+                        isDis_i.Foreground = bl;
+                        isCon.IsChecked = true;
+                    }));
                 }
                 Debug.WriteLine(iConnect.State.ToString());
             };
@@ -68,42 +77,51 @@ namespace Pikachu
             lvDataBinding.ItemsSource = pr;
         }
 
-        public async void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
+        public void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
-            try
+            if (My.ThreadState != ThreadState.Running && My.ThreadState != ThreadState.WaitSleepJoin)
             {
-                if (!(iConnect.State == ConnectionState.Open))
+                My = new Thread(async () =>
                 {
-                    iConnect.Open(); //открываем соеднение с БД
-                }
+                    try
+                    {
+                        Debug.WriteLine(My.ThreadState.ToString());
+                        if (!(iConnect.State == ConnectionState.Open) && !(iConnect.State == ConnectionState.Connecting))
+                        {
+                            await iConnect.OpenAsync(); //открываем соеднение с БД
+                        
+                        string sql = "SELECT * FROM names;";
+                        iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
+                        NpgsqlDataReader reader = await iQuery.ExecuteReaderAsync();
+                        while (await reader.ReadAsync())
+                        {
+                            names_key.Add(reader.GetInt32(0));
+                            names_title.Add(reader.GetString(1));
+                            names_rights.Add(reader.GetString(2));
+                            names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
+                        }
+                        await reader.CloseAsync();
+                        await iQuery.DisposeAsync();
+                        }
+                    }
+                    catch (NpgsqlException e)
+                    {
+                        if (e.Message.Contains("28P01"))
+                        {
+                            _ = MessageBox.Show("Неверный логин/пароль БД");
+                        }
+                        else if (e.Message.Contains("3D000"))
+                        {
+                            _ = MessageBox.Show("Неверное имя базы данных");
+                        }
+                        else
+                        {
+                            _ = MessageBox.Show(e.Message);
+                        }
+                    }
+                });
+                My.Start();
 
-                string sql = "SELECT * FROM names;";
-                iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
-                NpgsqlDataReader reader = await iQuery.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
-                {
-                    names_key.Add(reader.GetInt32(0)); //...и заносим полученные данные в списки
-                    names_title.Add(reader.GetString(1));
-                    names_rights.Add(reader.GetString(2));
-                    names_pass.Add(reader.GetString(3));
-                }
-                await reader.CloseAsync();
-                iQuery.Dispose();
-            }
-            catch (NpgsqlException e)
-            {
-                if (e.Message.Contains("28P01"))
-                {
-                    _ = MessageBox.Show("Неверный логин/пароль БД");
-                }
-                else if (e.Message.Contains("3D000"))
-                {
-                    _ = MessageBox.Show("Неверное имя базы данных");
-                }
-                else
-                {
-                    _ = MessageBox.Show(e.Message);
-                }
             }
         }
 
@@ -169,7 +187,7 @@ namespace Pikachu
 
         private void isDis_Checked(object sender, RoutedEventArgs e)
         {
-            iConnect.Close(); //закрывем соединение и красим кнопочки
+            if (!(My.ThreadState == ThreadState.Running)) iConnect.Close(); //закрывем соединение и красим кнопочки
             isDis.Foreground = gr;
             isDis.BorderBrush = gr;
             isCon.Foreground = bl;
@@ -178,11 +196,20 @@ namespace Pikachu
 
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
+            
             Conn_init(iConnect); //открываем соединение и красим кнопочки
-            isDis.Foreground = bl;
-            isDis.BorderBrush = bl;
-            isCon.Foreground = gr;
-            isCon.BorderBrush = gr;
+            if (iConnect.State == ConnectionState.Open)
+            {
+                isDis.Foreground = bl;
+                isDis.BorderBrush = bl;
+                isCon.Foreground = gr;
+                isCon.BorderBrush = gr;
+            }
+            else
+            {
+                isCon.IsChecked = false;
+                isDis.IsChecked = true;
+            }
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
