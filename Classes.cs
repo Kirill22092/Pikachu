@@ -11,11 +11,11 @@ namespace Pikachu
         internal readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
         internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         internal readonly Brush stand;
-        private readonly List<int> names_key = new();
-        private readonly List<string> names_title = new();
-        private readonly List<string> names_rights = new();
-        private readonly List<string> names_pass = new();
-        private readonly List<pribors> pr = new();
+        private List<int> names_key = new();
+        private List<string> names_title = new();
+        private List<string> names_rights = new();
+        private List<string> names_pass = new();
+        private List<pribors> pr = new();
         public class pribors
         {
             public string? pribor_num { get; set; }
