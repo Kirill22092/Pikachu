@@ -219,6 +219,9 @@
                         <ListBoxItem Content="India" />
                         <ListBoxItem Content="USA" />
                     </ListBox>
+                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_modify"  materialDesign:HintAssist.Hint=" Выберите модификацию"
+                              materialDesign:TextFieldAssist.HasClearButton="True" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
+                              HorizontalAlignment="Left" Margin="165,119,0,0" VerticalAlignment="Top" Width="150" IsEditable="True"/>
                     <DatePicker x:Name="date_snu" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"
                                 HorizontalAlignment="Left" Margin="350,0,0,0" Width="170" Height="50"

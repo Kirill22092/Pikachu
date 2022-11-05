@@ -236,6 +236,29 @@ namespace Pikachu
             date_ktx.DisplayDateEnd = DateTime.Now.Date;
             date_out.SelectedDate = DateTime.Now.Date;
             date_out.DisplayDateEnd = DateTime.Now.Date;
+            lock(locker_O)
+            {
+                pribor_title.RemoveAt(0);
+                pribor_key.RemoveAt(0);
+                material_key.RemoveAt(0);
+                material_title.RemoveAt(0);
+                modify_key.RemoveAt(0);
+                modify_title.RemoveAt(0);
+                gaz_key.RemoveAt(0);
+                gaz_title.RemoveAt(0);
+                range_key.RemoveAt(0);
+                range_title.RemoveAt(0);
+                sensor_key.RemoveAt(0);
+                sensor_title.RemoveAt(0);
+                status_key.RemoveAt(0);
+                status_title.RemoveAt(0);
+                Debug.WriteLine(pribor_title[0]);
+                combo_pribors.ItemsSource = pribor_title;
+                combo_gaz.ItemsSource = gaz_title;
+                combo_materials.ItemsSource = material_title;
+                combo_modify.ItemsSource = modify_title;
+                combo_range.ItemsSource = range_title;
+            }
         }
     }
 }

@@ -346,7 +346,6 @@ namespace Pikachu
             }
             if ((e.Source.GetType() == typeof(DatePicker)) && (e.Key == Key.Return))
             {
-                DatePicker d = (DatePicker)e.Source;
                 verify(e.Source, e, 2);
             }
         }
