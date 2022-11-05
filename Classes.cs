@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 
@@ -11,11 +12,15 @@ namespace Pikachu
         internal readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
         internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         internal readonly Brush stand;
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
         private List<string> names_pass = new();
         private List<pribors> pr = new();
+        private Thread My = new(() => {});
+        private object locker = new();
+
         public class pribors
         {
             public string? pribor_num { get; set; }
