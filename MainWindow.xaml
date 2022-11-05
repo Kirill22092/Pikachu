@@ -59,11 +59,12 @@
 </Hyperlink>
         </TextBlock>
 
-        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top">
+        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_num}" Header="Номер"/>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_num}" Header="Номер" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_tip}" Header="Прибор"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_mod}" Header=""/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_mat}" Header="Исполнение"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_gaz}" Header="Газ"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_exp}" Header="Экспорт"/>

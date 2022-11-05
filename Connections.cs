@@ -64,6 +64,10 @@ namespace Pikachu
                             {
                                 lock (locker_N)
                                 {
+                                    names_key.Clear();
+                                    names_title.Clear();
+                                    names_rights.Clear();
+                                    names_pass.Clear();
                                     while (reader.Read())
                                     {
                                         names_key.Add(reader.GetInt32(0));
@@ -100,6 +104,8 @@ namespace Pikachu
                                     {
                                         case "pribor":
                                             {
+                                                pribor_title.Clear();
+                                                pribor_key.Clear();
                                                 while (reader.Read())
                                                 {
                                                     pribor_key.Add(reader.GetInt32(0));
@@ -109,6 +115,8 @@ namespace Pikachu
                                             }
                                         case "material":
                                             {
+                                                material_key.Clear();
+                                                material_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     material_key.Add(reader.GetInt32(0));
@@ -118,6 +126,8 @@ namespace Pikachu
                                             }
                                         case "gaz":
                                             {
+                                                gaz_key.Clear();
+                                                gaz_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     gaz_key.Add(reader.GetInt32(0));
@@ -127,6 +137,8 @@ namespace Pikachu
                                             }
                                         case "sensor":
                                             {
+                                                sensor_key.Clear();
+                                                sensor_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     sensor_key.Add(reader.GetInt32(0));
@@ -136,6 +148,8 @@ namespace Pikachu
                                             }
                                         case "range":
                                             {
+                                                range_key.Clear();
+                                                range_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     range_key.Add(reader.GetInt32(0));
@@ -143,8 +157,10 @@ namespace Pikachu
                                                 }
                                                 break;
                                             }
-                                        case "statusl":
+                                        case "status":
                                             {
+                                                status_key.Clear();
+                                                status_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     status_key.Add(reader.GetInt32(0));
@@ -154,6 +170,8 @@ namespace Pikachu
                                             }
                                         case "modify":
                                             {
+                                                modify_key.Clear();
+                                                modify_title.Clear();
                                                 while (reader.Read())
                                                 {
                                                     modify_key.Add(reader.GetInt32(0));

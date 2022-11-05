@@ -44,6 +44,7 @@ namespace Pikachu
         {
             public string? pribor_num { get; set; }
             public string? pribor_tip { get; set; }
+            public string? pribor_mod { get; set; }
             public string? pribor_mat { get; set; }
             public string? pribor_gaz { get; set; }
             public string? pribor_exp { get; set; }

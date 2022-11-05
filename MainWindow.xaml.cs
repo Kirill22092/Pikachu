@@ -30,6 +30,7 @@ namespace Pikachu
             {
                 pribor_num = "12345",
                 pribor_tip = "SGOES",
+                pribor_mod = "М",
                 pribor_mat = "Алюминий",
                 pribor_gaz = "Метан",
                 pribor_exp = "USA",
@@ -42,6 +43,7 @@ namespace Pikachu
             {
                 pribor_num = "55577",
                 pribor_tip = "SGOES",
+                pribor_mod = "2",
                 pribor_mat = "Алюминий",
                 pribor_gaz = "Метан",
                 pribor_exp = "USA",
