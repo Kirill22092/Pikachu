@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using MaterialDesignThemes.Wpf;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -199,8 +200,8 @@ namespace Pikachu
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        isDis_i.Foreground = rd;
-                        isCon.IsChecked = false;
+                        ConStat.Foreground = rd;
+                        ConStat.Content = new PackIcon { Kind = PackIconKind.LanDisconnect };
                         popup.IsTopDrawerOpen = true;
                     }));
                 }
@@ -208,8 +209,8 @@ namespace Pikachu
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        isDis_i.Foreground = bl;
-                        isCon.IsChecked = true;
+                        ConStat.Foreground = gr;
+                        ConStat.Content = new PackIcon { Kind = PackIconKind.LanConnect };
                     }));
                 }
                 Debug.WriteLine(iConnect.State.ToString());
