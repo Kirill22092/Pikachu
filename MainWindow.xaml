@@ -195,7 +195,7 @@
                     <TextBlock Margin="4"
                        VerticalAlignment="Center"
                        Text="Нет подключения к базе данных" Foreground="#FFFF6250" />
-                    <Button Margin="4"
+                    <Button Margin="4" x:Name="bb"
                     VerticalAlignment="Center"
                     Content="{materialDesign:PackIcon Restart}" 
                     Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand"/>

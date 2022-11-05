@@ -164,10 +164,13 @@ namespace Pikachu
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            var c = ((Button)e.Source).Cursor;
+            ((Button)e.Source).Cursor = Cursors.Wait;
             if (Connect())
             {
                 popup.IsTopDrawerOpen = false;
             }
+            ((Button)e.Source).Cursor = c;
         }
 
         private void Grid_LostFocus(object sender, RoutedEventArgs e)
