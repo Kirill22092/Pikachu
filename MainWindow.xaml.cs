@@ -149,8 +149,17 @@ namespace Pikachu
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            DetailWindow w = new();
-            w.Show();
+            /*
+            Делаем запрос к БД на длинну архива прибора, чья кнопка нажата...
+            ...и инициируем новый экземпляр класса archive с длинной в качестве параметра
+
+            Делаем запрос на получение архивов даты, имени, статуса, примечания
+
+            Записываем полученные массивы в поля класса archive
+
+            Создаем новый экземпляр класса DetailWindow и пердаем в качестве параметров:
+            экземпляр класса archive и списки names_key/title, status_key/title
+             */
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)

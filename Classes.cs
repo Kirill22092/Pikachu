@@ -53,6 +53,21 @@ namespace Pikachu
             public string? last_status { get; set; }
             public string? last_name { get; set; }
         }
+
+        public class archive
+        {
+            public DateOnly[] date { get; set; }
+            public int[] status { get; set; }
+            public int[] name { get; set; }
+            public string[] note { get; set; }
+            public archive(int count)
+            {
+                date = new DateOnly[count];
+                status = new int[count];
+                name = new int[count];
+                note = new string[count];
+            }
+        }
         private void paint()
         {
             combo_pribors.Foreground = combo_pribors.BorderBrush; //красим элементы
