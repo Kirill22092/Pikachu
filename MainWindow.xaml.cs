@@ -119,43 +119,45 @@ namespace Pikachu
         {
             Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
             _ = log1.ShowDialog(); //вызов диалогового окна логина
-            combo_pribors.ItemsSource = names_title;
         }
 
         public bool[] loginDialogCheck(string Login, string Password)
         {
-            bool[] result = { false, false, true }; //result[0] = флаг проверки логина; result[1] = флаг проверки пароля; result[2] = флаг проверки соединения
-            int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
-            if (i > -1)
+            lock (locker)
             {
-                result[0] = true; //логин нашёлся
-                if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
+                bool[] result = { false, false, true }; //result[0] = флаг проверки логина; result[1] = флаг проверки пароля; result[2] = флаг проверки соединения
+                int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
+                if (i > -1)
                 {
-                    result[1] = true; //пароль совпал
-                    login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
-                    return result; //успех, все проверки пройдены, передаём результат
+                    result[0] = true; //логин нашёлся
+                    if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
+                    {
+                        result[1] = true; //пароль совпал
+                        login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
+                        return result; //успех, все проверки пройдены, передаём результат
+                    }
+                    else
+                    {
+                        login_text.Text = "Вход не выполнен";
+                        return result; //пароль не подошёл, передаём результат
+                    }
                 }
                 else
                 {
-                    login_text.Text = "Вход не выполнен";
-                    return result; //пароль не подошёл, передаём результат
-                }
-            }
-            else
-            {
-                if (iConnect.State == ConnectionState.Open)
-                {
-                    login_text.Text = "Вход не выполнен";
-                    result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
-                    return result; //логина нет в списке, передаём результат
-                }
-                else
-                {
-                    login_text.Text = "Вход не выполнен";
-                    result[0] = true; //проверки логина не было, сообщения о несуществующем логине не должно быть
-                    result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
-                    result[2] = false; //соединение недоступно, вешаем флаг
-                    return result;
+                    if (iConnect.State == ConnectionState.Open)
+                    {
+                        login_text.Text = "Вход не выполнен";
+                        result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
+                        return result; //логина нет в списке, передаём результат
+                    }
+                    else
+                    {
+                        login_text.Text = "Вход не выполнен";
+                        result[0] = true; //проверки логина не было, сообщения о несуществующем логине не должно быть
+                        result[1] = true; //проверки пароля не было, сообщения о неправильном пароле не должно быть
+                        result[2] = false; //соединение недоступно, вешаем флаг
+                        return result;
+                    }
                 }
             }
         }
