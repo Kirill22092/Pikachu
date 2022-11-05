@@ -10,6 +10,7 @@ namespace Pikachu
 {
 
     using BCrypt.Net;
+    using System;
     using System.Threading;
 
     public partial class MainWindow : Window
@@ -197,6 +198,11 @@ namespace Pikachu
                 lost(e.Source, e, 2);
                 e.Handled = true;
             }
+            if (e.Source.GetType() == typeof(DatePicker))
+            {
+                lost(e.Source, e, 3);
+                e.Handled = true;
+            }
         }
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e)
@@ -211,20 +217,50 @@ namespace Pikachu
                 got(e.Source, e, 2);
                 e.Handled = true;
             }
+            if (e.Source.GetType() == typeof(DatePicker))
+            {
+                got(e.Source, e, 3);
+                e.Handled = true;
+            }
         }
 
-        public void verify(ComboBox sender, KeyEventArgs e)
+        public void verify(object sender, KeyEventArgs e, int i = 1)
         {
-            if (sender.Items.IndexOf(sender.Text) == -1)
+            switch (i)
             {
-                HintAssist.SetHelperText(sender, "Неверное значение");
-                sender.Foreground = rd;
-                sender.BorderBrush = rd;
-            }
-            else
-            {
-                sender.Foreground = stand;
-                sender.BorderBrush = stand;
+                case 1:
+                    {
+                        ComboBox c = (ComboBox)sender;
+                        if (c.Items.IndexOf(c.Text) == -1)
+                        {
+                            HintAssist.SetHelperText(c, "Неверное значение");
+                            c.Foreground = rd;
+                            c.BorderBrush = rd;
+                        }
+                        else
+                        {
+                            c.Foreground = stand;
+                            c.BorderBrush = stand;
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        DatePicker d = (DatePicker)sender;
+                        Debug.WriteLine(d.SelectedDate);
+                        if (d.SelectedDate > DateTime.Now.Date)
+                        {
+                            HintAssist.SetHelperText(d, "Неверное значение");
+                            d.Foreground = rd;
+                            d.BorderBrush = rd;
+                        }
+                        else
+                        {
+                            d.Foreground = stand;
+                            d.BorderBrush = stand;
+                        }
+                        break;
+                    }
             }
         }
 
@@ -260,6 +296,20 @@ namespace Pikachu
                         t.BorderBrush = stand;
                     }
                     break;
+                case 3:
+                    DatePicker d = (DatePicker)sender;
+                    if (d.Text == "")
+                    {
+                        HintAssist.SetHelperText(d, "Поле не может быть пустым");
+                        d.Foreground = rd;
+                        d.BorderBrush = rd;
+                    }
+                    else
+                    {
+                        d.Foreground = stand;
+                        d.BorderBrush = stand;
+                    }
+                    break;
             }
         }
 
@@ -279,16 +329,31 @@ namespace Pikachu
                     t.Foreground = stand;
                     t.BorderBrush = gr;
                     break;
+                case 3:
+                    DatePicker d = (DatePicker)sender;
+                    HintAssist.SetHelperText(d, "");
+                    d.Foreground = stand;
+                    d.BorderBrush = gr;
+                    break;
             }
         }
 
-        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        private void Grid_KeyUp(object sender, KeyEventArgs e)
         {
-            Debug.WriteLine(e.Source.GetType());
             if (e.Source.GetType() == typeof(ComboBox))
             {
-                verify((ComboBox)e.Source, e);
+                verify(e.Source, e);
             }
+            if ((e.Source.GetType() == typeof(DatePicker)) && (e.Key == Key.Return))
+            {
+                DatePicker d = (DatePicker)e.Source;
+                verify(e.Source, e, 2);
+            }
+        }
+
+        private void test_click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -228,6 +228,14 @@ namespace Pikachu
             read_others("range");
             read_others("sensor");
             read_others("status");
+            date_snu.SelectedDate = DateTime.Now.Date;
+            date_snu.DisplayDateEnd = DateTime.Now.Date;
+            date_oki.SelectedDate = DateTime.Now.Date;
+            date_oki.DisplayDateEnd = DateTime.Now.Date;
+            date_ktx.SelectedDate = DateTime.Now.Date;
+            date_ktx.DisplayDateEnd = DateTime.Now.Date;
+            date_out.SelectedDate = DateTime.Now.Date;
+            date_out.DisplayDateEnd = DateTime.Now.Date;
         }
     }
 }
