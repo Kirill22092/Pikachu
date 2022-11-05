@@ -169,7 +169,7 @@ namespace Pikachu
                                                 }
                                                 break;
                                             }
-                                        /*case "modify":
+                                        case "modify":
                                             {
                                                 modify_key.Clear();
                                                 modify_title.Clear();
@@ -179,7 +179,7 @@ namespace Pikachu
                                                     modify_title.Add(reader.GetString(1));//...и заносим полученные данные в списки
                                                 }
                                                 break;
-                                            }*/
+                                            }
 
                                     }
                                 }
@@ -224,7 +224,7 @@ namespace Pikachu
         {
             read_others("pribor");
             read_others("material");
-            //read_others("modify");
+            read_others("modify");
             read_others("gaz");
             read_others("range");
             read_others("sensor");
@@ -243,8 +243,8 @@ namespace Pikachu
                 pribor_key.RemoveAt(0);
                 material_key.RemoveAt(0);
                 material_title.RemoveAt(0);
-                //modify_key.RemoveAt(0);
-                //modify_title.RemoveAt(0);
+                modify_key.RemoveAt(0);
+                modify_title.RemoveAt(0);
                 gaz_key.RemoveAt(0);
                 gaz_title.RemoveAt(0);
                 range_key.RemoveAt(0);
@@ -257,7 +257,7 @@ namespace Pikachu
                 combo_pribors.ItemsSource = pribor_title;
                 combo_gaz.ItemsSource = gaz_title;
                 combo_materials.ItemsSource = material_title;
-                //combo_modify.ItemsSource = modify_title;
+                combo_modify.ItemsSource = modify_title;
                 combo_range.ItemsSource = range_title;
             }
         }
