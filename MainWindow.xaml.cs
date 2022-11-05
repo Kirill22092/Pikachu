@@ -10,7 +10,6 @@ namespace Pikachu
 {
 
     using BCrypt.Net;
-    using System;
     using System.Threading;
 
     public partial class MainWindow : Window
@@ -23,32 +22,8 @@ namespace Pikachu
         public MainWindow()
         {
             InitializeComponent();
-                combo_pribors.Foreground = combo_pribors.BorderBrush;
-            stand = combo_pribors.BorderBrush;
-            iConnect.StateChange += (object sender, StateChangeEventArgs e) =>          //Создаем обработчик события и метод
-            {
-                Debug.WriteLine(e.CurrentState.ToString());//на изменение состояния подключения к БД
-                if (!(e.CurrentState == ConnectionState.Open))
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        isDis_i.Foreground = rd;
-                        isCon.IsChecked = false;
-                        popup.IsTopDrawerOpen = true;
-                    }));
-                }
-                else
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        isDis_i.Foreground = bl;
-                        isCon.IsChecked = true;
-                    }));
-                }
-                Debug.WriteLine(iConnect.State.ToString());
-            };
-            Connect(); //открываем соеднение с БД
-            Conn_init(); //вызываем метод подключения к БД и чтения таблицы names
+            paint();
+            before_login();
             login(); //вызываем окно логина
             pr.Add(new pribors
             {
@@ -107,7 +82,7 @@ namespace Pikachu
             }
         }
 
-        public void Conn_init() //соединение с БД, обработка ошибок, обработка изменения состояния соединения
+        public void read_names() //Чтение таблицы names
         {
             if (My.ThreadState != ThreadState.Running && My.ThreadState != ThreadState.WaitSleepJoin)
             {
@@ -135,12 +110,8 @@ namespace Pikachu
                             iQuery.Dispose();
                         }
                     }
-                })
-                {
-                    Name = "lol"
-                };
+                });
                 My.Start();
-
             }
         }
 
@@ -214,7 +185,7 @@ namespace Pikachu
 
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
-            Conn_init(); //открываем соединение и красим кнопочки
+            read_names(); //читаем таблицу names и красим кнопочки
             if (iConnect.State == ConnectionState.Open)
             {
                 isDis.Foreground = bl;
@@ -231,7 +202,7 @@ namespace Pikachu
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Conn_init(); //читаем заново таблицу имён и перелогиниваемся
+            read_names(); //читаем заново таблицу names и перелогиниваемся
             MainWindow1.Hide();
             login();
             MainWindow1.Show();
