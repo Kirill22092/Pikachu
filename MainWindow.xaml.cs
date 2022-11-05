@@ -25,6 +25,7 @@ namespace Pikachu
             paint();
             before_login();
             login(); //вызываем окно логина
+            after_login();
             pr.Add(new pribors
             {
                 pribor_num = "12345",
@@ -51,70 +52,6 @@ namespace Pikachu
             });
             lvDataBinding.ItemsSource = pr;
         }
-        public bool Connect()
-        {
-            try
-            {
-                iConnect.Open();
-                return true;
-            }
-            catch (NpgsqlException e)
-            {
-                if (e.Message.Contains("28P01"))
-                {
-                    _ = MessageBox.Show("Неверный логин/пароль БД");
-                }
-                else if (e.Message.Contains("3D000"))
-                {
-                    _ = MessageBox.Show("Неверное имя базы данных");
-                }
-                else
-                {
-                    if (e.Message == "Exception while writing to stream")
-                    { _ = MessageBox.Show("Прервано подключение к БД"); }
-                    else
-                    {
-                        _ = MessageBox.Show(e.Message);
-                    }
-
-                }
-                return false;
-            }
-        }
-
-        public void read_names() //Чтение таблицы names
-        {
-            if (My.ThreadState != ThreadState.Running && My.ThreadState != ThreadState.WaitSleepJoin)
-            {
-                My = new Thread(() =>
-                {
-                    lock (locker)
-                    {
-                        Debug.WriteLine(My.ThreadState.ToString());
-                        if (iConnect.State == ConnectionState.Open)
-                        {
-                            string sql = "SELECT * FROM names;";
-                            iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
-                            NpgsqlDataReader reader = iQuery.ExecuteReader();
-                            if (iConnect.State == ConnectionState.Open)
-                            {
-                                while (reader.Read())
-                                {
-                                    names_key.Add(reader.GetInt32(0));
-                                    names_title.Add(reader.GetString(1));
-                                    names_rights.Add(reader.GetString(2));
-                                    names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
-                                }
-                            }
-                            reader.Close();
-                            iQuery.Dispose();
-                        }
-                    }
-                });
-                My.Start();
-            }
-        }
-
         public void login()
         {
             Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
@@ -123,7 +60,7 @@ namespace Pikachu
 
         public bool[] loginDialogCheck(string Login, string Password)
         {
-            lock (locker)
+            lock (locker_N)
             {
                 bool[] result = { false, false, true }; //result[0] = флаг проверки логина; result[1] = флаг проверки пароля; result[2] = флаг проверки соединения
                 int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён

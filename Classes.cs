@@ -20,9 +20,25 @@ namespace Pikachu
         private List<string> names_title = new();
         private List<string> names_rights = new();
         private List<string> names_pass = new();
+        private List<int> pribor_key = new();
+        private List<string> pribor_title = new();
+        private List<int> material_key = new();
+        private List<string> material_title = new();
+        private List<int> modify_key = new();
+        private List<string> modify_title = new();
+        private List<int> gaz_key = new();
+        private List<string> gaz_title = new();
+        private List<int> range_key = new();
+        private List<string> range_title = new();
+        private List<int> sensor_key = new();
+        private List<string> sensor_title = new();
+        private List<int> status_key = new();
+        private List<string> status_title = new();
         private List<pribors> pr = new();
-        private Thread My = new(() => { });
+        private Thread Th_N = new(() => { });
         private object locker = new();
+        private object locker_O = new();
+        private object locker_N = new();
 
         public class pribors
         {
@@ -35,35 +51,6 @@ namespace Pikachu
             public string? last_date { get; set; }
             public string? last_status { get; set; }
             public string? last_name { get; set; }
-        }
-
-        private void before_login()
-        {
-            iConnect.StateChange += (object sender, StateChangeEventArgs e) =>          //Создаем обработчик события и метод
-            {
-                Debug.WriteLine(e.CurrentState.ToString());                             //на изменение состояния подключения к БД
-                if (!(e.CurrentState == ConnectionState.Open))
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        isDis_i.Foreground = rd;
-                        isCon.IsChecked = false;
-                        popup.IsTopDrawerOpen = true;
-                    }));
-                }
-                else
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        isDis_i.Foreground = bl;
-                        isCon.IsChecked = true;
-                    }));
-                }
-                Debug.WriteLine(iConnect.State.ToString());
-            };
-
-            Connect(); //открываем соеднение с БД
-            read_names(); // чтение таблицы names
         }
         private void paint()
         {
