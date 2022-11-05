@@ -117,31 +117,6 @@ namespace Pikachu
             DragMove();
         }
 
-        private void isDis_Checked(object sender, RoutedEventArgs e)
-        { //красим кнопочки
-            isDis.Foreground = gr;
-            isDis.BorderBrush = gr;
-            isCon.Foreground = bl;
-            isCon.BorderBrush = bl;
-        }
-
-        private void isCon_Checked(object sender, RoutedEventArgs e)
-        {
-            read_names(); //читаем таблицу names и красим кнопочки
-            if (iConnect.State == ConnectionState.Open)
-            {
-                isDis.Foreground = bl;
-                isDis.BorderBrush = bl;
-                isCon.Foreground = gr;
-                isCon.BorderBrush = gr;
-            }
-            else
-            {
-                isCon.IsChecked = false;
-                isDis.IsChecked = true;
-            }
-        }
-
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             read_names(); //читаем заново таблицу names и перелогиниваемся

@@ -56,6 +56,7 @@ namespace Pikachu
         private void paint()
         {
             combo_pribors.Foreground = combo_pribors.BorderBrush; //красим элементы
+            
         }
     }
 }
