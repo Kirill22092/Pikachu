@@ -18,7 +18,8 @@ namespace Pikachu
         private List<string> names_rights = new();
         private List<string> names_pass = new();
         private List<pribors> pr = new();
-        private Thread My = new Thread(async () => {});
+        private Thread My = new(() => {});
+        private object locker = new();
 
         public class pribors
         {

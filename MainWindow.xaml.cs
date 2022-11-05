@@ -11,7 +11,6 @@ namespace Pikachu
 
     using BCrypt.Net;
     using System;
-    using System.ComponentModel;
     using System.Threading;
 
     public partial class MainWindow : Window
@@ -19,36 +18,37 @@ namespace Pikachu
         private NpgsqlCommand? iQuery;
         public NpgsqlConnection iConnect = new($"Server ={Properties.Settings.Default.na};" +
             $"Port={Properties.Settings.Default.np};User Id={Properties.Settings.Default.lg};" +
-            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};"); //создаем строку подключения к БД из параметров приложения
+            $"Password={Properties.Settings.Default.ps};Database={Properties.Settings.Default.db};Keepalive=5;"); //создаем строку подключения к БД из параметров приложения
 
         public MainWindow()
         {
             InitializeComponent();
-            combo_pribors.Foreground = combo_pribors.BorderBrush;
+                combo_pribors.Foreground = combo_pribors.BorderBrush;
             stand = combo_pribors.BorderBrush;
             iConnect.StateChange += (object sender, StateChangeEventArgs e) =>          //Создаем обработчик события и метод
-            {                                                                           //на изменение состояния подключения к БД
+            {
+                Debug.WriteLine(e.CurrentState.ToString());//на изменение состояния подключения к БД
                 if (!(e.CurrentState == ConnectionState.Open))
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        isDis.IsChecked = true;
                         isDis_i.Foreground = rd;
                         isCon.IsChecked = false;
+                        popup.IsTopDrawerOpen = true;
                     }));
                 }
                 else
                 {
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        isDis.IsChecked = false;
                         isDis_i.Foreground = bl;
                         isCon.IsChecked = true;
                     }));
                 }
                 Debug.WriteLine(iConnect.State.ToString());
             };
-            Conn_init(iConnect); //вызываем метод подключения к БД и чтения таблицы names
+            Connect(); //открываем соеднение с БД
+            Conn_init(); //вызываем метод подключения к БД и чтения таблицы names
             login(); //вызываем окно логина
             pr.Add(new pribors
             {
@@ -76,50 +76,69 @@ namespace Pikachu
             });
             lvDataBinding.ItemsSource = pr;
         }
+        public bool Connect()
+        {
+            try
+            {
+                iConnect.Open();
+                return true;
+            }
+            catch (NpgsqlException e)
+            {
+                if (e.Message.Contains("28P01"))
+                {
+                    _ = MessageBox.Show("Неверный логин/пароль БД");
+                }
+                else if (e.Message.Contains("3D000"))
+                {
+                    _ = MessageBox.Show("Неверное имя базы данных");
+                }
+                else
+                {
+                    if (e.Message == "Exception while writing to stream")
+                    { _ = MessageBox.Show("Прервано подключение к БД"); }
+                    else
+                    {
+                        _ = MessageBox.Show(e.Message);
+                    }
 
-        public void Conn_init(NpgsqlConnection iConnect) //соединение с БД, обработка ошибок, обработка изменения состояния соединения
+                }
+                return false;
+            }
+        }
+
+        public void Conn_init() //соединение с БД, обработка ошибок, обработка изменения состояния соединения
         {
             if (My.ThreadState != ThreadState.Running && My.ThreadState != ThreadState.WaitSleepJoin)
             {
-                My = new Thread(async () =>
+                My = new Thread(() =>
                 {
-                    try
+                    lock (locker)
                     {
                         Debug.WriteLine(My.ThreadState.ToString());
-                        if (!(iConnect.State == ConnectionState.Open) && !(iConnect.State == ConnectionState.Connecting))
+                        if (iConnect.State == ConnectionState.Open)
                         {
-                            await iConnect.OpenAsync(); //открываем соеднение с БД
-                        
-                        string sql = "SELECT * FROM names;";
-                        iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
-                        NpgsqlDataReader reader = await iQuery.ExecuteReaderAsync();
-                        while (await reader.ReadAsync())
-                        {
-                            names_key.Add(reader.GetInt32(0));
-                            names_title.Add(reader.GetString(1));
-                            names_rights.Add(reader.GetString(2));
-                            names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
-                        }
-                        await reader.CloseAsync();
-                        await iQuery.DisposeAsync();
-                        }
-                    }
-                    catch (NpgsqlException e)
-                    {
-                        if (e.Message.Contains("28P01"))
-                        {
-                            _ = MessageBox.Show("Неверный логин/пароль БД");
-                        }
-                        else if (e.Message.Contains("3D000"))
-                        {
-                            _ = MessageBox.Show("Неверное имя базы данных");
-                        }
-                        else
-                        {
-                            _ = MessageBox.Show(e.Message);
+                            string sql = "SELECT * FROM names;";
+                            iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
+                            NpgsqlDataReader reader = iQuery.ExecuteReader();
+                            if (iConnect.State == ConnectionState.Open)
+                            {
+                                while (reader.Read())
+                                {
+                                    names_key.Add(reader.GetInt32(0));
+                                    names_title.Add(reader.GetString(1));
+                                    names_rights.Add(reader.GetString(2));
+                                    names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
+                                }
+                            }
+                            reader.Close();
+                            iQuery.Dispose();
                         }
                     }
-                });
+                })
+                {
+                    Name = "lol"
+                };
                 My.Start();
 
             }
@@ -186,8 +205,7 @@ namespace Pikachu
         }
 
         private void isDis_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!(My.ThreadState == ThreadState.Running)) iConnect.Close(); //закрывем соединение и красим кнопочки
+        { //красим кнопочки
             isDis.Foreground = gr;
             isDis.BorderBrush = gr;
             isCon.Foreground = bl;
@@ -196,8 +214,7 @@ namespace Pikachu
 
         private void isCon_Checked(object sender, RoutedEventArgs e)
         {
-            
-            Conn_init(iConnect); //открываем соединение и красим кнопочки
+            Conn_init(); //открываем соединение и красим кнопочки
             if (iConnect.State == ConnectionState.Open)
             {
                 isDis.Foreground = bl;
@@ -214,7 +231,7 @@ namespace Pikachu
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Conn_init(iConnect); //читаем заново таблицу имён и перелогиниваемся
+            Conn_init(); //читаем заново таблицу имён и перелогиниваемся
             MainWindow1.Hide();
             login();
             MainWindow1.Show();
@@ -248,14 +265,12 @@ namespace Pikachu
             w.Show();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            popup.IsTopDrawerOpen = true;
-        }
-
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(sender);
+            if (Connect())
+            {
+                popup.IsTopDrawerOpen = false;
+            }
         }
 
         private void Grid_LostFocus(object sender, RoutedEventArgs e)
