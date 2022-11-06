@@ -9,6 +9,11 @@
         Title="Window1" 
         Height="396" 
         Width="291" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid Height="378" 
           VerticalAlignment="Top" Margin="0,1,-1,0">
@@ -28,22 +33,20 @@
         <TextBox x:Name="LoginBox"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                  materialDesign:HintAssist.Hint="Логин" 
-                 Margin="0,124,0,0" 
-                 TextWrapping="Wrap" 
-                 Height="34" 
+                 Margin="0,120,0,0" 
+                 Height="38" 
                  VerticalAlignment="Top" 
                  HorizontalAlignment="Center" 
                  Width="186" 
-                 materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
                  Background="#0CFFFFFF" 
-                 Padding="33,1,3,0" 
+                 Padding="33,3,3,0" 
                  materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
                  MaxLines="1" 
                  TabIndex="1" Foreground="#FFEDEDED" GotFocus="LoginBox_GotFocus" LostFocus="LoginBox_LostFocus"/>
         <materialDesign:PackIcon x:Name="LoginIcon"
                                  Kind="UserOutline" 
                                  Height="20" 
-                                 Margin="0,131,214,0" HorizontalAlignment="Right" Width="20" Foreground="#FFC5C5C5"/>
+                                 Margin="0,128,214,0" HorizontalAlignment="Right" Width="20" Foreground="#FFC5C5C5"/>
         <Button materialDesign:ElevationAssist.Elevation="Dp0" 
                 Content="Войти" 
                 HorizontalAlignment="Center" 
@@ -58,23 +61,23 @@
         <PasswordBox x:Name="PassBox" 
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                      materialDesign:TextFieldAssist.HasClearButton="True"
-                     materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,6"
+                     materialDesign:TextFieldAssist.TextBoxViewMargin="0,0,0,6"
                      materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
                      materialDesign:HintAssist.Hint="Пароль" 
-                     Margin="0,182,0,0" 
-                     Height="34" 
+                     Margin="0,178,0,0" 
+                     Height="38" 
                      VerticalAlignment="Top" 
                      HorizontalAlignment="Center" 
                      Width="186" 
                      Background="#0CFFFFFF" 
-                     Padding="33,1,3,0" 
+                     Padding="33,3,5,0" 
                      TabIndex="2" 
                      Foreground="#FFD0D0D0" LostFocus="PassBox_LostFocus" GotFocus="PassBox_GotFocus"/>
         <materialDesign:PackIcon x:Name="Passicon" 
                                  Kind="LockOutline" 
                                  Width="20" 
                                  Height="20" 
-                                 Margin="0,189,214,0" HorizontalAlignment="Right" Foreground="#FFA2A2A2"/>
+                                 Margin="0,186,214,0" HorizontalAlignment="Right" Foreground="#FFA2A2A2"/>
         <Button Content="{materialDesign:PackIcon Close}" 
             Style="{StaticResource MaterialDesignFlatButton}"
             Padding="0,0,0,0"
@@ -99,7 +102,7 @@
             VerticalAlignment="Top" 
             HorizontalAlignment="Center" 
             Width="288" 
-            Foreground="#FFFF6250" Visibility="Collapsed"/>
+            Foreground="{DynamicResource SecondaryHueMidBrush}" Visibility="Collapsed"/>
     </Grid>
     <WindowChrome.WindowChrome>
         <WindowChrome 
