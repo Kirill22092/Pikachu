@@ -25,8 +25,7 @@ namespace Pikachu
             InitializeComponent();
             paint();
             before_login();
-            login(); //вызываем окно логина
-            after_login();
+            if (login()) after_login(); //вызываем окно логина
             pr.Add(new pribors
             {
                 pribor_num = "12345",
@@ -55,10 +54,15 @@ namespace Pikachu
             });
             lvDataBinding.ItemsSource = pr;
         }
-        public void login()
+        public bool login()
         {
             Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
-            _ = log1.ShowDialog(); //вызов диалогового окна логина
+            bool? res = log1.ShowDialog(); //вызов диалогового окна логина
+            if (res != null)
+            {
+                return (bool)res;
+            }
+            return false;
         }
 
         public bool[] loginDialogCheck(string Login, string Password)
