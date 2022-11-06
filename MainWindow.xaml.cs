@@ -345,12 +345,7 @@
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            read_pribors();
-            lock (locker_P)
-            {
-                lvDataBinding.ItemsSource = null;
-                lvDataBinding.ItemsSource = pr;
-            }
+
         }
     }
 }
