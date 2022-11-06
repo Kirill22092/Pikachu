@@ -6,15 +6,20 @@
         xmlns:local="clr-namespace:Pikachu"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow" Height="599" Width="1200" Background="#FF282A34" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <TextBlock Margin="15,5,0,0" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="200">
   <Hyperlink Style="{StaticResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click" Foreground="#FF4CAF50">
-      <TextBlock x:Name="login_text" Foreground="#FF4CAF50" Text="EXAMPLE"/>
+      <TextBlock x:Name="login_text" Foreground="{DynamicResource PrimaryHueMidBrush}" Text="EXAMPLE"/>
 </Hyperlink>
         </TextBlock>
-        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_num}" Header="Номер" />
@@ -162,21 +167,21 @@
                               materialDesign:TextFieldAssist.HasClearButton="True" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
                               HorizontalAlignment="Left" Margin="165,119,0,0" VerticalAlignment="Top" Width="150" IsEditable="True"/>
                     <DatePicker x:Name="date_snu" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"
-                                HorizontalAlignment="Left" Margin="350,0,0,0" Width="170" Height="50"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на СНУ" />
+                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top" materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="350,10,0,0" Width="170" Height="50"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на СНУ" Padding="0,0,0,0" />
                     <DatePicker x:Name="date_ktx" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"
-                                HorizontalAlignment="Left" Margin="350,55,0,0" Width="170" Height="50"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в КТХ" />
+                                materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="350,0,0,50" Width="170" Height="50"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в КТХ" Padding="0,0,0,0" VerticalAlignment="Bottom" />
                     <DatePicker x:Name="date_oki" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"
-                                HorizontalAlignment="Left" Margin="350,110,0,0" Width="170" Height="50"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в ОКИ" />
+                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"  materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="555,10,0,0" Width="170" Height="50"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в ОКИ" Padding="0,0,0,0" />
                     <DatePicker x:Name="date_out" Foreground="#FFC5C5C5" BorderBrush="#FFC5C5C5"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"
-                                HorizontalAlignment="Left" Margin="530,0,0,0" Width="170" Height="50"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на УУиО" />
+                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="555,90,0,50" Width="170"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на УУиО" Padding="0,0,0,0" Height="50" />
                 </Grid>
             </TabItem>
             <TabItem
@@ -187,18 +192,27 @@
             </TabItem>
         </TabControl>
 
-        <materialDesign:DrawerHost OpenMode="Modal" x:Name="popup">
+        <materialDesign:DrawerHost x:Name="popup">
             <materialDesign:DrawerHost.TopDrawerContent>
                 <StackPanel Margin="16"
                       HorizontalAlignment="Center"
                       Orientation="Horizontal">
                     <TextBlock Margin="4"
                        VerticalAlignment="Center"
-                       Text="Нет подключения к базе данных" Foreground="#FFFF6250" />
-                    <Button Margin="4" x:Name="bb"
+                       Text="Нет подключения к базе данных" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    <Button Margin="10,10,10,10" x:Name="bb"
                     VerticalAlignment="Center"
-                    Content="{materialDesign:PackIcon Restart}" 
-                    Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand"/>
+                    Content="{materialDesign:PackIcon Reload}" 
+                    Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand" Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5" Height="24" Width="24">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
                 </StackPanel>
             </materialDesign:DrawerHost.TopDrawerContent>
         </materialDesign:DrawerHost>

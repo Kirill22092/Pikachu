@@ -1,17 +1,14 @@
-﻿using MaterialDesignThemes.Wpf;
-using Npgsql;
-using System.Data;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Pikachu
+﻿namespace Pikachu
 {
-
     using BCrypt.Net;
+    using MaterialDesignThemes.Wpf;
+    using Npgsql;
     using System;
-    using System.Threading;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
 
     public partial class MainWindow : Window
     {
@@ -25,7 +22,11 @@ namespace Pikachu
             InitializeComponent();
             paint();
             before_login();
-            if (login()) after_login(); //вызываем окно логина
+            if (login())
+            {
+                after_login(); //вызываем окно логина
+            }
+
             pr.Add(new pribors
             {
                 pribor_num = "12345",
@@ -58,11 +59,7 @@ namespace Pikachu
         {
             Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
             bool? res = log1.ShowDialog(); //вызов диалогового окна логина
-            if (res != null)
-            {
-                return (bool)res;
-            }
-            return false;
+            return res != null && (bool)res;
         }
 
         public bool[] loginDialogCheck(string Login, string Password)
@@ -125,7 +122,7 @@ namespace Pikachu
         {
             read_names(); //читаем заново таблицу names и перелогиниваемся
             MainWindow1.Hide();
-            login();
+            _ = login();
             MainWindow1.Show();
         }
 
@@ -168,7 +165,7 @@ namespace Pikachu
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            var c = ((Button)e.Source).Cursor;
+            Cursor c = ((Button)e.Source).Cursor;
             ((Button)e.Source).Cursor = Cursors.Wait;
             if (Connect())
             {

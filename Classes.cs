@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 
 namespace Pikachu
 {
-    // Объявления классов, глобальных переменных и тп
+    // Объявления классов, глобальных переменных и т.п.
     public partial class MainWindow : Window
     {
-        internal readonly Brush gr = new SolidColorBrush(Color.FromRgb(76, 175, 80));
-        internal readonly Brush rd = new SolidColorBrush(Color.FromRgb(255, 98, 80));
-        internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal readonly Brush stand = new SolidColorBrush(Color.FromRgb(197, 197, 197));
 #pragma warning disable IDE0044 // Добавить модификатор только для чтения
+        internal Brush gr = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal Brush rd = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal Brush stand = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
@@ -68,10 +66,12 @@ namespace Pikachu
                 note = new string[count];
             }
         }
-        private void paint()
+        private void paint() //красим элементы
         {
-            combo_pribors.Foreground = combo_pribors.BorderBrush; //красим элементы
-            
+            combo_pribors.Foreground = combo_pribors.BorderBrush;
+            gr = (Brush)login_text.FindResource("PrimaryHueMidBrush");
+            rd = (Brush)login_text.FindResource("SecondaryHueMidBrush");
+            stand = (Brush)login_text.FindResource("MaterialDesignTextBoxBorder");
         }
     }
 }

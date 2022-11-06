@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:Pikachu"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="{DynamicResource MaterialDesignFont}"
         x:Name="DialogWindow1"
         Title="DetailWindow" Height="450" Width="800" Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="DialogWindow1_MouseLeftButtonDown">
     <Grid>
