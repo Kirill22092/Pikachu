@@ -27,7 +27,7 @@
                 after_login(); //вызываем окно логина
             }
 
-            pr.Add(new pribors
+            /*pr.Add(new pribors
             {
                 pribor_num = "12345",
                 pribor_tip = "SGOES",
@@ -53,7 +53,7 @@
                 last_status = "Выпущен",
                 last_name = "Родионов"
             });
-            lvDataBinding.ItemsSource = pr;
+            lvDataBinding.ItemsSource = pr;*/
         }
         public bool login()
         {
@@ -345,7 +345,12 @@
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            SetTheme(false);
+            read_pribors();
+            lock (locker_P)
+            {
+                lvDataBinding.ItemsSource = null;
+                lvDataBinding.ItemsSource = pr;
+            }
         }
     }
 }

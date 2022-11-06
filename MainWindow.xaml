@@ -188,12 +188,15 @@
             <TabItem
     Header="Поиск">
                 <Grid>
+                    <Button HorizontalAlignment="Left" Margin="194,0,0,0" VerticalAlignment="Center" Click="Button_Click_3">
+                        <Button Content="Button"/>
+                    </Button>
 
                 </Grid>
             </TabItem>
         </TabControl>
 
-        <materialDesign:DrawerHost x:Name="popup" Margin="978,115,-978,-115">
+        <materialDesign:DrawerHost x:Name="popup" VerticalAlignment="Top">
             <materialDesign:DrawerHost.TopDrawerContent>
                 <StackPanel Margin="16"
                       HorizontalAlignment="Center"

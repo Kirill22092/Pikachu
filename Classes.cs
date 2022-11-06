@@ -33,12 +33,14 @@ namespace Pikachu
         private List<string> sensor_title = new();
         private List<int> status_key = new();
         private List<string> status_title = new();
+        private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ"};
         private List<pribors> pr = new();
         private Thread Th_N = new(() => { });
         private object locker = new();
         private object locker_O = new();
         private object locker_N = new();
         private bool DarkTheme;
+        private object locker_P = new();
 
         public class pribors
         {
@@ -49,20 +51,20 @@ namespace Pikachu
             public string? pribor_gaz { get; set; }
             public string? pribor_exp { get; set; }
             public string? pribor_range { get; set; }
-            public string? last_date { get; set; }
+            public DateTime? last_date { get; set; }
             public string? last_status { get; set; }
             public string? last_name { get; set; }
         }
 
         public class archive
         {
-            public DateOnly[] date { get; set; }
+            public DateTime[] date { get; set; }
             public int[] status { get; set; }
             public int[] name { get; set; }
             public string[] note { get; set; }
             public archive(int count)
             {
-                date = new DateOnly[count];
+                date = new DateTime[count];
                 status = new int[count];
                 name = new int[count];
                 note = new string[count];
