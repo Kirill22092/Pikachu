@@ -242,13 +242,62 @@ namespace Pikachu
                 sensor_title.RemoveAt(0);
                 status_key.RemoveAt(0);
                 status_title.RemoveAt(0);
-                Debug.WriteLine(pribor_title[0]);
                 combo_pribors.ItemsSource = pribor_title;
                 combo_gaz.ItemsSource = gaz_title;
                 combo_materials.ItemsSource = material_title;
                 combo_modify.ItemsSource = modify_title;
                 combo_range.ItemsSource = range_title;
             }
+        }
+
+        public void read_pribors() //Чтение таблицы main
+        {
+                Thread Th = new Thread(() =>
+                {
+                    lock (locker)
+                    {
+                        if (iConnect.State == ConnectionState.Open)
+                        {
+                            string sql = "SELECT pribor_num, pribor_tip, pribor_mod, pribor_mat, " +
+                            "pribor_gaz, pribor_exp, pribor_range, last_date, last_status, last_name FROM main;";
+                            iQuery = new(sql, iConnect); //читаем из БД ...
+                            NpgsqlDataReader reader = iQuery.ExecuteReader();
+                            if (iConnect.State == ConnectionState.Open)
+                            {
+                                lock (locker_P) 
+                                {
+                                    lock (locker_O)
+                                    {
+                                        lock (locker_N)
+                                        {
+
+                                            pr.Clear();
+                                            while (reader.Read())
+                                            {
+                                                pr.Add(new pribors
+                                                {
+                                                    pribor_num = reader.GetInt32(0).ToString(),
+                                                    pribor_tip = pribor_title[pribor_key.FindIndex(p => p == reader.GetInt32(1))],
+                                                    pribor_mod = modify_title[modify_key.FindIndex(p => p == reader.GetInt32(2))],
+                                                    pribor_mat = material_title[material_key.FindIndex(p => p == reader.GetInt32(3))],
+                                                    pribor_gaz = gaz_title[gaz_key.FindIndex(p => p == reader.GetInt32(4))],
+                                                    pribor_exp = exp[reader.GetInt32(5)],
+                                                    pribor_range = range_title[range_key.FindIndex(p => p == reader.GetInt32(6))],
+                                                    last_date = reader.GetDateTime(7),
+                                                    last_status = status_title[status_key.FindIndex(p => p == reader.GetInt32(8))],
+                                                    last_name = names_title[names_key.FindIndex(p => p == reader.GetInt32(9))],
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            reader.Close();
+                            iQuery.Dispose();
+                        }
+                    }
+                });
+                Th.Start();
         }
     }
 }
