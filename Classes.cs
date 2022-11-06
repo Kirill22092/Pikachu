@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
@@ -10,10 +11,10 @@ namespace Pikachu
     public partial class MainWindow : Window
     {
 #pragma warning disable IDE0044 // Добавить модификатор только для чтения
-        internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal readonly Brush gr = (Brush) Application.Current.FindResource("PrimaryHueMidBrush");
-        internal readonly Brush rd = (Brush) Application.Current.FindResource("SecondaryHueMidBrush");
-        internal readonly Brush stand = (Brush) Application.Current.FindResource("MaterialDesignTextBoxBorder");
+        internal Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal Brush gr = (Brush) Application.Current.FindResource("PrimaryHueMidBrush");
+        internal Brush rd = (Brush) Application.Current.FindResource("SecondaryHueMidBrush");
+        internal Brush stand = (Brush) Application.Current.FindResource("MaterialDesignTextBoxBorder");
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
@@ -38,6 +39,7 @@ namespace Pikachu
         private object locker = new();
         private object locker_O = new();
         private object locker_N = new();
+        private bool DarkTheme;
         private object locker_P = new();
 
         public class pribors
@@ -70,7 +72,26 @@ namespace Pikachu
         }
         private void paint() //красим элементы
         {
-            combo_pribors.Foreground = combo_pribors.BorderBrush;
+            DarkTheme = Properties.Settings.Default.Dark;
+            SetTheme(true);
         }
+
+        public void SetTheme(bool Start)
+        {
+            if (!Start)
+            {
+                DarkTheme = !DarkTheme;
+            }
+            PaletteHelper paletteHelper = new();
+            ITheme theme = paletteHelper.GetTheme();
+            theme.SetBaseTheme(DarkTheme ? Theme.Dark : Theme.Light);
+            if (DarkTheme) theme.Paper = Color.FromRgb(40, 42, 52);
+            paletteHelper.SetTheme(theme);
+            Properties.Settings.Default.Dark = DarkTheme;
+            Properties.Settings.Default.Save();
+            gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
+            rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
+            stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
+    }
     }
 }

@@ -9,7 +9,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Green" SecondaryColor="Red" ColorAdjustment="{materialDesign:ColorAdjustment}"/>
+                <materialDesign:BundledTheme BaseTheme="Inherit" PrimaryColor="Green" SecondaryColor="Red" ColorAdjustment="{materialDesign:ColorAdjustment}"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -11,8 +11,9 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignPaper}"
         x:Name="DialogWindow1"
-        Title="DetailWindow" Height="450" Width="800" Background="#FF282A34" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="DialogWindow1_MouseLeftButtonDown">
+        Title="DetailWindow" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="DialogWindow1_MouseLeftButtonDown">
     <Grid>
         <Button Content="{materialDesign:PackIcon Close}" 
             Style="{StaticResource MaterialDesignFlatButton}"
