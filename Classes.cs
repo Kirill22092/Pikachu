@@ -10,10 +10,10 @@ namespace Pikachu
     public partial class MainWindow : Window
     {
 #pragma warning disable IDE0044 // Добавить модификатор только для чтения
-        internal Brush gr = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal Brush rd = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         internal readonly Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal Brush stand = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        internal readonly Brush gr = (Brush) Application.Current.FindResource("PrimaryHueMidBrush");
+        internal readonly Brush rd = (Brush) Application.Current.FindResource("SecondaryHueMidBrush");
+        internal readonly Brush stand = (Brush) Application.Current.FindResource("MaterialDesignTextBoxBorder");
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
@@ -69,9 +69,6 @@ namespace Pikachu
         private void paint() //красим элементы
         {
             combo_pribors.Foreground = combo_pribors.BorderBrush;
-            gr = (Brush)login_text.FindResource("PrimaryHueMidBrush");
-            rd = (Brush)login_text.FindResource("SecondaryHueMidBrush");
-            stand = (Brush)login_text.FindResource("MaterialDesignTextBoxBorder");
         }
     }
 }
