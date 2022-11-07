@@ -142,7 +142,9 @@ namespace Pikachu
 
             ///<summary>Запись данных в класс</summary>
             ///<param name="l">Список заголовков</param>
-            ///<param name="name">Имя таблицы из которой считаны данные</param>            
+            ///<param name="name">Имя таблицы из которой считаны данные</param> 
+            ///<param name="i">Только для таблицы names. 0 - запись заголовков (можно не указывать),
+            ///1 - запись прав доступа, 2 - запись паролей</param>
             ///<returns>Возвращает false при ошибке</returns>
             public bool SetData(List<string> l, string name, int i = 0)
             {
