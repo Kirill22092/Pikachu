@@ -72,30 +72,103 @@ namespace Pikachu
             private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
             private List<pribor> pribors = new();
 
+            /// <summary>
+            /// Класс для сохранения данных из таблицы main
+            /// Каждый экземпляр класса может содержать все поля одного прибора
+            /// </summary>
             public class pribor
             {
+                /// <summary>
+                /// Тип прибора (соответсвует столбцу title таблицы pribor)
+                /// </summary>
                 public string? pribor_tip { get; set; }
+                /// <summary>
+                /// Модификация прибора (соответсвует столбцу title таблицы modify)
+                /// </summary>
                 public string? pribor_mod { get; set; }
+                /// <summary>
+                /// Номер прибора
+                /// </summary>
                 public string? pribor_num { get; set; }
+                /// <summary>
+                /// Материал корпуса прибора (соответсвует столбцу title таблицы material)
+                /// </summary>
                 public string? pribor_mat { get; set; }
+                /// <summary>
+                /// 0 - прибор для РФ, 1 - для США, 2 - для Индии
+                /// </summary>
                 public string? pribor_exp { get; set; }
+                /// <summary>
+                /// Новый прибор или поступил в ремонт
+                /// </summary>
                 public string? pribor_rem { get; set; }
+                /// <summary>
+                /// Если прибор ремонтный - номер МСК
+                /// </summary>
                 public string? msk_num { get; set; }
+                /// <summary>
+                /// Газ прибора (соответсвует столбцу title таблицы gaz)
+                /// </summary>
                 public string? pribor_gaz { get; set; }
+                /// <summary>
+                /// Диапазон измерений прибора (соответсвует столбцу title таблицы range)
+                /// </summary>
                 public string? pribor_range { get; set; }
+                /// <summary>
+                /// Тип сенсора прибора (соответсвует столбцу title таблицы sensor)
+                /// </summary>
                 public string? pribor_sens { get; set; }
+                /// <summary>
+                /// Дата последней операции с прибором
+                /// </summary>
                 public string? last_date { get; set; }
+                /// <summary>
+                /// Фамилия сотрудника совершившего последнюю операцию (соответсвует столбцу title таблицы names)
+                /// </summary>
                 public string? last_name { get; set; }
+                /// <summary>
+                /// Статус последней операции с прибором
+                /// </summary>
                 public string? last_status { get; set; }
+                /// <summary>
+                /// Примечание к последней операции с прибором
+                /// </summary>
                 public string? last_note { get; set; }
+                /// <summary>
+                /// Дата последней операции на СНУ
+                /// </summary>
                 public string? date_snu { get; set; }
+                /// <summary>
+                /// Дата последней операции в КТХ
+                /// </summary>
                 public string? date_ktx { get; set; }
+                /// <summary>
+                /// Дата последней операции в ОКИ
+                /// </summary>
                 public string? date_oki { get; set; }
+                /// <summary>
+                /// Дата последней операции на УУиО
+                /// </summary>
                 public string? date_out { get; set; }
+                /// <summary>
+                /// Фамилия сотрудника на СНУ
+                /// </summary>
                 public string? name_snu { get; set; }
+                /// <summary>
+                /// Фамилия сотрудника на КТХ
+                /// </summary>
                 public string? name_ktx { get; set; }
+                /// <summary>
+                /// Фамилия сотрудника в ОКИ
+                /// </summary>
                 public string? name_oki { get; set; }
+                /// <summary>
+                /// Фамилия сотрудника на УУиО
+                /// </summary>
                 public string? name_out { get; set; }
+                /// <summary>
+                /// Организация куда отгружен прибор
+                /// </summary>
                 public string? name_zak { get; set; }
             }
 
@@ -103,9 +176,10 @@ namespace Pikachu
             ///<param name="l">Список ключей</param>
             ///<param name="name">Имя таблицы из которой считаны данные</param>
             ///<returns>Возвращает false при ошибке</returns>
-            public bool SetData(List<int> l, string name)
+            public void SetData(List<int> l, string name)
             {
-                if ((l == null) || (name == null)) return false;
+                if (l == null) throw new DB_DataException("Переданный список пуст");
+                if (name == null) throw new DB_DataException("Имя таблицы не может быть null");
                 l.RemoveAt(0);
                 switch (name)
                 {
@@ -141,9 +215,9 @@ namespace Pikachu
                         names_key.Clear();
                         names_key = l;
                         break;
-                    default: return false;
+                    default:
+                        throw new DB_DataException("Неверное имя таблицы", name);                        
                 }
-                return true;
             }
 
             ///<summary>Запись данных в класс</summary>
@@ -152,9 +226,10 @@ namespace Pikachu
             ///<param name="i">Только для таблицы names. 0 - запись заголовков (можно не указывать),
             ///1 - запись прав доступа, 2 - запись паролей</param>
             ///<returns>Возвращает false при ошибке</returns>
-            public bool SetData(List<string> l, string name, int i = 0)
+            public void SetData(List<string> l, string name, int i = 0)
             {
-                if ((l == null) || (name == null)) return false;
+                if (l == null) throw new DB_DataException("Переданный список пуст");
+                if (name == null) throw new DB_DataException("Имя таблицы не может быть null");
                 l.RemoveAt(0);
                 switch (name)
                 {
@@ -205,14 +280,14 @@ namespace Pikachu
                             names_title = l;
                             break;
                         }
-                    default: return false;
+                    default:
+                        throw new DB_DataException("Неверное имя таблицы", name);
                 }
-                return true;
             }
 
             ///<summary>Получение данных в виде списка. Данные таблицы names в этом методе не доступны.</summary>
             ///<param name="name">Имя таблицы данные которой нужно получить</param>
-            ///<returns>Возвращает List&lt;string&gt;. При ошибке в name возвращает null</returns>
+            ///<returns>Возвращает List&lt;string&gt;.</returns>
             public List<string>? GetData(string name)
             {
                 switch (name)
@@ -232,7 +307,7 @@ namespace Pikachu
                     case "status":
                         return status_title;
                     default:
-                        return null;
+                        throw new DB_DataException("Неверное имя таблицы", name);
                 }
             }
 
@@ -246,21 +321,20 @@ namespace Pikachu
             }
 
             ///<summary>Возвращает имя по индексу БД</summary>
-            ///<returns>Возвращает null при ошибке.</returns>
-            public string? GetName(string index)
+            public string GetName(string index)
             {
-                if (index == null) return null;
+                if (index == null) throw new DB_DataException("Параметр index не может быть null");
                 if (Int32.Parse(index) == -1) return " ";
                 return names_title[Int32.Parse(index)];
             }
 
-            ///<returns>Возвращает строку с паролем при совпадении. Возвращеет null при ошибке</returns>
-            public string? GetPass(string name)
+            ///<returns>Возвращает строку с паролем при совпадении. Возвращеет пустую строку при ошибке</returns>
+            public string GetPass(string name)
             {
                 int i = CheckName(name);
                 if (i == -1)
                 {
-                    return null;
+                    return "";
                 }
                 else
                 {
@@ -268,13 +342,13 @@ namespace Pikachu
                 }
             }
 
-            ///<returns>Возвращает строку с правами доступа при совпадении. Возвращеет null при ошибке</returns>
-            public string? GetRights(string name)
+            ///<returns>Возвращает строку с правами доступа при совпадении. Возвращеет пустую строку при ошибке</returns>
+            public string GetRights(string name)
             {
                 int i = CheckName(name);
                 if (i == -1)
                 {
-                    return null;
+                    return "";
                 }
                 else
                 {
@@ -286,9 +360,10 @@ namespace Pikachu
             ///<param name="table">Где ищем</param>
             ///<param name="name">Что ищем</param>
             ///<returns>Возвращает индекс в БД, -1 если прибор не найден, null при ошибке</returns>
-            public int? FindKey(string table, string name)
+            public int FindKey(string table, string name)
             {
-                if ((table == null) || (name == null)) return null;
+                if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
+                if (name == null) throw new DB_DataException("Поисковая строка не может быть null");
                 int i;
                 switch (table)
                 {
@@ -321,7 +396,7 @@ namespace Pikachu
                         if (i == -1) return -1;
                         return status_key[i];
                     default:
-                        return null;
+                        throw new DB_DataException("Неверное имя таблицы", table);
                 }
             }
 
@@ -331,7 +406,8 @@ namespace Pikachu
             ///<returns>Возвращает заголовок, пустой если индекс не найден, null при ошибке</returns>
             public string? FindTitle(string table, string name)
             {
-                if ((table == null) || (name == null)) return null;
+                if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
+                if (name == null) throw new DB_DataException("Поисковая строка не может быть null");
                 int i = Int32.Parse(name);
                 switch (table)
                 {
@@ -356,28 +432,23 @@ namespace Pikachu
                         if (i == -1) return "";
                         return status_title[status_key.FindIndex(p => p == i)];
                     default:
-                        return null;
+                        throw new DB_DataException("Неверное имя таблицы", table);
                 }
             }
             ///<summary>Запись прибора в класс. Заменяет индексы вспомогательных таблиц на соответствующие заголовки.</summary>
             ///<param name="l">List&lt;string&gt; полученный после чтения из БД</param>
-            ///<returns>Возвращает true, при ошибке возвращает false</returns>
-            public bool SetPribor(List<string> l)
+            public void SetPribor(List<string> l)
             {
-#pragma warning disable CS8604
-                if (l == null) return false;
-                pribor? p = Pribor(l);
-                if (p == null) return false;
+                if (l == null) throw new DB_DataException("Список не может быть null");
+                pribor p = Pribor(l);
                 pribors.Add(p);
-                return true;
-#pragma warning restore CS8604
             }
             ///<summary>Конвертация list&lt;string&gt; в pribor</summary>
             ///<param name="l">List&lt;string&gt; полученный после чтения из БД</param>
-            ///<returns>Возвращает pribor, при ошибке возвращает null</returns>
-            public pribor? Pribor(List<string> l)
+            ///<returns>Возвращает заполненный экземпляр pribor</returns>
+            public pribor Pribor(List<string> l)
             {
-                if (l == null) return null;
+                if (l == null) throw new DB_DataException("Список не может быть null");
                 pribor p = new()
                 {
                     pribor_tip = pribor_title[Int32.Parse(l[0])],
@@ -419,6 +490,7 @@ namespace Pikachu
             ///<returns>Возвращает один прибор</returns>
             public pribor GetPribor(int index)
             {
+                if (index < 0) throw new DB_DataException("Индекс не может быть отрицательным");
                 return (pribors[index]);
             }
 
@@ -427,6 +499,25 @@ namespace Pikachu
             {
                 pribors.Clear();
             }
+        }
+        /// <summary>
+        /// Класс иисключений для класса DB_Data
+        /// </summary>
+        public class DB_DataException : ArgumentException
+        {
+            /// <summary>
+            /// Конструктор по умолчанию
+            /// </summary>
+            /// <param name="message">Текст сообщения об ошибке</param>
+            /// <param name="value">Параметр вызвавший ошибку</param>
+            public DB_DataException(string message, string value) : base(message, value)
+            {}
+            /// <summary>
+            /// Конструктор по умолчанию
+            /// </summary>
+            /// <param name="message">Текст сообщения об ошибке</param>
+            public DB_DataException(string message) : base(message)
+            { }
         }
 
         public class archive
