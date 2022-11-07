@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+
+    <Style x:Key="EmptyNotValidTextBox"
+         TargetType="{x:Type TextBox}"
+         BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="CheckNotValidTextBox"
+         TargetType="{x:Type TextBox}"
+         BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Неверный логин" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="EmptyNotValidPassBox"
+         TargetType="{x:Type PasswordBox}"
+         BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="CheckNotValidPassBox"
+         TargetType="{x:Type PasswordBox}"
+         BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Неверный пароль" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+
+</ResourceDictionary>

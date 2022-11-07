@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Pikachu
 {
@@ -14,8 +13,6 @@ namespace Pikachu
             mainWindow = window;
             LoginIcon.Foreground = LoginBox.BorderBrush;
             Passicon.Foreground = PassBox.BorderBrush;
-            LoginBox.Foreground = LoginBox.BorderBrush;
-            PassBox.Foreground = PassBox.BorderBrush;
 #if DEBUG
             LoginBox.Text = "1";
             PassBox.Password = "1";
@@ -30,17 +27,11 @@ namespace Pikachu
             {
                 if (!result[0]) //если неверный логин
                 {
-                    HintAssist.SetHelperText(LoginBox, "Неверный логин");
-                    LoginBox.Foreground = mainWindow.rd;
-                    LoginBox.BorderBrush = mainWindow.rd;
-                    LoginIcon.Foreground = mainWindow.rd;
+                    PassBox.Style = mainWindow.TextBoxNotValidCheck;
                 }
                 if (!result[1]) //если неверный пароль
                 {
-                    HintAssist.SetHelperText(PassBox, "Неверный пароль");
-                    PassBox.Foreground = mainWindow.rd;
-                    PassBox.BorderBrush = mainWindow.rd;
-                    Passicon.Foreground = mainWindow.rd;
+                    PassBox.Style = mainWindow.PassBoxNotValidCheck;
                 }
                 AuthFailConnect.Visibility = !result[2] ? Visibility.Visible : Visibility.Collapsed;
                 if (result[0] && result[1] && result[2]) //если всё правильно, диалоговое окно закрывается, управление переходит главному окну
@@ -52,24 +43,19 @@ namespace Pikachu
 
         private void LoginBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            LoginIcon.Foreground = mainWindow.gr;
-            HintAssist.SetHelperText(LoginBox, "");
-            LoginBox.Foreground = mainWindow.stand;
-            LoginBox.BorderBrush = mainWindow.gr;
+            LoginBox.Style = mainWindow.TextBoxValid;
+            LoginIcon.Foreground = LoginBox.BorderBrush;
         }
 
         private void LoginBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (LoginBox.Text == "")
             {
-                HintAssist.SetHelperText(LoginBox, "Поле не может быть пустым");
-                LoginBox.Foreground = mainWindow.rd;
-                LoginBox.BorderBrush = mainWindow.rd;
+                LoginBox.Style = mainWindow.TextBoxNotValidEmpty;
             }
             else
             {
-                LoginBox.Foreground = mainWindow.stand;
-                LoginBox.BorderBrush = mainWindow.stand;
+                LoginBox.Style = mainWindow.TextBoxValid;
             }
             LoginIcon.Foreground = LoginBox.BorderBrush;
         }
@@ -78,24 +64,20 @@ namespace Pikachu
         {
             if (PassBox.Password == "")
             {
-                HintAssist.SetHelperText(PassBox, "Поле не может быть пустым");
-                PassBox.Foreground = mainWindow.rd;
-                PassBox.BorderBrush = mainWindow.rd;
+                PassBox.Style = mainWindow.PassBoxNotValidEmpty;
             }
             else
             {
-                PassBox.Foreground = mainWindow.stand;
-                PassBox.BorderBrush = mainWindow.stand;
+                PassBox.Style = mainWindow.PassBoxValid;
             }
             Passicon.Foreground = PassBox.BorderBrush;
+
         }
 
         private void PassBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            Passicon.Foreground = mainWindow.gr;
-            HintAssist.SetHelperText(PassBox, "");
-            PassBox.Foreground = mainWindow.stand;
-            PassBox.BorderBrush = mainWindow.gr;
+            PassBox.Style = mainWindow.PassBoxValid;
+            Passicon.Foreground = PassBox.BorderBrush;
         }
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

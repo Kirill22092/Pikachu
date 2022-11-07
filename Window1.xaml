@@ -34,7 +34,7 @@
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                  materialDesign:HintAssist.Hint="Логин" 
                  Margin="0,120,0,0" 
-                 Height="38" 
+                 Height="38"
                  VerticalAlignment="Top" 
                  HorizontalAlignment="Center" 
                  Width="186" 
@@ -45,7 +45,7 @@
         <materialDesign:PackIcon x:Name="LoginIcon"
                                  Kind="UserOutline" 
                                  Height="20" 
-                                 Margin="0,128,214,0" HorizontalAlignment="Right" Width="20" Foreground="#FFC5C5C5"/>
+                                 Margin="0,128,214,0" HorizontalAlignment="Right" Width="20"/>
         <Button materialDesign:ElevationAssist.Elevation="Dp0" 
                 Content="Войти" 
                 HorizontalAlignment="Center" 

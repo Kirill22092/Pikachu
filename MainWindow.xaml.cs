@@ -268,14 +268,11 @@
                     TextBox t = (TextBox)sender;
                     if ((t.Text == "") && (t.Name == "text_num"))
                     {
-                        HintAssist.SetHelperText(t, "Поле не может быть пустым");
-                        t.Foreground = rd;
-                        t.BorderBrush = rd;
+                        t.Style = TextBoxNotValidEmpty;
                     }
                     else
                     {
-                        t.Foreground = stand;
-                        t.BorderBrush = stand;
+                        t.Style = TextBoxValid;
                     }
                     break;
                 case 3:
@@ -307,9 +304,7 @@
                     break;
                 case 2:
                     TextBox t = (TextBox)sender;
-                    HintAssist.SetHelperText(t, "");
-                    t.Foreground = stand;
-                    t.BorderBrush = gr;
+                    t.Style = TextBoxValid;
                     break;
                 case 3:
                     DatePicker d = (DatePicker)sender;

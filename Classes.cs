@@ -16,6 +16,12 @@ namespace Pikachu
         internal Brush gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
         internal Brush rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
         internal Brush stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
+        internal readonly Style TextBoxValid = (Style)Application.Current.FindResource("MaterialDesignFloatingHintTextBox");
+        internal readonly Style TextBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidTextBox");
+        internal readonly Style TextBoxNotValidCheck = (Style)Application.Current.FindResource("CheckNotValidTextBox");
+        internal readonly Style PassBoxValid = (Style)Application.Current.FindResource("MaterialDesignFloatingHintPasswordBox");
+        internal readonly Style PassBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidPassBox");
+        internal readonly Style PassBoxNotValidCheck = (Style)Application.Current.FindResource("CheckNotValidPassBox");
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
