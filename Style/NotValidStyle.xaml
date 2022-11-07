@@ -6,6 +6,7 @@
          TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
         <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
         <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
@@ -17,6 +18,7 @@
          TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
         <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
         <Setter Property="wpf:HintAssist.HelperText" Value="Неверный логин" />
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
@@ -28,7 +30,8 @@
          TargetType="{x:Type PasswordBox}"
          BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
         <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
-        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" /> 
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
@@ -39,12 +42,22 @@
          TargetType="{x:Type PasswordBox}"
          BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
         <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
         <Setter Property="wpf:HintAssist.HelperText" Value="Неверный пароль" />
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="SelectionTextBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="EmptyNotValidComboBox"
+         TargetType="{x:Type ComboBox}"
+         BasedOn="{StaticResource MaterialDesignFilledComboBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
     </Style>
 
 </ResourceDictionary>
