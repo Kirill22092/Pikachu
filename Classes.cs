@@ -13,9 +13,9 @@ namespace Pikachu
     {
 #pragma warning disable IDE0044 // Добавить модификатор только для чтения
         internal Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal Brush gr = (Brush) Application.Current.FindResource("PrimaryHueMidBrush");
-        internal Brush rd = (Brush) Application.Current.FindResource("SecondaryHueMidBrush");
-        internal Brush stand = (Brush) Application.Current.FindResource("MaterialDesignTextBoxBorder");
+        internal Brush gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
+        internal Brush rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
+        internal Brush stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
@@ -34,7 +34,7 @@ namespace Pikachu
         private List<string> sensor_title = new();
         private List<int> status_key = new();
         private List<string> status_title = new();
-        private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ"};
+        private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
         private Thread Th_N = new(() => { });
         private object locker = new();
         private object locker_O = new();
@@ -69,13 +69,13 @@ namespace Pikachu
             public class pribor
             {
                 public string? pribor_tip { get; set; }
-                public string? pribor_mod {get;set;}
+                public string? pribor_mod { get; set; }
                 public string? pribor_num { get; set; }
-                public string? pribor_mat {get;set;}
-                public string? pribor_exp {get;set;}
-                public string? pribor_rem {get;set;}
-                public string? msk_num {get;set;}
-                public string? pribor_gaz {get;set;}
+                public string? pribor_mat { get; set; }
+                public string? pribor_exp { get; set; }
+                public string? pribor_rem { get; set; }
+                public string? msk_num { get; set; }
+                public string? pribor_gaz { get; set; }
                 public string? pribor_range { get; set; }
                 public string? pribor_sens { get; set; }
                 public string? last_date { get; set; }
@@ -99,7 +99,7 @@ namespace Pikachu
             ///<returns>Возвращает false при ошибке</returns>
             public bool SetData(List<int> l, string name)
             {
-                if ((l == null) || (name == null)) return false; 
+                if ((l == null) || (name == null)) return false;
                 l.RemoveAt(0);
                 switch (name)
                 {
@@ -116,7 +116,7 @@ namespace Pikachu
                         modify_key = l;
                         break;
                     case "gaz":
-                        gaz_key.Clear();   
+                        gaz_key.Clear();
                         gaz_key = l;
                         break;
                     case "range":
@@ -142,11 +142,9 @@ namespace Pikachu
 
             ///<summary>Запись данных в класс</summary>
             ///<param name="l">Список заголовков</param>
-            ///<param name="name">Имя таблицы из которой считаны данные</param>
-            ///<param name="i">Только для таблицы names. 0 - запись заголовков (можно не указывать),
-            ///1 - запись прав доступа, 2 - запись паролей</param>
+            ///<param name="name">Имя таблицы из которой считаны данные</param>            
             ///<returns>Возвращает false при ошибке</returns>
-            public bool SetData(List<string> l, string name, int i=0)
+            public bool SetData(List<string> l, string name, int i = 0)
             {
                 if ((l == null) || (name == null)) return false;
                 l.RemoveAt(0);
@@ -186,18 +184,20 @@ namespace Pikachu
                             names_rights.Clear();
                             names_rights = l;
                             break;
-                        } else if (i == 2)
+                        }
+                        else if (i == 2)
                         {
                             names_pass.Clear();
                             names_pass = l;
                             break;
-                        } else
+                        }
+                        else
                         {
                             names_title.Clear();
                             names_title = l;
                             break;
                         }
-                        default: return false;
+                    default: return false;
                 }
                 return true;
             }
@@ -234,7 +234,7 @@ namespace Pikachu
             {
                 if (name == null) return -1;
                 int i = names_title.FindIndex(p => p == name);
-                return i;                
+                return i;
             }
 
             ///<summary>Возвращает имя по индексу БД</summary>
@@ -253,8 +253,8 @@ namespace Pikachu
                 if (i == -1)
                 {
                     return null;
-                } 
-                else 
+                }
+                else
                 {
                     return names_pass[i];
                 }
@@ -351,49 +351,58 @@ namespace Pikachu
                         return null;
                 }
             }
-            ///<summary>Запись приборов в класс. Заменяет индексы вспомогательных таблиц на соответствующие заголовки.</summary>
+            ///<summary>Запись прибора в класс. Заменяет индексы вспомогательных таблиц на соответствующие заголовки.</summary>
             ///<param name="l">List&lt;string&gt; полученный после чтения из БД</param>
-            ///<returns>Возвращает false при ошибке</returns>
-            public bool SetPribors(List<pribor> l)
+            ///<returns>Возвращает true, при ошибке возвращает false</returns>
+            public bool SetPribor(List<string> l)
             {
-                #pragma warning disable CS8604
+#pragma warning disable CS8604
                 if (l == null) return false;
-                for (int i = 0; i < l.Count; i++)
-                {
-                    pribor p = l[i];
-                    pribors.Add(new pribor());
-                    pribors[i].pribor_tip = pribor_title[Int32.Parse(p.pribor_tip)];
-                    pribors[i].pribor_mod = FindTitle("modify", p.pribor_mod);
-                    pribors[i].pribor_num = p.pribor_num;
-                    pribors[i].pribor_mat = FindTitle("material", p.pribor_mat);
-                    pribors[i].pribor_exp = exp[Int32.Parse(p.pribor_exp)];
-                    pribors[i].pribor_rem = p.pribor_rem;
-                    pribors[i].msk_num = p.msk_num;
-                    pribors[i].pribor_gaz = FindTitle("gaz", p.pribor_gaz);
-                    pribors[i].pribor_range = FindTitle("range", p.pribor_range);
-                    pribors[i].pribor_sens = FindTitle("sensor", p.pribor_sens);
-                    pribors[i].last_date = p.last_date;
-                    pribors[i].last_name = GetName(p.last_name);
-                    pribors[i].last_status = FindTitle("status", p.last_status);
-                    pribors[i].last_note = p.last_note;
-                    pribors[i].date_snu = p.date_snu;
-                    pribors[i].date_ktx = p.date_ktx;
-                    pribors[i].date_oki = p.date_oki;
-                    pribors[i].date_out = p.date_out;
-                    pribors[i].name_snu = GetName(p.name_snu);
-                    pribors[i].name_ktx = GetName(p.name_ktx);
-                    pribors[i].name_oki = GetName(p.name_oki);
-                    pribors[i].name_out = GetName(p.name_out);
-                    pribors[i].name_zak = p.name_zak;                    
-                }
+                pribor? p = Pribor(l);
+                if (p == null) return false;
+                pribors.Add(p);
                 return true;
-                #pragma warning restore CS8604
+#pragma warning restore CS8604
+            }
+            ///<summary>Конвертация list&lt;string&gt; в pribor</summary>
+            ///<param name="l">List&lt;string&gt; полученный после чтения из БД</param>
+            ///<returns>Возвращает pribor, при ошибке возвращает null</returns>
+            public pribor? Pribor(List<string> l)
+            {
+                if (l == null) return null;
+                pribor p = new()
+                {
+                    pribor_tip = pribor_title[Int32.Parse(l[0])],
+                    pribor_num = l[1],
+                    pribor_mat = FindTitle("material", l[2]),
+                    pribor_exp = exp[Int32.Parse(l[3])],
+                    pribor_rem = l[4],
+                    msk_num = l[5],
+                    pribor_gaz = FindTitle("gaz", l[6]),
+                    pribor_range = FindTitle("range", l[7]),
+                    pribor_sens = FindTitle("sensor", l[8]),
+                    last_date = l[9],
+                    last_name = GetName(l[10]),
+                    last_status = FindTitle("status", l[11]),
+                    last_note = l[12],
+                    date_snu = l[13],
+                    date_ktx = l[14],
+                    date_oki = l[15],
+                    date_out = l[16],
+                    name_snu = GetName(l[17]),
+                    name_ktx = GetName(l[18]),
+                    name_oki = GetName(l[19]),
+                    name_out = GetName(l[20]),
+                    name_zak = l[21],
+                    pribor_mod = FindTitle("modify", l[22])
+                };
+                return p;
             }
 
             ///<summary>Получение приборов из класса</summary>
             ///<returns>Возвращает список всех приборов</returns>
             public List<pribor> GetPribors()
-            {               
+            {
                 return pribors;
             }
 
@@ -403,6 +412,12 @@ namespace Pikachu
             public pribor GetPribor(int index)
             {
                 return (pribors[index]);
+            }
+
+            ///<summary>Очистка сохраненных в классе приборов</summary>
+            public void Clear()
+            {
+                pribors.Clear();
             }
         }
 
@@ -444,6 +459,6 @@ namespace Pikachu
             gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
             rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
             stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
-    }
+        }
     }
 }
