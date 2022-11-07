@@ -42,8 +42,8 @@ namespace Pikachu
         private bool DarkTheme;
         private object locker_P = new();
 
+        ///<summary>Класс для хранения и обработки полученных из базы данных</summary>
         public class DB_Data
-            ///<summary>Класс для хранения и обработки полученных из базы данных</summary>
         {
             private List<int> names_key = new();
             private List<string> names_title = new();
@@ -93,12 +93,12 @@ namespace Pikachu
                 public string? name_zak { get; set; }
             }
 
+            ///<summary>Запись данных в класс</summary>
+            ///<param name="l">Список ключей</param>
+            ///<param name="name">Имя таблицы из которой считаны данные</param>
+            ///<returns>Возвращает false при ошибке</returns>
             public bool SetData(List<int> l, string name)
             {
-                ///<summary>Запись данных в класс</summary>
-                ///<param name="l">Список ключей</param>
-                ///<param name="name">Имя таблицы из которой считаны данные</param>
-                ///<returns>Возвращает false при ошибке</returns>
                 if ((l == null) || (name == null)) return false; 
                 l.RemoveAt(0);
                 switch (name)
@@ -139,14 +139,15 @@ namespace Pikachu
                 }
                 return true;
             }
+
+            ///<summary>Запись данных в класс</summary>
+            ///<param name="l">Список заголовков</param>
+            ///<param name="name">Имя таблицы из которой считаны данные</param>
+            ///<param name="i">Только для таблицы names. 0 - запись заголовков (можно не указывать),
+            ///1 - запись прав доступа, 2 - запись паролей</param>
+            ///<returns>Возвращает false при ошибке</returns>
             public bool SetData(List<string> l, string name, int i=0)
             {
-                ///<summary>Запись данных в класс</summary>
-                ///<param name="l">Список заголовков</param>
-                ///<param name="name">Имя таблицы из которой считаны данные</param>
-                ///<param name="i">Только для таблицы names. 0 - запись заголовков (можно не указывать),
-                ///1 - запись прав доступа, 2 - запись паролей</param>
-                ///<returns>Возвращает false при ошибке</returns>
                 if ((l == null) || (name == null)) return false;
                 l.RemoveAt(0);
                 switch (name)
@@ -200,11 +201,12 @@ namespace Pikachu
                 }
                 return true;
             }
+
+            ///<summary>Получение данных в виде списка. Данные таблицы names в этом методе не доступны.</summary>
+            ///<param name="name">Имя таблицы данные которой нужно получить</param>
+            ///<returns>Возвращает List&lt;string&gt;. При ошибке в name возвращает null</returns>
             public List<string>? GetData(string name)
             {
-                ///<summary>Получение данных в виде списка. Данные таблицы names в этом методе не доступны.</summary>
-                ///<param name="name">Имя таблицы данные которой нужно получить</param>
-                ///<returns>Возвращает List<string>. При ошибке в name возвращает null</returns>
                 switch (name)
                 {
                     case "pribor":
@@ -225,25 +227,28 @@ namespace Pikachu
                         return null;
                 }
             }
+
+            ///<summary>Проверяет есть ли такое имя.</summary>
+            ///<returns>Возвращает -1 при ошибке.</returns>
             public int CheckName(string name)
             {
-                ///<summary>Проверяет есть ли такое имя.</summary>
-                ///<returns>Возвращает -1 при ошибке.</returns>
                 if (name == null) return -1;
                 int i = names_title.FindIndex(p => p == name);
                 return i;                
             }
+
+            ///<summary>Возвращает имя по индексу БД</summary>
+            ///<returns>Возвращает null при ошибке.</returns>
             public string? GetName(string index)
             {
-                ///<summary>Возвращает имя по индексу БД</summary>
-                ///<returns>Возвращает null при ошибке.</returns>
                 if (index == null) return null;
                 if (Int32.Parse(index) == -1) return " ";
                 return names_title[Int32.Parse(index)];
             }
+
+            ///<returns>Возвращает строку с паролем при совпадении. Возвращеет null при ошибке</returns>
             public string? GetPass(string name)
             {
-                ///<returns>Возвращает строку с паролем при совпадении. Возвращеет null при ошибке</returns>
                 int i = CheckName(name);
                 if (i == -1)
                 {
@@ -254,9 +259,10 @@ namespace Pikachu
                     return names_pass[i];
                 }
             }
+
+            ///<returns>Возвращает строку с правами доступа при совпадении. Возвращеет null при ошибке</returns>
             public string? GetRights(string name)
             {
-                ///<returns>Возвращает строку с правами доступа при совпадении. Возвращеет null при ошибке</returns>
                 int i = CheckName(name);
                 if (i == -1)
                 {
@@ -267,12 +273,13 @@ namespace Pikachu
                     return names_rights[i];
                 }
             }
+
+            ///<summary>Поиск индекса</summary>
+            ///<param name="table">Где ищем</param>
+            ///<param name="name">Что ищем</param>
+            ///<returns>Возвращает индекс в БД, -1 если прибор не найден, null при ошибке</returns>
             public int? FindKey(string table, string name)
             {
-                ///<summary>Поиск индекса</summary>
-                ///<param name="table">Где ищем</param>
-                ///<param name="name">Что ищем</param>
-                ///<returns>Возвращает индекс в БД, -1 если прибор не найден, null при ошибке</returns>
                 if ((table == null) || (name == null)) return null;
                 int i;
                 switch (table)
@@ -309,12 +316,13 @@ namespace Pikachu
                         return null;
                 }
             }
+
+            ///<summary>Поиск заголовка по индексу</summary>
+            ///<param name="table">Где ищем</param>
+            ///<param name="name">Что ищем</param>
+            ///<returns>Возвращает заголовок, пустой если индекс не найден, null при ошибке</returns>
             public string? FindTitle(string table, string name)
             {
-                ///<summary>Поиск заголовка по индексу</summary>
-                ///<param name="table">Где ищем</param>
-                ///<param name="name">Что ищем</param>
-                ///<returns>Возвращает заголовок, пустой если индекс не найден, null при ошибке</returns>
                 if ((table == null) || (name == null)) return null;
                 int i = Int32.Parse(name);
                 switch (table)
@@ -343,12 +351,12 @@ namespace Pikachu
                         return null;
                 }
             }
+            ///<summary>Запись приборов в класс. Заменяет индексы вспомогательных таблиц на соответствующие заголовки.</summary>
+            ///<param name="l">List&lt;string&gt; полученный после чтения из БД</param>
+            ///<returns>Возвращает false при ошибке</returns>
             public bool SetPribors(List<pribor> l)
             {
                 #pragma warning disable CS8604
-                ///<summary>Запись приборов в класс. Заменяет индексы вспомогательных таблиц на соответствующие заголовки.</summary>
-                ///<param name="l">List<pribor> полученный после чтения из БД</param>
-                ///<returns>Возвращает false при ошибке</returns>
                 if (l == null) return false;
                 for (int i = 0; i < l.Count; i++)
                 {
@@ -381,17 +389,19 @@ namespace Pikachu
                 return true;
                 #pragma warning restore CS8604
             }
+
+            ///<summary>Получение приборов из класса</summary>
+            ///<returns>Возвращает список всех приборов</returns>
             public List<pribor> GetPribors()
-            {
-                ///<summary>Получение приборов из класса</summary>
-                ///<returns>Возвращает список всех приборов</returns>
+            {               
                 return pribors;
             }
+
+            ///<summary>Получение прибора из класса</summary>
+            ///<param name="index">Индекс прибора</param>
+            ///<returns>Возвращает один прибор</returns>
             public pribor GetPribor(int index)
             {
-                ///<summary>Получение прибора из класса</summary>
-                ///<param name="index">Индекс прибора</param>
-                ///<returns>Возвращает один прибор</returns>
                 return (pribors[index]);
             }
         }
@@ -416,6 +426,8 @@ namespace Pikachu
             SetTheme(true);
         }
 
+        ///<summary>Класс изменения темы или применения сохраненных параметров</summary>
+        ///<param name="Start">Индекс прибора</param>
         public void SetTheme(bool Start)
         {
             if (!Start)

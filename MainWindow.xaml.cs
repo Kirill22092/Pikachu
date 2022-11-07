@@ -179,17 +179,14 @@
             if (e.Source.GetType() == typeof(ComboBox))
             {
                 lost(e.Source, e);
-                e.Handled = true;
             }
             if (e.Source.GetType() == typeof(TextBox))
             {
                 lost(e.Source, e, 2);
-                e.Handled = true;
             }
             if (e.Source.GetType() == typeof(DatePicker))
             {
                 lost(e.Source, e, 3);
-                e.Handled = true;
             }
         }
 
@@ -198,17 +195,14 @@
             if (e.Source.GetType() == typeof(ComboBox))
             {
                 got(e.Source, e);
-                e.Handled = true;
             }
             if (e.Source.GetType() == typeof(TextBox))
             {
                 got(e.Source, e, 2);
-                e.Handled = true;
             }
             if (e.Source.GetType() == typeof(DatePicker))
             {
                 got(e.Source, e, 3);
-                e.Handled = true;
             }
         }
 
@@ -345,7 +339,7 @@
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-
+            SetTheme(false);
         }
     }
 }
