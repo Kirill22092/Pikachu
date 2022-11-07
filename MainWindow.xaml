@@ -188,7 +188,7 @@
             <TabItem
     Header="Поиск">
                 <Grid>
-                    <Button HorizontalAlignment="Left" Margin="194,0,0,0" VerticalAlignment="Center" Click="Button_Click_3">
+                    <Button HorizontalAlignment="Left" Margin="194,0,0,0" VerticalAlignment="Center" Click="Button_Click_5">
                         <Button Content="Button"/>
                     </Button>
 

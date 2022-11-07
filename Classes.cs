@@ -171,6 +171,24 @@ namespace Pikachu
                 /// </summary>
                 public string? name_zak { get; set; }
             }
+            /// <summary>
+            /// Класс для сохранения данных из таблицы archive
+            /// Каждый экземпляр класса может содержать архив одного прибора.
+            /// </summary>
+            public class archive
+            {
+                public DateTime[] date { get; set; }
+                public int[] status { get; set; }
+                public int[] name { get; set; }
+                public string[] note { get; set; }
+                public archive(int count)
+                {
+                    date = new DateTime[count];
+                    status = new int[count];
+                    name = new int[count];
+                    note = new string[count];
+                }
+            }
 
             ///<summary>Запись данных в класс</summary>
             ///<param name="l">Список ключей</param>
@@ -520,20 +538,6 @@ namespace Pikachu
             { }
         }
 
-        public class archive
-        {
-            public DateTime[] date { get; set; }
-            public int[] status { get; set; }
-            public int[] name { get; set; }
-            public string[] note { get; set; }
-            public archive(int count)
-            {
-                date = new DateTime[count];
-                status = new int[count];
-                name = new int[count];
-                note = new string[count];
-            }
-        }
         private void paint() //красим элементы
         {
             DarkTheme = Properties.Settings.Default.Dark;

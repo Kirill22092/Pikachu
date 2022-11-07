@@ -4,10 +4,12 @@
     using MaterialDesignThemes.Wpf;
     using Npgsql;
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
     using System.Windows.Input;
 
     public partial class MainWindow : Window
@@ -335,6 +337,39 @@
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             SetTheme(false);
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            string sql = $"SELECT * FROM archive;";
+            iQuery = new(sql, iConnect); //читаем из БД таблицу...
+            NpgsqlDataReader reader = iQuery.ExecuteReader();
+            if (iConnect.State == ConnectionState.Open)
+            {
+                int[] sa = new int[4];
+                int[] na = new int[4];
+                string[] nt = new string[4];
+                DateTime[] dt = new DateTime[4];
+                List<string> l = new();
+                while (reader.Read())
+                {
+
+                    l.Add(reader.GetInt32(0).ToString());
+                    l.Add(reader.GetInt32(1).ToString());
+                    l.Add(reader.GetInt32(2).ToString());
+
+
+                    dt = reader.GetFieldValue<DateTime[]>(3);
+                    sa = reader.GetFieldValue<int[]>(4);
+                    na = reader.GetFieldValue<int[]>(5);
+                    nt = reader.GetFieldValue<string[]>(6);
+                }
+                Debug.WriteLine($"{l[0]} + {l[1]} + {l[2]}");
+                for (int i=0; i<4; i++)
+                {
+                    Debug.WriteLine($"{dt[i].ToString()} + {sa[i].ToString()} + {na[i].ToString()} + {nt[i].ToString()}");
+                }
+            }
         }
     }
 }
