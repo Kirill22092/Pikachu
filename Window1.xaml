@@ -25,27 +25,30 @@
                    FontSize="20" 
                    FontWeight="Bold" 
                    TextAlignment="Center" 
-                   Height="90" 
+                   Height="26" 
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Center" 
                    Width="288">
         </TextBlock>
         <TextBox x:Name="LoginBox"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                 Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                 materialDesign:TextFieldAssist.HasClearButton="True"
                  materialDesign:HintAssist.Hint="Логин" 
                  Margin="0,120,0,0" 
                  Height="38"
                  VerticalAlignment="Top" 
+                 materialDesign:HintAssist.FloatingOffset="0, -12"
                  HorizontalAlignment="Center" 
                  Width="186" 
-                 Padding="33,3,3,0" 
+                 Padding="33,3,5,0" 
                  materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
                  MaxLines="1" 
                  TabIndex="1" GotFocus="LoginBox_GotFocus" LostFocus="LoginBox_LostFocus"/>
         <materialDesign:PackIcon x:Name="LoginIcon"
                                  Kind="UserOutline" 
                                  Height="20" 
-                                 Margin="0,128,214,0" HorizontalAlignment="Right" Width="20"/>
+                                 Margin="0,128,212,0" HorizontalAlignment="Right" Width="20"/>
         <Button materialDesign:ElevationAssist.Elevation="Dp0" 
                 Content="Войти" 
                 HorizontalAlignment="Center" 
@@ -55,9 +58,10 @@
                 VerticalAlignment="Top" 
                 Cursor="Hand" 
                 IsDefault="True"
-                TabIndex="3" Click="Button_Click"/>
+                TabIndex="3" Click="Button_Click" Foreground="White"/>
         <PasswordBox x:Name="PassBox" 
-                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                     Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
+                     Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                      materialDesign:TextFieldAssist.HasClearButton="True"
                      materialDesign:TextFieldAssist.TextBoxViewMargin="0,0,0,6"
                      materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
@@ -67,16 +71,16 @@
                      VerticalAlignment="Top" 
                      HorizontalAlignment="Center" 
                      Width="186" 
-                     Padding="33,3,5,0" 
+                     Padding="33,2,5,0" 
                      TabIndex="2" 
                      LostFocus="PassBox_LostFocus" GotFocus="PassBox_GotFocus"/>
         <materialDesign:PackIcon x:Name="Passicon" 
                                  Kind="LockOutline" 
                                  Width="20" 
                                  Height="20" 
-                                 Margin="0,186,214,0" HorizontalAlignment="Right"/>
+                                 Margin="0,186,212,0" HorizontalAlignment="Right"/>
         <Button Content="{materialDesign:PackIcon Close}" 
-            Style="{StaticResource MaterialDesignFlatButton}"
+            Style="{DynamicResource MaterialDesignFlatButton}"
             Padding="0,0,0,0"
             HorizontalAlignment="Right" 
             Margin="0,8,8,0" 
