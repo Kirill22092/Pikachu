@@ -16,7 +16,7 @@
     <Grid>
 
         <TextBlock Margin="15,5,0,0" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="200">
-  <Hyperlink Style="{StaticResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click">
+  <Hyperlink Style="{DynamicResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click">
       <TextBlock x:Name="login_text" Foreground="{DynamicResource PrimaryHueMidBrush}" Text="EXAMPLE"/>
 </Hyperlink>
         </TextBlock>
@@ -55,7 +55,7 @@
                     <ProgressBar Margin="16"
                              HorizontalAlignment="Center"
                              IsIndeterminate="True"
-                             Style="{StaticResource MaterialDesignCircularProgressBar}"
+                             Style="{DynamicResource MaterialDesignCircularProgressBar}"
                              Value="0" />
                     <TextBlock Text="Add a new fruit." />
 
@@ -68,7 +68,7 @@
                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                         Content="ACCEPT"
                         IsDefault="True"
-                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Style="{DynamicResource MaterialDesignFlatButton}">
                             <Button.CommandParameter>
                                 <system:Boolean>True</system:Boolean>
                             </Button.CommandParameter>
@@ -78,7 +78,7 @@
                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                         Content="CANCEL"
                         IsCancel="True"
-                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Style="{DynamicResource MaterialDesignFlatButton}">
                             <Button.CommandParameter>
                                 <system:Boolean>False</system:Boolean>
                             </Button.CommandParameter>
@@ -106,14 +106,14 @@
                             <ProgressBar Margin="16"
                              HorizontalAlignment="Center"
                              IsIndeterminate="True"
-                             Style="{StaticResource MaterialDesignCircularProgressBar}"
+                             Style="{DynamicResource MaterialDesignCircularProgressBar}"
                              Value="0" />
                             <Button HorizontalAlignment="Center"
                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                         CommandParameter="false"
                         Content="CANCEL"
                         IsCancel="True"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{DynamicResource MaterialDesignFlatButton}" />
                         </StackPanel>
                     </Button.CommandParameter>
                 </Button>
@@ -130,75 +130,92 @@
                   Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                   Content="AWESOME"
                   IsDefault="True"
-                  Style="{StaticResource MaterialDesignFlatButton}" />
+                  Style="{DynamicResource MaterialDesignFlatButton}" />
                         </StackPanel>
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
         </materialDesign:DialogHost>
-        <TabControl
-  Height="250"
-  TabStripPlacement="Bottom" VerticalAlignment="Bottom">
-            <TabItem
-    Header="Внесение" Width="360">
-                <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80*"/>
-                        <ColumnDefinition Width="1021*"/>
-                    </Grid.ColumnDefinitions>
-                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_pribors"  materialDesign:HintAssist.Hint=" Выберите прибор" Style="{StaticResource MaterialDesignFilledComboBox}"
+        <Expander
+    ExpandDirection="Right" Margin="0,328,0,0" Padding="0,-50,0,-90" IsExpanded="True">
+            <Expander.Header>
+                <TextBlock
+        Text="Управление"
+        RenderTransformOrigin=".5,.5">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform
+            Angle="90" />
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <StackPanel
+      Orientation="Vertical"
+      TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+      Margin="24,8,24,16">
+                <TabControl
+  Height="250" 
+  TabStripPlacement="Top">
+                    <TabItem
+    Header="Внесение" Width="570">
+                        <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp" Width="1178">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80*"/>
+                                <ColumnDefinition Width="1021*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_pribors"  materialDesign:HintAssist.Hint=" Выберите прибор" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="190,22,0,0" VerticalAlignment="Top" Width="200" IsEditable="True" Padding="5,0,15,5" Grid.Column="1"/>
-                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_materials"  materialDesign:HintAssist.Hint=" Исполнение корпуса" Style="{StaticResource MaterialDesignFilledComboBox}"
+                              HorizontalAlignment="Left" Margin="198,23,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_materials"  materialDesign:HintAssist.Hint=" Исполнение корпуса" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="433,111,0,0" VerticalAlignment="Top" Width="200" IsEditable="True" Padding="5,0,15,5" Grid.Column="1"/>
-                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_gaz"  materialDesign:HintAssist.Hint=" Выберите газ" Style="{StaticResource MaterialDesignFilledComboBox}"
+                              HorizontalAlignment="Left" Margin="430,110,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_gaz"  materialDesign:HintAssist.Hint=" Выберите газ" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.TrailingIcon="Abc" materialDesign:TextFieldAssist.LeadingIcon="GasCylinder"
-                              HorizontalAlignment="Left" Margin="433,52,0,0" VerticalAlignment="Top" Width="200" IsEditable="True" Padding="5,0,15,5" Grid.Column="1"/>
-                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_range"  materialDesign:HintAssist.Hint=" Выберите диапазон" Style="{StaticResource MaterialDesignFilledComboBox}"
+                              HorizontalAlignment="Left" Margin="430,51,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_range"  materialDesign:HintAssist.Hint=" Выберите диапазон" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="190,139,0,0" VerticalAlignment="Top" Width="200" IsEditable="True" Padding="5,0,15,5" Grid.Column="1"/>
-                    <TextBox x:Name="text_num" materialDesign:HintAssist.Hint="Номер прибора"  materialDesign:TextFieldAssist.HasLeadingIcon="True" materialDesign:TextFieldAssist.LeadingIcon="Pound"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="44,39,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                              HorizontalAlignment="Left" Margin="198,140,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                            <TextBox x:Name="text_num" materialDesign:HintAssist.Hint="Номер прибора"  materialDesign:TextFieldAssist.HasLeadingIcon="True" materialDesign:TextFieldAssist.LeadingIcon="Pound"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="44,39,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                              VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
                              Padding="5,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
                              MaxLines="1" TabIndex="1" materialDesign:HintAssist.IsFloating="True" Height="30" Grid.ColumnSpan="2"/>
-                    <ListBox Style="{StaticResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,93,0,0" Height="30" Width="150" Grid.ColumnSpan="2">
-                        <ListBoxItem Content="РФ" />
-                        <ListBoxItem Content="India" />
-                        <ListBoxItem Content="USA" />
-                    </ListBox>
-                    <ComboBox StaysOpenOnEdit="True" x:Name="combo_modify"  materialDesign:HintAssist.Hint=" Выберите модификацию" Style="{StaticResource MaterialDesignFilledComboBox}"
+                            <ListBox Style="{DynamicResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,93,0,0" Height="30" Width="150" Grid.ColumnSpan="2">
+                                <ListBoxItem Content="РФ" />
+                                <ListBoxItem Content="India" />
+                                <ListBoxItem Content="USA" />
+                            </ListBox>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_modify"  materialDesign:HintAssist.Hint=" Выберите модификацию" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="190,80,0,0" VerticalAlignment="Top" Width="200" IsEditable="True" Padding="5,0,15,5" Grid.Column="1"/>
-                    <DatePicker x:Name="date_snu" Style="{StaticResource MaterialDesignFilledDatePicker}"
+                              HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Center" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                            <DatePicker x:Name="date_snu" Style="{DynamicResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top" materialDesign:HintAssist.FloatingOffset="0, -18" 
                                 HorizontalAlignment="Left" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на СНУ" Padding="5,0,5,0" Grid.Column="1" Margin="670,19,0,0" UseLayoutRounding="False" Text="01.01.01" />
-                    <DatePicker x:Name="date_ktx" Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на СНУ" Padding="5,0,5,0" Grid.Column="1" Margin="661,21,0,0" UseLayoutRounding="False" />
+                            <DatePicker x:Name="date_ktx" Style="{DynamicResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в КТХ" Padding="5,0,5,0" Margin="670,108,0,34" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
-                    <DatePicker x:Name="date_oki" Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в КТХ" Padding="5,0,5,0" Margin="661,110,0,32" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
+                            <DatePicker x:Name="date_oki" Style="{DynamicResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="876,19,0,0" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;в ОКИ" Padding="5,0,5,0" Grid.Column="1" />
-                    <DatePicker x:Name="date_out" Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                HorizontalAlignment="Left" Margin="867,21,0,0" Width="180" Height="60"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в ОКИ" Padding="5,0,5,0" Grid.Column="1" />
+                            <DatePicker x:Name="date_out" Style="{StaticResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="876,108,0,34" Width="180"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#10;на УУиО" Padding="5,0,5,0" Height="60" Grid.Column="1" />
-                </Grid>
-            </TabItem>
-            <TabItem
+                                HorizontalAlignment="Left" Margin="867,110,0,32" Width="180"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" Height="60" Grid.Column="1" />
+                        </Grid>
+                    </TabItem>
+                    <TabItem
     Header="Поиск">
-                <Grid>
-                    <Button HorizontalAlignment="Left" Margin="194,0,0,0" VerticalAlignment="Center" Click="Button_Click_5">
-                        <Button Content="Button"/>
-                    </Button>
+                        <Grid Width="1178" Margin="0,0,0,4">
+                            <Button HorizontalAlignment="Left" Margin="194,0,0,0" VerticalAlignment="Center" Click="Button_Click_5">
+                                <Button Content="Button"/>
+                            </Button>
 
-                </Grid>
-            </TabItem>
-        </TabControl>
-
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </Expander>
         <materialDesign:DrawerHost x:Name="popup" VerticalAlignment="Top">
             <materialDesign:DrawerHost.TopDrawerContent>
                 <StackPanel Margin="16"
@@ -210,7 +227,7 @@
                     <Button Margin="10,10,10,10" x:Name="bb"
                     VerticalAlignment="Center"
                     Content="{materialDesign:PackIcon Reload}" 
-                    Style="{StaticResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand" Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5" Height="24" Width="24">
+                    Style="{DynamicResource MaterialDesignFlatButton}" Click="Button_Click_4" Cursor="Hand" Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5" Height="24" Width="24">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
@@ -223,11 +240,11 @@
                 </StackPanel>
             </materialDesign:DrawerHost.TopDrawerContent>
         </materialDesign:DrawerHost>
-        <Button Content="{materialDesign:PackIcon Minus}" 
-                Style="{StaticResource MaterialDesignFlatButton}"
+        <Button x:Name="MinimizedButton" Content="{materialDesign:PackIcon Minus}" 
+                Style="{DynamicResource MaterialDesignFlatButton}"
                 Padding="0,6,0,0" 
                 Margin="0,8,37,0" 
-                VerticalAlignment="Top" Height="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand" HorizontalAlignment="Right" Width="22" Click="Button_Click_1">
+                VerticalAlignment="Top" Height="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand" HorizontalAlignment="Right" Width="22" Click="Minimized">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
@@ -237,12 +254,12 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button Content="{materialDesign:PackIcon Close}" 
-            Style="{StaticResource MaterialDesignFlatButton}"
+        <Button x:Name="CloseButton" Content="{materialDesign:PackIcon Close}" 
+            Style="{DynamicResource MaterialDesignFlatButton}"
             Padding="0,0,0,0"
             HorizontalAlignment="Right" 
             Margin="0,8,8,0" 
-            VerticalAlignment="Top" Height="22" Width="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="Button_Click">
+            VerticalAlignment="Top" Height="22" Width="22" FontStyle="Oblique" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="Close">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
@@ -252,7 +269,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Label x:Name="ConStat" Content="{materialDesign:PackIcon LanConnect}" Margin="0,11,70,0" VerticalAlignment="Top" Height="16" HorizontalAlignment="Right" Width="16" FontSize="11" Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+        <Label x:Name="ConStat" Content="{materialDesign:PackIcon LanConnect}" Margin="0,12,100,0" VerticalAlignment="Top" Height="16" HorizontalAlignment="Right" Width="16" FontSize="11" Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
@@ -262,7 +279,17 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="340,19,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
+        <Button x:Name="ThemeButton" Content="{materialDesign:PackIcon ThemeLightDark}" 
+            Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Left" Margin="1109,5,0,0" VerticalAlignment="Top" Click="ThemeChange" Width="22" Padding="0,0,0,0" Height="22" Cursor="Hand">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
     </Grid>
 
     <WindowChrome.WindowChrome>

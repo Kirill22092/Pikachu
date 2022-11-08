@@ -1,28 +1,33 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml.Linq;
 
 namespace Pikachu
 {
     // Объявления классов, глобальных переменных и т.п.
     public partial class MainWindow : Window
     {
-#pragma warning disable IDE0044 // Добавить модификатор только для чтения
-        internal Brush bl = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-        internal Brush gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
-        internal Brush rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
-        internal Brush stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
         internal readonly Style TextBoxValid = (Style)Application.Current.FindResource("MaterialDesignFloatingHintTextBox");
         internal readonly Style TextBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidTextBox");
         internal readonly Style TextBoxNotValidCheck = (Style)Application.Current.FindResource("CheckNotValidTextBox");
         internal readonly Style PassBoxValid = (Style)Application.Current.FindResource("MaterialDesignFloatingHintPasswordBox");
         internal readonly Style PassBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidPassBox");
         internal readonly Style PassBoxNotValidCheck = (Style)Application.Current.FindResource("CheckNotValidPassBox");
+        internal readonly Style ComboBoxValid = (Style)Application.Current.FindResource("MaterialDesignFilledComboBox");
+        internal readonly Style ComboBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidComboBox");
+        internal readonly Style ComboBoxNotValidVerify = (Style)Application.Current.FindResource("VerifyNotValidComboBox");
+        internal readonly Style DatePickerValid = (Style)Application.Current.FindResource("MaterialDesignFilledDatePicker");
+        internal readonly Style DatePickerNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidDatePicker");
+        internal readonly Style DatePickerNotValidVerify = (Style)Application.Current.FindResource("VerifyNotValidDatePicker");
+        internal readonly Style LabelConnected = (Style)Application.Current.FindResource("LabelConnected");
+        internal readonly Style LabelDisconnected = (Style)Application.Current.FindResource("LabelDisconnected");
+        internal readonly Style LabelStandart = (Style)Application.Current.FindResource("LabelStandart");
+        internal readonly Style LabelOk = (Style)Application.Current.FindResource("LabelOk");
+        internal readonly Style LabelError = (Style)Application.Current.FindResource("LabelError");
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private List<int> names_key = new();
         private List<string> names_title = new();
         private List<string> names_rights = new();
@@ -570,11 +575,13 @@ namespace Pikachu
             /// <returns></returns>
             public archive GetArchive(List<string> pribor, DateTime?[] date, int?[] name, int?[] status, string?[] note, int count )
             {
-                archive a = new();
-                a.pribor_tip = FindTitle("pribor", pribor[0]);
-                a.pribor_num = pribor[1];
-                a.pribor_exp = exp[Int32.Parse(pribor[2])];
-                a.pribor_mod = FindTitle("modify", pribor[3]);
+                archive a = new()
+                {
+                    pribor_tip = FindTitle("pribor", pribor[0]),
+                    pribor_num = pribor[1],
+                    pribor_exp = exp[int.Parse(pribor[2])],
+                    pribor_mod = FindTitle("modify", pribor[3])
+                };
                 for (int i = 0; i < count; i++)
                 {
                     a.date.Add(date[i] ?? DateTime.MinValue);
@@ -648,9 +655,6 @@ namespace Pikachu
             paletteHelper.SetTheme(theme);
             Properties.Settings.Default.Dark = DarkTheme;
             Properties.Settings.Default.Save();
-            gr = (Brush)Application.Current.FindResource("PrimaryHueMidBrush");
-            rd = (Brush)Application.Current.FindResource("SecondaryHueMidBrush");
-            stand = (Brush)Application.Current.FindResource("MaterialDesignTextBoxBorder");
         }
     }
 }

@@ -59,5 +59,54 @@
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
     </Style>
+    <Style x:Key="VerifyNotValidComboBox"
+         TargetType="{x:Type ComboBox}"
+         BasedOn="{StaticResource MaterialDesignFilledComboBox}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Неверное значение" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="EmptyNotValidDatePicker"
+         TargetType="{x:Type DatePicker}"
+         BasedOn="{StaticResource MaterialDesignFilledDatePicker}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="VerifyNotValidDatePicker"
+         TargetType="{x:Type DatePicker}"
+         BasedOn="{StaticResource MaterialDesignFilledDatePicker}">
+        <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
+        <Setter Property="wpf:HintAssist.HelperText" Value="Неверное значение" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="LabelConnected"
+         TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+        <Setter Property="Content" Value="{wpf:PackIcon LanConnect}" />
+    </Style>
+    <Style x:Key="LabelDisconnected"
+         TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="Content" Value="{wpf:PackIcon LanDisconnect}" />
+    </Style>
+    <Style x:Key="LabelError"
+         TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="LabelOk"
+         TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+    </Style>
+    <Style x:Key="LabelStandart"
+         TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignTextBoxBorder}" />
+    </Style>
 
 </ResourceDictionary>
