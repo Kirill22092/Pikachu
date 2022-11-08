@@ -341,12 +341,25 @@
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            string sql = $"SELECT * FROM archive;";
-            iQuery = new(sql, iConnect); //читаем из БД таблицу...
+            string sql = $"SELECT array_length(arr_date, 1) FROM archive WHERE pribor_tip=0;";
+            iQuery = new(sql, iConnect); //читаем из БД длинну архива.
             NpgsqlDataReader reader = iQuery.ExecuteReader();
+            int le=-1;
+            while (reader.Read())
+            {
+                le = reader.GetInt32(0);
+            }
+            reader.Close();
+            iQuery.Dispose(); //закончили читать длинну архива
+
+            Debug.WriteLine(le.ToString());
+
+            sql = $"SELECT * FROM archive;";
+            iQuery = new(sql, iConnect); //читаем из БД таблицу...
+            reader = iQuery.ExecuteReader();
             if (iConnect.State == ConnectionState.Open)
             {
-                int[] sa = new int[4];
+                int[]? sa = new int[4];
                 int[] na = new int[4];
                 string[] nt = new string[4];
                 DateTime[] dt = new DateTime[4];
@@ -363,6 +376,7 @@
                     sa = reader.GetFieldValue<int[]>(4);
                     na = reader.GetFieldValue<int[]>(5);
                     nt = reader.GetFieldValue<string[]>(6);
+                    l.Add(reader.GetInt32(7).ToString());
                 }
                 Debug.WriteLine($"{l[0]} + {l[1]} + {l[2]}");
                 for (int i=0; i<4; i++)

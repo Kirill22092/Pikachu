@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace Pikachu
 {
@@ -177,17 +178,38 @@ namespace Pikachu
             /// </summary>
             public class archive
             {
-                public DateTime[] date { get; set; }
-                public int[] status { get; set; }
-                public int[] name { get; set; }
-                public string[] note { get; set; }
-                public archive(int count)
-                {
-                    date = new DateTime[count];
-                    status = new int[count];
-                    name = new int[count];
-                    note = new string[count];
-                }
+                /// <summary>
+                /// Тип прибора (соответсвует столбцу title таблицы pribor)
+                /// </summary>
+                public string? pribor_tip { get; set; }
+                /// <summary>
+                /// Модификация прибора (соответсвует столбцу title таблицы modify)
+                /// </summary>
+                public string? pribor_mod { get; set; }
+                /// <summary>
+                /// Номер прибора
+                /// </summary>
+                public string? pribor_num { get; set; }
+                /// <summary>
+                /// 0 - прибор для РФ, 1 - для США, 2 - для Индии
+                /// </summary>
+                public string? pribor_exp { get; set; }
+                /// <summary>
+                /// Список дат
+                /// </summary>
+                public List<DateTime>? date { get; set; }
+                /// <summary>
+                /// Список статусов
+                /// </summary>
+                public List<string>? status { get; set; }
+                /// <summary>
+                /// Список Имён
+                /// </summary>
+                public List<string>? name { get; set; }
+                /// <summary>
+                /// Список примечаний
+                /// </summary>
+                public List<string>? note { get; set; }
             }
 
             ///<summary>Запись данных в класс</summary>
@@ -306,7 +328,7 @@ namespace Pikachu
             ///<summary>Получение данных в виде списка. Данные таблицы names в этом методе не доступны.</summary>
             ///<param name="name">Имя таблицы данные которой нужно получить</param>
             ///<returns>Возвращает List&lt;string&gt;.</returns>
-            public List<string>? GetData(string name)
+            public List<string> GetData(string name)
             {
                 switch (name)
                 {
@@ -343,7 +365,14 @@ namespace Pikachu
             {
                 if (index == null) throw new DB_DataException("Параметр index не может быть null");
                 if (Int32.Parse(index) == -1) return " ";
-                return names_title[Int32.Parse(index)];
+                return names_title[names_key.FindIndex(p => p == Int32.Parse(index))];
+            }
+            ///<summary>Возвращает имя по индексу БД</summary>
+            public string GetName(int? index)
+            {
+                if (index == null) throw new DB_DataException("Параметр index не может быть null");
+                if (index == -1) return " ";
+                return names_title[names_key.FindIndex(p => p == index)];
             }
 
             ///<returns>Возвращает строку с паролем при совпадении. Возвращеет пустую строку при ошибке</returns>
@@ -421,12 +450,46 @@ namespace Pikachu
             ///<summary>Поиск заголовка по индексу</summary>
             ///<param name="table">Где ищем</param>
             ///<param name="name">Что ищем</param>
-            ///<returns>Возвращает заголовок, пустой если индекс не найден, null при ошибке</returns>
-            public string? FindTitle(string table, string name)
+            ///<returns>Возвращает заголовок, пустой если индекс не найден</returns>
+            public string FindTitle(string table, string name)
             {
                 if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
                 if (name == null) throw new DB_DataException("Поисковая строка не может быть null");
                 int i = Int32.Parse(name);
+                switch (table)
+                {
+                    case "pribor":
+                        return pribor_title[pribor_key.FindIndex(p => p == i)];
+                    case "material":
+                        if (i == -1) return "";
+                        return material_title[material_key.FindIndex(p => p == i)];
+                    case "modify":
+                        if (i == -1) return "";
+                        return modify_title[modify_key.FindIndex(p => p == i)];
+                    case "gaz":
+                        if (i == -1) return "";
+                        return gaz_title[gaz_key.FindIndex(p => p == i)];
+                    case "range":
+                        if (i == -1) return "";
+                        return range_title[range_key.FindIndex(p => p == i)];
+                    case "sensor":
+                        if (i == -1) return "";
+                        return sensor_title[sensor_key.FindIndex(p => p == i)];
+                    case "status":
+                        if (i == -1) return "";
+                        return status_title[status_key.FindIndex(p => p == i)];
+                    default:
+                        throw new DB_DataException("Неверное имя таблицы", table);
+                }
+            }
+            ///<summary>Поиск заголовка по индексу</summary>
+            ///<param name="table">Где ищем</param>
+            ///<param name="i">Индекс того, что ищем</param>
+            ///<returns>Возвращает заголовок, пустой если индекс не найден</returns>
+            public string FindTitle(string table, int? i)
+            {
+                if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
+                if (i == null) throw new DB_DataException("Поисковая строка не может быть null");
                 switch (table)
                 {
                     case "pribor":
@@ -469,7 +532,7 @@ namespace Pikachu
                 if (l == null) throw new DB_DataException("Список не может быть null");
                 pribor p = new()
                 {
-                    pribor_tip = pribor_title[Int32.Parse(l[0])],
+                    pribor_tip = FindTitle("pribor", l[0]),
                     pribor_num = l[1],
                     pribor_mat = FindTitle("material", l[2]),
                     pribor_exp = exp[Int32.Parse(l[3])],
@@ -494,6 +557,32 @@ namespace Pikachu
                     pribor_mod = FindTitle("modify", l[22])
                 };
                 return p;
+            }
+            /// <summary>
+            /// Возвращает экземпляр класса archive
+            /// </summary>
+            /// <param name="pribor">List&lt;string&gt; из 4 элементов: pribor_tip, pribor_num, pribor_exp, pribor_mod в СТРОГОМ порядке</param>
+            /// <param name="date">Массив дат</param>
+            /// <param name="name">Массив индексов имен</param>
+            /// <param name="status">Массив индексов статусов</param>
+            /// <param name="note">Массив примечаний</param>
+            /// <param name="count">Длинна архива</param>
+            /// <returns></returns>
+            public archive GetArchive(List<string> pribor, DateTime?[] date, int?[] name, int?[] status, string?[] note, int count )
+            {
+                archive a = new();
+                a.pribor_tip = FindTitle("pribor", pribor[0]);
+                a.pribor_num = pribor[1];
+                a.pribor_exp = exp[Int32.Parse(pribor[2])];
+                a.pribor_mod = FindTitle("modify", pribor[3]);
+                for (int i = 0; i < count; i++)
+                {
+                    a.date.Add(date[i] ?? DateTime.MinValue);
+                    a.name.Add(GetName(name[i] ?? -1));
+                    a.status.Add(FindTitle("status", status[i] ?? -1));
+                    a.note.Add(note[i] ?? "");
+                }
+                return a;
             }
 
             ///<summary>Получение приборов из класса</summary>
