@@ -24,9 +24,9 @@
             InitializeComponent();
             paint();
             before_login();
-            if (login())
+            if (login()) //вызываем окно логина
             {
-                after_login(); //вызываем окно логина
+                after_login();
             }
 
             /*pr.Add(new pribors
@@ -57,18 +57,25 @@
             });
             lvDataBinding.ItemsSource = pr;*/
         }
+        ///<summary>Метод вызывающий окно логина.</summary>
+        ///<returns>Возвращает результат работы вызванного диалогового окна.</returns>
         public bool login()
         {
-            Window1 log1 = new(this); //создаем экземляр окна логина с передачей экземпляра главного окна в виде аргумента
-            bool? res = log1.ShowDialog(); //вызов диалогового окна логина
+            Window1 log1 = new(this);
+            bool? res = log1.ShowDialog();
             return res != null && (bool)res;
         }
 
+        ///<summary>Метод проверки данных для авторизции.</summary>
+        ///<param name="Login">Логин</param>
+        ///<param name="Password">Пароль</param>
+        ///<returns>Возвращает bool[0] = флаг проверки логина, bool[1] = флаг проверки пароля, 
+        ///bool[2] = флаг проверки соединения.</returns>
         public bool[] loginDialogCheck(string Login, string Password)
         {
             lock (locker_N)
             {
-                bool[] result = { false, false, true }; //result[0] = флаг проверки логина; result[1] = флаг проверки пароля; result[2] = флаг проверки соединения
+                bool[] result = { false, false, true };
                 int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
                 if (i > -1)
                 {
@@ -103,16 +110,6 @@
                     }
                 }
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
         }
 
         private void MainWindow1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -217,14 +214,11 @@
                         ComboBox c = (ComboBox)sender;
                         if (c.Items.IndexOf(c.Text) == -1)
                         {
-                            HintAssist.SetHelperText(c, "Неверное значение");
-                            c.Foreground = rd;
-                            c.BorderBrush = rd;
+                            c.Style = ComboBoxNotValidVerify;
                         }
                         else
                         {
-                            c.Foreground = stand;
-                            c.BorderBrush = stand;
+                            c.Style = ComboBoxValid;
                         }
                         break;
                     }
@@ -234,14 +228,11 @@
                         Debug.WriteLine(d.SelectedDate);
                         if (d.SelectedDate > DateTime.Now.Date)
                         {
-                            HintAssist.SetHelperText(d, "Неверное значение");
-                            d.Foreground = rd;
-                            d.BorderBrush = rd;
+                            d.Style = DatePickerNotValidVerify;
                         }
                         else
                         {
-                            d.Foreground = stand;
-                            d.BorderBrush = stand;
+                            d.Style = DatePickerValid;
                         }
                         break;
                     }
@@ -256,14 +247,11 @@
                     ComboBox s = (ComboBox)sender;
                     if ((s.Text == "") && (s.Name == "combo_pribors"))
                     {
-                        HintAssist.SetHelperText(s, "Поле не может быть пустым");
-                        s.Foreground = rd;
-                        s.BorderBrush = rd;
+                        s.Style = ComboBoxNotValidEmpty;
                     }
                     else
                     {
-                        s.Foreground = stand;
-                        s.BorderBrush = stand;
+                        s.Style = ComboBoxValid;
                     }
                     break;
                 case 2:
@@ -281,14 +269,11 @@
                     DatePicker d = (DatePicker)sender;
                     if (d.Text == "")
                     {
-                        HintAssist.SetHelperText(d, "Поле не может быть пустым");
-                        d.Foreground = rd;
-                        d.BorderBrush = rd;
+                        d.Style = DatePickerNotValidEmpty;
                     }
                     else
                     {
-                        d.Foreground = stand;
-                        d.BorderBrush = stand;
+                        d.Style = DatePickerValid;
                     }
                     break;
             }
@@ -300,9 +285,7 @@
             {
                 case 1:
                     ComboBox s = (ComboBox)sender;
-                    HintAssist.SetHelperText(s, "");
-                    s.Foreground = stand;
-                    s.BorderBrush = gr;
+                    s.Style = ComboBoxValid;
                     break;
                 case 2:
                     TextBox t = (TextBox)sender;
@@ -310,9 +293,7 @@
                     break;
                 case 3:
                     DatePicker d = (DatePicker)sender;
-                    HintAssist.SetHelperText(d, "");
-                    d.Foreground = stand;
-                    d.BorderBrush = gr;
+                    d.Style = DatePickerValid;
                     break;
             }
         }
@@ -332,11 +313,6 @@
         private void test_click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            SetTheme(false);
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
@@ -384,6 +360,21 @@
                     Debug.WriteLine($"{dt[i].ToString()} + {sa[i].ToString()} + {na[i].ToString()} + {nt[i].ToString()}");
                 }
             }
+        }
+
+        private void ThemeChange(object sender, RoutedEventArgs e)
+        {
+            SetTheme(false);
+        }
+
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Minimized(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

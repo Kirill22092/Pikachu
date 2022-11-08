@@ -189,8 +189,7 @@ namespace Pikachu
                 {
                     _ = Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        ConStat.Foreground = rd;
-                        ConStat.Content = new PackIcon { Kind = PackIconKind.LanDisconnect };
+                        ConStat.Style = LabelDisconnected;
                         popup.IsTopDrawerOpen = true;
                     }));
                 }
@@ -198,8 +197,7 @@ namespace Pikachu
                 {
                     _ = Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        ConStat.Foreground = gr;
-                        ConStat.Content = new PackIcon { Kind = PackIconKind.LanConnect };
+                        ConStat.Style = LabelConnected;
                     }));
                 }
                 Debug.WriteLine(iConnect.State.ToString());
