@@ -92,7 +92,7 @@ namespace Pikachu
             mainWindow.SetTheme(false);
         }
 
-        private void CloseButton(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
