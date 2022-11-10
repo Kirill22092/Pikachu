@@ -12,7 +12,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="599" Width="1200" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="711" Width="1200" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <TextBlock Margin="15,5,0,0" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="200">
@@ -153,65 +153,70 @@
       TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
       Margin="24,8,24,16">
                 <TabControl
-  Height="250" 
+  Height="358" 
   TabStripPlacement="Top">
                     <TabItem
     Header="Внесение" Width="570">
                         <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp" Width="1178">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80*"/>
-                                <ColumnDefinition Width="1021*"/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ComboBox StaysOpenOnEdit="True" x:Name="combo_pribors"  materialDesign:HintAssist.Hint=" Выберите прибор" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="198,23,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                              HorizontalAlignment="Left" Margin="44,124,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
                             <ComboBox StaysOpenOnEdit="True" x:Name="combo_materials"  materialDesign:HintAssist.Hint=" Исполнение корпуса" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="70,137,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.ColumnSpan="2"/>
+                              HorizontalAlignment="Left" Margin="264,124,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
                             <ComboBox StaysOpenOnEdit="True" x:Name="combo_gaz"  materialDesign:HintAssist.Hint=" Выберите газ" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.TrailingIcon="Abc" materialDesign:TextFieldAssist.LeadingIcon="GasCylinder"
-                              HorizontalAlignment="Left" Margin="421,17,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                              HorizontalAlignment="Left" Margin="264,12,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
                             <ComboBox StaysOpenOnEdit="True" x:Name="combo_range"  materialDesign:HintAssist.Hint=" Выберите диапазон" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="198,140,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                              HorizontalAlignment="Left" Margin="264,66,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
                             <TextBox x:Name="text_num" materialDesign:HintAssist.Hint="Номер прибора"  materialDesign:TextFieldAssist.HasLeadingIcon="True" materialDesign:TextFieldAssist.LeadingIcon="Pound"
-                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="44,39,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="44,20,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                              VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
                              Padding="5,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
-                             MaxLines="1" TabIndex="1" materialDesign:HintAssist.IsFloating="True" Height="30" Grid.ColumnSpan="2"/>
-                            <ListBox Style="{DynamicResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,93,0,0" Height="30" Width="150" Grid.ColumnSpan="2">
+                             MaxLines="1" TabIndex="1" materialDesign:HintAssist.IsFloating="True" Height="30"/>
+                            <ListBox Style="{DynamicResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,70,0,0" Height="30" Width="150">
                                 <ListBoxItem Content="РФ" />
                                 <ListBoxItem Content="India" />
                                 <ListBoxItem Content="USA" />
                             </ListBox>
                             <ComboBox StaysOpenOnEdit="True" x:Name="combo_modify"  materialDesign:HintAssist.Hint=" Выберите модификацию" Style="{DynamicResource MaterialDesignFilledComboBox}"
                               materialDesign:TextFieldAssist.HasClearButton="True"
-                              HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Center" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
+                              HorizontalAlignment="Left" Margin="44,180,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
                             <DatePicker x:Name="date_snu" Style="{DynamicResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top" materialDesign:HintAssist.FloatingOffset="0, -18" 
-                                HorizontalAlignment="Left" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на СНУ" Padding="5,0,5,0" Grid.Column="1" Margin="661,21,0,0" UseLayoutRounding="False" />
+                                materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingOffset="0, -18" 
+                                HorizontalAlignment="Left" Width="200" Height="60"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на СНУ" Padding="5,0,5,0" Margin="708,13,0,0" UseLayoutRounding="False" VerticalAlignment="Top" />
                             <DatePicker x:Name="date_ktx" Style="{DynamicResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в КТХ" Padding="5,0,5,0" Margin="661,110,0,32" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
+                                materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18" Width="200"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в КТХ" Padding="5,0,5,0" Margin="708,102,0,148" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
                             <DatePicker x:Name="date_oki" Style="{DynamicResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="867,21,0,0" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в ОКИ" Padding="5,0,5,0" Grid.Column="1" />
+                                HorizontalAlignment="Left" Margin="931,13,0,0" Width="200" Height="60"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в ОКИ" Padding="5,0,5,0" />
                             <DatePicker x:Name="date_out" Style="{StaticResource MaterialDesignFilledDatePicker}"
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="867,110,0,32" Width="180"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" Height="60" Grid.Column="1" />
-                            <ComboBox x:Name="combo_status" Grid.Column="1" HorizontalAlignment="Left" Margin="434,155,0,0" VerticalAlignment="Top" Width="198" Height="28" materialDesign:HintAssist.Hint="Статус"/>
-                            <ComboBox x:Name="combo_sensor" Grid.Column="1" HorizontalAlignment="Left" Margin="477,118,0,0" VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Сенсор"/>
+                                HorizontalAlignment="Left" Margin="931,102,0,148" Width="200"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" />
+                            <ComboBox x:Name="combo_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True"/>
+                            <ComboBox x:Name="combo_sensor" HorizontalAlignment="Left" Margin="264,180,0,0" VerticalAlignment="Top" Width="200" materialDesign:HintAssist.Hint="Сенсор" Height="38" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5"/>
 
 
 
-                            <CheckBox x:Name="OutlinedComboBoxEnabledCheckBox" IsChecked="True" Margin="437,63,0,0" Content="Ремонтный" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" />
+                            <CheckBox x:Name="OutlinedComboBoxEnabledCheckBox" IsChecked="True" Margin="0,68,0,0" Content="Ремонтный" HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Width="200" />
 
-                            <TextBox x:Name="OutlinedComboBox" 
-                                          IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
-                                          materialDesign:HintAssist.Hint="Номер МСК" Grid.Column="1" Margin="430,83,530,0" VerticalAlignment="Top" />
+                            <TextBox x:Name="OutlinedComboBox" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                          IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                                          materialDesign:HintAssist.Hint="Номер МСК" Margin="489,90,489,0" VerticalAlignment="Top" Height="30" Padding="5,1,3,0" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"/>
+                            <TextBox x:Name="OutlinedComboBox_Copy1" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                                materialDesign:HintAssist.Hint="Примечание" Margin="489,175,47,0" VerticalAlignment="Top" Height="43" Padding="5,1,3,0" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"/>
+                            <TextBox x:Name="OutlinedComboBox_Copy2" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                                materialDesign:HintAssist.Hint="Заказчик" Margin="489,132,489,0" VerticalAlignment="Top" Height="30" Padding="5,1,3,0" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"/>
 
 
 
@@ -219,57 +224,65 @@
                     </TabItem>
                     <TabItem
     Header="Поиск">
-                        <Grid Width="1178" Margin="0,0,0,4">
+                        <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp" Width="1178">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="322*"/>
-                                <ColumnDefinition Width="857*"/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button HorizontalAlignment="Left" Margin="736,6,0,0" VerticalAlignment="Top" Click="Button_Click_5" Grid.Column="1">
-                                <Button Content="Button"/>
-                            </Button>
-                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_pribors_Copy"  materialDesign:HintAssist.Hint=" Выберите прибор" Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                HorizontalAlignment="Left" Margin="284,23,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.ColumnSpan="2"/>
-                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_materials_Copy"  materialDesign:HintAssist.Hint=" Исполнение корпуса" Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                HorizontalAlignment="Left" Margin="70,137,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5"/>
-                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_gaz_Copy"  materialDesign:HintAssist.Hint=" Выберите газ" Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.TrailingIcon="Abc" materialDesign:TextFieldAssist.LeadingIcon="GasCylinder"
-                                HorizontalAlignment="Left" Margin="185,17,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.Column="1"/>
-                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_range_Copy"  materialDesign:HintAssist.Hint=" Выберите диапазон" Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                HorizontalAlignment="Left" Margin="284,140,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.ColumnSpan="2"/>
-                            <TextBox x:Name="text_num_Copy" materialDesign:HintAssist.Hint="Номер прибора"  materialDesign:TextFieldAssist.HasLeadingIcon="True" materialDesign:TextFieldAssist.LeadingIcon="Pound"
-                                Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="44,39,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                                VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
-                                Padding="5,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
-                                MaxLines="1" TabIndex="1" materialDesign:HintAssist.IsFloating="True" Height="30"/>
-                            <ComboBox StaysOpenOnEdit="True" x:Name="combo_modify_Copy"  materialDesign:HintAssist.Hint=" Выберите модификацию" Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                HorizontalAlignment="Left" Margin="284,82,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Grid.ColumnSpan="2"/>
-                            <DatePicker x:Name="date_snu_Copy" Style="{DynamicResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top" materialDesign:HintAssist.FloatingOffset="0, -18" 
-                                HorizontalAlignment="Left" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на СНУ" Padding="5,0,5,0" Grid.Column="1" Margin="425,21,0,0" UseLayoutRounding="False" />
-                            <DatePicker x:Name="date_ktx_Copy" Style="{DynamicResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в КТХ" Padding="5,0,5,0" Margin="425,110,0,28" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
-                            <DatePicker x:Name="date_oki_Copy" Style="{DynamicResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="631,21,0,0" Width="180" Height="60"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в ОКИ" Padding="5,0,5,0" Grid.Column="1" />
-                            <DatePicker x:Name="date_out_Copy" Style="{StaticResource MaterialDesignFilledDatePicker}"
-                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
-                                HorizontalAlignment="Left" Margin="631,110,0,28" Width="180"
-                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" Height="60" Grid.Column="1" />
-                            <ComboBox x:Name="combo_status_Copy" Grid.Column="1" HorizontalAlignment="Left" Margin="198,155,0,0" VerticalAlignment="Top" Width="198" Height="28" materialDesign:HintAssist.Hint="Статус"/>
-                            <TextBox x:Name="OutlinedComboBox_Copy"                                 
-                                materialDesign:HintAssist.Hint="Номер МСК" Grid.Column="1" Margin="194,83,530,0" VerticalAlignment="Top" />
-                            <ListBox Style="{DynamicResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,93,0,0" Height="30" Width="150">
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combzo_pribors"  materialDesign:HintAssist.Hint=" Выберите прибор" Style="{DynamicResource MaterialDesignFilledComboBox}"
+                              materialDesign:TextFieldAssist.HasClearButton="True"
+                              HorizontalAlignment="Left" Margin="44,124,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combzo_materials"  materialDesign:HintAssist.Hint=" Исполнение корпуса" Style="{DynamicResource MaterialDesignFilledComboBox}"
+                              materialDesign:TextFieldAssist.HasClearButton="True"
+                              HorizontalAlignment="Left" Margin="264,124,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="comzbo_gaz"  materialDesign:HintAssist.Hint=" Выберите газ" Style="{DynamicResource MaterialDesignFilledComboBox}"
+                              materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.TrailingIcon="Abc" materialDesign:TextFieldAssist.LeadingIcon="GasCylinder"
+                              HorizontalAlignment="Left" Margin="264,12,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="cozmbo_range"  materialDesign:HintAssist.Hint=" Выберите диапазон" Style="{DynamicResource MaterialDesignFilledComboBox}"
+                              materialDesign:TextFieldAssist.HasClearButton="True"
+                              HorizontalAlignment="Left" Margin="264,66,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
+                            <TextBox x:Name="text_znum" materialDesign:HintAssist.Hint="Номер прибора"  materialDesign:TextFieldAssist.HasLeadingIcon="True" materialDesign:TextFieldAssist.LeadingIcon="Pound"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="44,20,0,0" TextWrapping="Wrap" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                             VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"
+                             Padding="5,1,3,0" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                             MaxLines="1" TabIndex="1" materialDesign:HintAssist.IsFloating="True" Height="30"/>
+                            <ListBox Style="{DynamicResource MaterialDesignToolToggleListBox}" SelectedIndex="0" VerticalAlignment="Top" Margin="69,70,0,0" Height="30" Width="150">
                                 <ListBoxItem Content="РФ" />
                                 <ListBoxItem Content="India" />
-                                <ListBoxItem Content="USA" Width="51" />
+                                <ListBoxItem Content="USA" />
                             </ListBox>
+                            <ComboBox StaysOpenOnEdit="True" x:Name="combzo_modify"  materialDesign:HintAssist.Hint=" Выберите модификацию" Style="{DynamicResource MaterialDesignFilledComboBox}"
+                              materialDesign:TextFieldAssist.HasClearButton="True"
+                              HorizontalAlignment="Left" Margin="44,180,0,0" VerticalAlignment="Top" Width="200" Padding="5,5,15,5" Height="38"/>
+                            <DatePicker x:Name="datze_snu" Style="{DynamicResource MaterialDesignFilledDatePicker}"
+                                materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingOffset="0, -18" 
+                                HorizontalAlignment="Left" Width="200" Height="60"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на СНУ" Padding="5,0,5,0" Margin="708,13,0,0" UseLayoutRounding="False" VerticalAlignment="Top" />
+                            <DatePicker x:Name="datze_ktx" Style="{DynamicResource MaterialDesignFilledDatePicker}"
+                                materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.FloatingOffset="0, -18" Width="200"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в КТХ" Padding="5,0,5,0" Margin="708,102,0,148" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
+                            <DatePicker x:Name="datze_oki" Style="{DynamicResource MaterialDesignFilledDatePicker}"
+                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top"  materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="931,13,0,0" Width="200" Height="60"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;в ОКИ" Padding="5,0,5,0" />
+                            <DatePicker x:Name="datze_out" Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
+                                HorizontalAlignment="Left" Margin="931,102,0,148" Width="200"
+                                FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" />
+                            <ComboBox x:Name="comboz_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True"/>
+                            <ComboBox x:Name="comboz_sensor" HorizontalAlignment="Left" Margin="264,180,0,0" VerticalAlignment="Top" Width="200" materialDesign:HintAssist.Hint="Сенсор" Height="38" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5"/>
+
+
+
+                            <CheckBox x:Name="OutlinezdComboBoxEnabledCheckBox" IsChecked="True" Margin="0,68,0,0" Content="Ремонтный" HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Width="200" />
+
+                            <TextBox x:Name="OutlinezdComboBox" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                          IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}" materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                                          materialDesign:HintAssist.Hint="Номер МСК" Margin="489,90,489,0" VerticalAlignment="Top" Height="30" Padding="5,1,3,0" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"/>
+                            <TextBox x:Name="OutlinzedComboBox_Copy2" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="3,3,0,0"
+                                materialDesign:HintAssist.Hint="Заказчик" Margin="489,132,489,0" VerticalAlignment="Top" Height="30" Padding="5,1,3,0" materialDesign:TextFieldAssist.TextBoxViewMargin="0,-1,0,0"/>
+
+
 
                         </Grid>
                     </TabItem>
