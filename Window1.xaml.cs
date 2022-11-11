@@ -5,7 +5,7 @@ namespace Pikachu
 
     public partial class Window1 : Window
     {
-        private MainWindow mainWindow;
+        private readonly MainWindow mainWindow;
 
         ///<summary>Класс окна логина.</summary>
         ///<param name="window">Экземпляр главного окна, в метод которого должен быть переданы данные для авторизации.</param>
@@ -21,13 +21,14 @@ namespace Pikachu
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(PassBox.Password) || string.IsNullOrWhiteSpace(LoginBox.Text)) { return; }
             bool[] result = mainWindow.loginDialogCheck(LoginBox.Text, PassBox.Password); //получаем результаты проверки из главного окна
             if (result != null)
             {
                 if (!result[0]) //если неверный логин
                 {
                     LoginBox.Style = mainWindow.TextBoxNotValidCheck;
-                    LoginBox.Style = mainWindow.LabelError;
+                    LoginIcon.Style = mainWindow.LabelError;
                 }
                 if (!result[1]) //если неверный пароль
                 {
@@ -50,7 +51,7 @@ namespace Pikachu
 
         private void LoginBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (LoginBox.Text == "")
+            if (string.IsNullOrWhiteSpace(LoginBox.Text))
             {
                 LoginBox.Style = mainWindow.TextBoxNotValidEmpty;
                 LoginIcon.Style = mainWindow.LabelError;
@@ -64,7 +65,7 @@ namespace Pikachu
 
         private void PassBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (PassBox.Password == "")
+            if (string.IsNullOrWhiteSpace(PassBox.Password))
             {
                 PassBox.Style = mainWindow.PassBoxNotValidEmpty;
                 Passicon.Style = mainWindow.LabelError;
