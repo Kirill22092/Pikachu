@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+#pragma warning disable CS1591
 namespace Pikachu
 {
     /// <summary>
@@ -19,20 +19,11 @@ namespace Pikachu
     /// </summary>
     public partial class DetailWindow : Window
     {
-      //  private MainWindow.archive archive;
-        private List<string> names_title;
-        private List<int> names_key;
-        private List<string> strings_title;
-        private List<int> strings_key;
-       /* public DetailWindow(MainWindow.archive a, List<string> n, List<int> nk, List<string> s, List<int> sk)
+        public DetailWindow(List<MainWindow.DB_Data.archive> a)
         {
             InitializeComponent();
-            archive = a;
-            names_title = n;
-            names_key = nk;
-            strings_title = s;
-            strings_key = sk;
-        }*/
+            ListView_archive.ItemsSource = a;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

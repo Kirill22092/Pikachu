@@ -11,7 +11,8 @@
     using System.Windows.Controls;
     using System.Windows.Documents;
     using System.Windows.Input;
-
+    using System.Windows.Media;
+#pragma warning disable CS1591
     public partial class MainWindow : Window
     {
         private NpgsqlCommand? iQuery;
@@ -28,34 +29,7 @@
             {
                 after_login();
             }
-
-            /*pr.Add(new pribors
-            {
-                pribor_num = "12345",
-                pribor_tip = "SGOES",
-                pribor_mod = "М",
-                pribor_mat = "Алюминий",
-                pribor_gaz = "Метан",
-                pribor_exp = "USA",
-                pribor_range = "0-100",
-                last_date = "20-20-20",
-                last_status = "Выпущен",
-                last_name = "Родионов"
-            });
-            pr.Add(new pribors
-            {
-                pribor_num = "55577",
-                pribor_tip = "SGOES",
-                pribor_mod = "2",
-                pribor_mat = "Алюминий",
-                pribor_gaz = "Метан",
-                pribor_exp = "USA",
-                pribor_range = "0-100",
-                last_date = "20-20-20",
-                last_status = "Выпущен",
-                last_name = "Родионов"
-            });
-            lvDataBinding.ItemsSource = pr;*/
+            ListView_pribors.ItemsSource = db.pribors;
         }
         ///<summary>Метод вызывающий окно логина.</summary>
         ///<returns>Возвращает результат работы вызванного диалогового окна.</returns>
@@ -76,14 +50,14 @@
             lock (locker_N)
             {
                 bool[] result = { false, false, true };
-                int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
+                int i = db.CheckName(Login); //поиск введенного логина в списке имён
                 if (i > -1)
                 {
                     result[0] = true; //логин нашёлся
-                    if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
+                    if (BCrypt.Verify(Password, db.GetPass(Login))) //проверка пароля
                     {
                         result[1] = true; //пароль совпал
-                        login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
+                        login_text.Text = Login; //пишем имя пользователя в главном окне
                         return result; //успех, все проверки пройдены, передаём результат
                     }
                     else
@@ -312,52 +286,55 @@
 
         private void test_click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            string sql = $"SELECT array_length(arr_date, 1) FROM archive WHERE pribor_tip=0;";
-            iQuery = new(sql, iConnect); //читаем из БД длинну архива.
-            NpgsqlDataReader reader = iQuery.ExecuteReader();
-            int le=-1;
-            while (reader.Read())
+            //Тут творится какая то хуйня... я хз что, как и зачем... Просто копипаста из инета...
+            var item = VisualTreeHelper.HitTest(ListView_pribors, Mouse.GetPosition(ListView_pribors)).VisualHit;
+            while (item != null && !(item is ListBoxItem))
+                item = VisualTreeHelper.GetParent(item);
+            int i=-1;
+            if (item != null)
             {
-                le = reader.GetInt32(0);
+                i = ListView_pribors.Items.IndexOf(((ListBoxItem)item).DataContext);
             }
-            reader.Close();
-            iQuery.Dispose(); //закончили читать длинну архива
 
-            Debug.WriteLine(le.ToString());
-
-            sql = $"SELECT * FROM archive;";
-            iQuery = new(sql, iConnect); //читаем из БД таблицу...
-            reader = iQuery.ExecuteReader();
-            if (iConnect.State == ConnectionState.Open)
+            //А тут творится полная хуйня... 
+            List<string> pr = db.GetPribor(i).GetIndex();            
+            lock (locker)
             {
-                int[]? sa = new int[4];
-                int[] na = new int[4];
-                string[] nt = new string[4];
-                DateTime[] dt = new DateTime[4];
-                List<string> l = new();
-                while (reader.Read())
+                int le = -1;
+                string sql = $"SELECT array_length(arr_date,1) FROM archive WHERE pribor_tip={pr[0]} AND pribor_num={pr[1]} AND pribor_exp={pr[2]};";
+                iQuery = new(sql, iConnect);
+                NpgsqlDataReader reader = iQuery.ExecuteReader();
+                if (iConnect.State == ConnectionState.Open)
                 {
-
-                    l.Add(reader.GetInt32(0).ToString());
-                    l.Add(reader.GetInt32(1).ToString());
-                    l.Add(reader.GetInt32(2).ToString());
-
-
-                    dt = reader.GetFieldValue<DateTime[]>(3);
-                    sa = reader.GetFieldValue<int[]>(4);
-                    na = reader.GetFieldValue<int[]>(5);
-                    nt = reader.GetFieldValue<string[]>(6);
-                    l.Add(reader.GetInt32(7).ToString());
+                    while (reader.Read())
+                    {
+                        le = reader.GetInt32(0);
+                    }
                 }
-                Debug.WriteLine($"{l[0]} + {l[1]} + {l[2]}");
-                for (int i=0; i<4; i++)
+                reader.Close();
+                iQuery.Dispose();
+
+                sql = $"SELECT * FROM archive WHERE pribor_tip={pr[0]} AND pribor_num={pr[1]} AND pribor_exp={pr[2]};";
+                iQuery = new(sql, iConnect);
+                reader = iQuery.ExecuteReader();
+                if (iConnect.State == ConnectionState.Open)
                 {
-                    Debug.WriteLine($"{dt[i].ToString()} + {sa[i].ToString()} + {na[i].ToString()} + {nt[i].ToString()}");
+                    int[] status = new int[le];
+                    int[] name = new int[le];
+                    string[] note = new string[le];
+                    DateTime[] date = new DateTime[le];
+                    while (reader.Read())
+                    {
+                        date = reader.GetFieldValue<DateTime[]>(3);
+                        status = reader.GetFieldValue<int[]>(4);
+                        name = reader.GetFieldValue<int[]>(5);
+                        note = reader.GetFieldValue<string[]>(6);
+                    }
+                    reader.Close();
+                    iQuery.Dispose();
+
+                    DetailWindow detail = new(db.GetArchive(pr, date, name, status, note, le));
+                    detail.Show();
                 }
             }
         }

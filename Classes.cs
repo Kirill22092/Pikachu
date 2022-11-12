@@ -1,6 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
@@ -27,32 +29,13 @@ namespace Pikachu
         internal readonly Style LabelStandart = (Style)Application.Current.FindResource("LabelStandart");
         internal readonly Style LabelOk = (Style)Application.Current.FindResource("LabelOk");
         internal readonly Style LabelError = (Style)Application.Current.FindResource("LabelError");
-#pragma warning disable IDE0044 // Добавить модификатор только для чтения
-        private List<int> names_key = new();
-        private List<string> names_title = new();
-        private List<string> names_rights = new();
-        private List<string> names_pass = new();
-        private List<int> pribor_key = new();
-        private List<string> pribor_title = new();
-        private List<int> material_key = new();
-        private List<string> material_title = new();
-        private List<int> modify_key = new();
-        private List<string> modify_title = new();
-        private List<int> gaz_key = new();
-        private List<string> gaz_title = new();
-        private List<int> range_key = new();
-        private List<string> range_title = new();
-        private List<int> sensor_key = new();
-        private List<string> sensor_title = new();
-        private List<int> status_key = new();
-        private List<string> status_title = new();
-        private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
         private Thread Th_N = new(() => { });
         private object locker = new();
         private object locker_O = new();
         private object locker_N = new();
         private bool DarkTheme;
         private object locker_P = new();
+        private DB_Data db = new();
 
         ///<summary>Класс для хранения и обработки полученных из базы данных</summary>
         public class DB_Data
@@ -76,7 +59,10 @@ namespace Pikachu
             private List<int> status_key = new();
             private List<string> status_title = new();
             private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
-            private List<pribor> pribors = new();
+            /// <summary>
+            /// Список приборов
+            /// </summary>
+            public List<pribor> pribors = new();
 
             /// <summary>
             /// Класс для сохранения данных из таблицы main
@@ -84,6 +70,39 @@ namespace Pikachu
             /// </summary>
             public class pribor
             {
+#pragma warning disable CS8618
+                /// <summary>Тип прибора в числовом представлении</summary>
+                string tip;
+                /// <summary>Номер прибора в числовом представлении</summary>
+                string num;
+                /// <summary>Исполнение прибора в числовом представлении</summary>
+                string exp;
+                /// <summary>Модификация прибора в числовом представлении</summary>
+                string mod;
+#pragma warning restore CS8618
+                /// <summary>
+                /// Устанавливает числовые представления полей pribor_tip/num/exp/mod
+                /// </summary>
+                /// <param name="a">Поле pribor_tip</param>
+                /// <param name="b">Поле pribor_num</param>
+                /// <param name="c">Поле pribor_exp</param>
+                /// <param name="d">Поле pribor_mod</param>
+                public void SetIndex(string a, string b, string c, string d)
+                {
+                    tip = a;
+                    num = b;
+                    exp = c;
+                    mod = d;
+                }
+                /// <summary>
+                /// Возвращает список индексов pribor_tip/num/exp/mod
+                /// </summary>
+                /// <returns></returns>
+                public List<string> GetIndex()
+                {
+                    List<string> l = new List<string> { tip, num, exp, mod };
+                    return l;
+                }
                 /// <summary>
                 /// Тип прибора (соответсвует столбцу title таблицы pribor)
                 /// </summary>
@@ -186,35 +205,38 @@ namespace Pikachu
                 /// <summary>
                 /// Тип прибора (соответсвует столбцу title таблицы pribor)
                 /// </summary>
-                public string? pribor_tip { get; set; }
+#pragma warning disable CS8618
+                public string pribor_tip { get; set; }
                 /// <summary>
                 /// Модификация прибора (соответсвует столбцу title таблицы modify)
                 /// </summary>
-                public string? pribor_mod { get; set; }
+                public string pribor_mod { get; set; }
                 /// <summary>
                 /// Номер прибора
                 /// </summary>
-                public string? pribor_num { get; set; }
+                public string pribor_num { get; set; }
                 /// <summary>
                 /// 0 - прибор для РФ, 1 - для США, 2 - для Индии
                 /// </summary>
-                public string? pribor_exp { get; set; }
+                public string pribor_exp { get; set; }
                 /// <summary>
                 /// Список дат
                 /// </summary>
-                public List<DateTime>? date { get; set; }
+                public DateTime date { get; set; }
                 /// <summary>
                 /// Список статусов
                 /// </summary>
-                public List<string>? status { get; set; }
+                public string status { get; set; }
                 /// <summary>
                 /// Список Имён
                 /// </summary>
-                public List<string>? name { get; set; }
+                public string name { get; set; }
                 /// <summary>
                 /// Список примечаний
                 /// </summary>
-                public List<string>? note { get; set; }
+                public string note { get; set; }
+#pragma warning restore CS8618 
+
             }
 
             ///<summary>Запись данных в класс</summary>
@@ -561,10 +583,11 @@ namespace Pikachu
                     name_zak = l[21],
                     pribor_mod = FindTitle("modify", l[22])
                 };
+                p.SetIndex(l[0], l[1], l[3], l[22]);
                 return p;
             }
             /// <summary>
-            /// Возвращает экземпляр класса archive
+            /// Возвращает экземпляр класса преобразованную в список запись из таблицы archive
             /// </summary>
             /// <param name="pribor">List&lt;string&gt; из 4 элементов: pribor_tip, pribor_num, pribor_exp, pribor_mod в СТРОГОМ порядке</param>
             /// <param name="date">Массив дат</param>
@@ -573,23 +596,26 @@ namespace Pikachu
             /// <param name="note">Массив примечаний</param>
             /// <param name="count">Длинна архива</param>
             /// <returns></returns>
-            public archive GetArchive(List<string> pribor, DateTime?[] date, int?[] name, int?[] status, string?[] note, int count )
+            public List<archive> GetArchive(List<string> pribor, DateTime[] date, int[] name, int[] status, string[] note, int count )
             {
-                archive a = new()
-                {
-                    pribor_tip = FindTitle("pribor", pribor[0]),
-                    pribor_num = pribor[1],
-                    pribor_exp = exp[int.Parse(pribor[2])],
-                    pribor_mod = FindTitle("modify", pribor[3])
-                };
+                List<archive> l = new();
                 for (int i = 0; i < count; i++)
                 {
-                    a.date.Add(date[i] ?? DateTime.MinValue);
-                    a.name.Add(GetName(name[i] ?? -1));
-                    a.status.Add(FindTitle("status", status[i] ?? -1));
-                    a.note.Add(note[i] ?? "");
+                    archive a = new()
+                    {
+                        pribor_tip = FindTitle("pribor", pribor[0]),
+                        pribor_num = pribor[1],
+                        pribor_exp = exp[int.Parse(pribor[2])],
+                        pribor_mod = FindTitle("modify", pribor[3]),
+                        date = date[i],
+                        name = GetName(name[i]),
+                        note = note[i],
+                        status = FindTitle("status", status[i]),
+                    };
+                    l.Add(a);
                 }
-                return a;
+
+                return l;
             }
 
             ///<summary>Получение приборов из класса</summary>
