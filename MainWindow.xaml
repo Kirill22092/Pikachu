@@ -20,7 +20,7 @@
       <TextBlock x:Name="login_text" Foreground="{DynamicResource PrimaryHueMidBrush}" Text="EXAMPLE"/>
 </Hyperlink>
         </TextBlock>
-        <ListView x:Name="lvDataBinding" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListView x:Name="ListView_pribors" Margin="2,42,2,40" Style="{DynamicResource MaterialDesignListView}" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=pribor_num}" Header="Номер" />

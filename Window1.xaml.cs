@@ -14,7 +14,7 @@ namespace Pikachu
             InitializeComponent();
             mainWindow = window;
 #if DEBUG
-            LoginBox.Text = "1";
+            LoginBox.Text = "XYZ";
             PassBox.Password = "1";
 #endif
         }

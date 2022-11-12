@@ -31,7 +31,17 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        
+        <ListView x:Name="ListView_archive" Style="{DynamicResource MaterialDesignListView}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="628" Height="330">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=date}" Header="Дата" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=name}" Header="Имя"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=status}" Header="Статус"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=note}" Header="Примечание"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
     <WindowChrome.WindowChrome>
         <WindowChrome 

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using ThreadState = System.Threading.ThreadState;
-
+#pragma warning disable CS1591
 namespace Pikachu
 {
     public partial class MainWindow : Window
