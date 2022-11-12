@@ -27,32 +27,13 @@ namespace Pikachu
         internal readonly Style LabelStandart = (Style)Application.Current.FindResource("LabelStandart");
         internal readonly Style LabelOk = (Style)Application.Current.FindResource("LabelOk");
         internal readonly Style LabelError = (Style)Application.Current.FindResource("LabelError");
-#pragma warning disable IDE0044 // Добавить модификатор только для чтения
-        private List<int> names_key = new();
-        private List<string> names_title = new();
-        private List<string> names_rights = new();
-        private List<string> names_pass = new();
-        private List<int> pribor_key = new();
-        private List<string> pribor_title = new();
-        private List<int> material_key = new();
-        private List<string> material_title = new();
-        private List<int> modify_key = new();
-        private List<string> modify_title = new();
-        private List<int> gaz_key = new();
-        private List<string> gaz_title = new();
-        private List<int> range_key = new();
-        private List<string> range_title = new();
-        private List<int> sensor_key = new();
-        private List<string> sensor_title = new();
-        private List<int> status_key = new();
-        private List<string> status_title = new();
-        private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
         private Thread Th_N = new(() => { });
         private object locker = new();
         private object locker_O = new();
         private object locker_N = new();
         private bool DarkTheme;
         private object locker_P = new();
+        public DB_Data db = new();
 
         ///<summary>Класс для хранения и обработки полученных из базы данных</summary>
         public class DB_Data
@@ -76,7 +57,10 @@ namespace Pikachu
             private List<int> status_key = new();
             private List<string> status_title = new();
             private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
-            private List<pribor> pribors = new();
+            /// <summary>
+            /// Список приборов
+            /// </summary>
+            public List<pribor> pribors = new();
 
             /// <summary>
             /// Класс для сохранения данных из таблицы main
@@ -584,10 +568,12 @@ namespace Pikachu
                 };
                 for (int i = 0; i < count; i++)
                 {
+#pragma warning disable CS8602
                     a.date.Add(date[i] ?? DateTime.MinValue);
                     a.name.Add(GetName(name[i] ?? -1));
                     a.status.Add(FindTitle("status", status[i] ?? -1));
                     a.note.Add(note[i] ?? "");
+#pragma warning restore CS8602
                 }
                 return a;
             }

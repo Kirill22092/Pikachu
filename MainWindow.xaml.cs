@@ -28,34 +28,7 @@
             {
                 after_login();
             }
-
-            /*pr.Add(new pribors
-            {
-                pribor_num = "12345",
-                pribor_tip = "SGOES",
-                pribor_mod = "М",
-                pribor_mat = "Алюминий",
-                pribor_gaz = "Метан",
-                pribor_exp = "USA",
-                pribor_range = "0-100",
-                last_date = "20-20-20",
-                last_status = "Выпущен",
-                last_name = "Родионов"
-            });
-            pr.Add(new pribors
-            {
-                pribor_num = "55577",
-                pribor_tip = "SGOES",
-                pribor_mod = "2",
-                pribor_mat = "Алюминий",
-                pribor_gaz = "Метан",
-                pribor_exp = "USA",
-                pribor_range = "0-100",
-                last_date = "20-20-20",
-                last_status = "Выпущен",
-                last_name = "Родионов"
-            });
-            lvDataBinding.ItemsSource = pr;*/
+            lvDataBinding.ItemsSource = db.pribors;
         }
         ///<summary>Метод вызывающий окно логина.</summary>
         ///<returns>Возвращает результат работы вызванного диалогового окна.</returns>
@@ -76,14 +49,14 @@
             lock (locker_N)
             {
                 bool[] result = { false, false, true };
-                int i = names_title.FindIndex(p => p == Login); //поиск введенного логина в списке имён
+                int i = db.CheckName(Login); //поиск введенного логина в списке имён
                 if (i > -1)
                 {
                     result[0] = true; //логин нашёлся
-                    if (BCrypt.Verify(Password, names_pass[i])) //проверка пароля
+                    if (BCrypt.Verify(Password, db.GetPass(Login))) //проверка пароля
                     {
                         result[1] = true; //пароль совпал
-                        login_text.Text = names_title[i]; //пишем имя пользователя в главном окне
+                        login_text.Text = Login; //пишем имя пользователя в главном окне
                         return result; //успех, все проверки пройдены, передаём результат
                     }
                     else
