@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Linq;
+using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace Pikachu
 {
@@ -31,8 +33,7 @@ namespace Pikachu
         internal readonly Style LabelError = (Style)Application.Current.FindResource("LabelError");
         private Thread Th_N = new(() => { });
         private object locker = new();
-        private object locker_O = new();
-        private object locker_N = new();
+        private object locker_DB = new();
         private bool DarkTheme;
         private object locker_P = new();
         private DB_Data db = new();
@@ -87,7 +88,7 @@ namespace Pikachu
                 /// <param name="b">Поле pribor_num</param>
                 /// <param name="c">Поле pribor_exp</param>
                 /// <param name="d">Поле pribor_mod</param>
-                public void SetIndex(string a, string b, string c, string d)
+               /* public void SetIndex(string a, string b, string c, string d)
                 {
                     tip = a;
                     num = b;
@@ -102,7 +103,7 @@ namespace Pikachu
                 {
                     List<string> l = new List<string> { tip, num, exp, mod };
                     return l;
-                }
+                }*/
                 /// <summary>
                 /// Тип прибора (соответсвует столбцу title таблицы pribor)
                 /// </summary>
@@ -583,7 +584,7 @@ namespace Pikachu
                     name_zak = l[21],
                     pribor_mod = FindTitle("modify", l[22])
                 };
-                p.SetIndex(l[0], l[1], l[3], l[22]);
+                //p.SetIndex(l[0], l[1], l[3], l[22]);
                 return p;
             }
             /// <summary>
@@ -638,6 +639,15 @@ namespace Pikachu
             public void Clear()
             {
                 pribors.Clear();
+            }
+            public List<string> GetIndex(int i)
+            {
+                List<string> l = new();// { tip, num, exp, mod };
+                l.Add(FindKey("pribor", pribors[i].pribor_tip).ToString());
+                l.Add(pribors[i].pribor_num);
+                l.Add(exp.FindIndex(p => p == pribors[i].pribor_exp).ToString());
+                l.Add(FindKey("modify", pribors[i].pribor_mod).ToString());
+                return l;
             }
         }
         /// <summary>

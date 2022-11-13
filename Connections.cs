@@ -41,9 +41,7 @@ namespace Pikachu
 
         public void read_names() //Чтение таблицы names
         {
-            if (Th_N.ThreadState is not ThreadState.Running and not ThreadState.WaitSleepJoin)
-            {
-                Th_N = new Thread(() =>
+                Thread Th = new Thread(() =>
                 {
                     lock (locker)
                     {
@@ -65,7 +63,7 @@ namespace Pikachu
                                     names_rights.Add(reader.GetString(2));
                                     names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
                                 }
-                                lock (locker_N)
+                                lock (locker_DB)
                                 {
                                     db.SetData(names_key, "names");
                                     db.SetData(names_title, "names");
@@ -78,12 +76,11 @@ namespace Pikachu
                         }
                     }
                 });
-                Th_N.Start();
-            }
+                Th.Start();
         }
         public void read_others(string Table) //Чтение таблицы names
         {
-            Thread Th_O = new(() =>
+            Thread Th = new(() =>
             {
                 lock (locker)
                 {
@@ -96,7 +93,7 @@ namespace Pikachu
                         {
                             List<int> key = new();
                             List<string> title = new();
-                            lock (locker_O)
+                            lock (locker_DB)
                             {
                                 while (reader.Read())
                                 {
@@ -112,7 +109,7 @@ namespace Pikachu
                     }
                 }
             });
-            Th_O.Start();
+            Th.Start();
         }
         private void before_login()
         {
@@ -137,7 +134,7 @@ namespace Pikachu
                 Debug.WriteLine(iConnect.State.ToString());
             };
 
-            _ = Connect(); //открываем соеднение с БД
+            _= Connect(); //открываем соеднение с БД
             read_names(); // чтение таблицы names
         }
 
@@ -158,32 +155,32 @@ namespace Pikachu
             date_ktx.DisplayDateEnd = DateTime.Now.Date;
             date_out.SelectedDate = DateTime.Now.Date;
             date_out.DisplayDateEnd = DateTime.Now.Date;
-            lock (locker_O)
+            lock (locker_DB)
             {
                 combo_pribors.ItemsSource = db.GetData("pribor");
                 combo_gaz.ItemsSource = db.GetData("gaz");
                 combo_materials.ItemsSource = db.GetData("material");
                 combo_modify.ItemsSource = db.GetData("modify");
                 combo_range.ItemsSource = db.GetData("range");
+                combo_status.ItemsSource = db.GetData("status");
+                combo_sensor.ItemsSource = db.GetData("sensor");
             }
-
-            read_pribors(); //временно
         }
 
-        public void read_pribors() //Чтение таблицы main
+        public void read_pribors(string sql) //Чтение таблицы main
         {
-            Thread Th_O = new(() =>
+            Thread Th = new(() =>
             {
                 lock (locker)
                 {
                     if (iConnect.State == ConnectionState.Open)
                     {
-                        string sql = $"SELECT * FROM main;";
+                        if (sql == "") { sql = "SELECT * FROM main ORDER BY RANDOM() LIMIT 20;"; }
                         iQuery = new(sql, iConnect); 
                         NpgsqlDataReader reader = iQuery.ExecuteReader();
                         if (iConnect.State == ConnectionState.Open)
                         {
-                            lock (locker_O)
+                            lock (locker_DB)
                             {
                                 while (reader.Read())
                                 {
@@ -212,7 +209,7 @@ namespace Pikachu
                                     pribor.Add(reader.GetString(21));
                                     pribor.Add(reader.GetInt32(22).ToString());
                                     db.SetPribor(pribor);
-                                }                               
+                                }
                             }
                         }
                         reader.Close();
@@ -220,7 +217,7 @@ namespace Pikachu
                     }
                 }
             });
-            Th_O.Start();
+            Th.Start();
         }
     }
 }
