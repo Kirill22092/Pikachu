@@ -2,6 +2,7 @@
 {
     using BCrypt.Net;
     using MaterialDesignThemes.Wpf;
+    using Microsoft.VisualBasic;
     using Npgsql;
     using System;
     using System.Collections.Generic;
@@ -29,7 +30,11 @@
             {
                 after_login();
             }
-            ListView_pribors.ItemsSource = db.pribors;
+            read_pribors("");
+            lock (locker_DB)
+            {
+                ListView_pribors.ItemsSource = db.pribors;
+            }
         }
         ///<summary>Метод вызывающий окно логина.</summary>
         ///<returns>Возвращает результат работы вызванного диалогового окна.</returns>
@@ -47,7 +52,7 @@
         ///bool[2] = флаг проверки соединения.</returns>
         public bool[] loginDialogCheck(string Login, string Password)
         {
-            lock (locker_N)
+            lock (locker_DB)
             {
                 bool[] result = { false, false, true };
                 int i = db.CheckName(Login); //поиск введенного логина в списке имён
@@ -120,22 +125,6 @@
         {
             Debug.WriteLine($"SAMPLE 2: Closed dialog with parameter: {eventArgs.Parameter ?? string.Empty}");
         }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            /*
-            Делаем запрос к БД на длинну архива прибора, чья кнопка нажата...
-            ...и инициируем новый экземпляр класса archive с длинной в качестве параметра
-
-            Делаем запрос на получение архивов даты, имени, статуса, примечания
-
-            Записываем полученные массивы в поля класса archive
-
-            Создаем новый экземпляр класса DetailWindow и пердаем в качестве параметров:
-            экземпляр класса archive и списки names_key/title, status_key/title
-             */
-        }
-
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             Cursor c = ((Button)e.Source).Cursor;
@@ -297,10 +286,10 @@
             }
 
             //А тут творится полная хуйня... 
-            List<string> pr = db.GetPribor(i).GetIndex();            
+            List<string> pr = db.GetIndex(i);
+            int lenght = -1;
             lock (locker)
             {
-                int le = -1;
                 string sql = $"SELECT array_length(arr_date,1) FROM archive WHERE pribor_tip={pr[0]} AND pribor_num={pr[1]} AND pribor_exp={pr[2]};";
                 iQuery = new(sql, iConnect);
                 NpgsqlDataReader reader = iQuery.ExecuteReader();
@@ -308,21 +297,25 @@
                 {
                     while (reader.Read())
                     {
-                        le = reader.GetInt32(0);
+                        lenght = reader.GetInt32(0);
                     }
                 }
                 reader.Close();
                 iQuery.Dispose();
+            }
+            lock (locker)
+            {
 
-                sql = $"SELECT * FROM archive WHERE pribor_tip={pr[0]} AND pribor_num={pr[1]} AND pribor_exp={pr[2]};";
+
+                string sql = $"SELECT * FROM archive WHERE pribor_tip={pr[0]} AND pribor_num={pr[1]} AND pribor_exp={pr[2]};";
                 iQuery = new(sql, iConnect);
-                reader = iQuery.ExecuteReader();
+                NpgsqlDataReader reader = iQuery.ExecuteReader();
                 if (iConnect.State == ConnectionState.Open)
                 {
-                    int[] status = new int[le];
-                    int[] name = new int[le];
-                    string[] note = new string[le];
-                    DateTime[] date = new DateTime[le];
+                    int[] status = new int[lenght];
+                    int[] name = new int[lenght];
+                    string[] note = new string[lenght];
+                    DateTime[] date = new DateTime[lenght];
                     while (reader.Read())
                     {
                         date = reader.GetFieldValue<DateTime[]>(3);
@@ -332,10 +325,10 @@
                     }
                     reader.Close();
                     iQuery.Dispose();
-
-                    DetailWindow detail = new(db.GetArchive(pr, date, name, status, note, le));
+                    DetailWindow detail = new(db.GetArchive(pr, date, name, status, note, lenght));
                     detail.Show();
                 }
+                
             }
         }
 
