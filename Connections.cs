@@ -41,42 +41,42 @@ namespace Pikachu
 
         public void read_names() //Чтение таблицы names
         {
-                Thread Th = new Thread(() =>
+            Thread Th = new(() =>
+            {
+                lock (locker)
                 {
-                    lock (locker)
+                    if (iConnect.State == ConnectionState.Open)
                     {
+                        string sql = "SELECT * FROM names;";
+                        iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
+                        NpgsqlDataReader reader = iQuery.ExecuteReader();
                         if (iConnect.State == ConnectionState.Open)
                         {
-                            string sql = "SELECT * FROM names;";
-                            iQuery = new(sql, iConnect); //читаем из БД таблицу пользователей...
-                            NpgsqlDataReader reader = iQuery.ExecuteReader();
-                            if (iConnect.State == ConnectionState.Open)
+                            List<int> names_key = new();
+                            List<String> names_title = new();
+                            List<string> names_rights = new();
+                            List<string> names_pass = new();
+                            while (reader.Read())
                             {
-                                List<int> names_key = new();
-                                List<String> names_title = new();
-                                List<string> names_rights = new();
-                                List<string> names_pass = new();
-                                while (reader.Read())
-                                {
-                                    names_key.Add(reader.GetInt32(0));
-                                    names_title.Add(reader.GetString(1));
-                                    names_rights.Add(reader.GetString(2));
-                                    names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
-                                }
-                                lock (locker_DB)
-                                {
-                                    db.SetData(names_key, "names");
-                                    db.SetData(names_title, "names");
-                                    db.SetData(names_rights, "names", 1);
-                                    db.SetData(names_pass, "names", 2);
-                                }
-                                reader.Close();
-                                iQuery.Dispose();
+                                names_key.Add(reader.GetInt32(0));
+                                names_title.Add(reader.GetString(1));
+                                names_rights.Add(reader.GetString(2));
+                                names_pass.Add(reader.GetString(3)); //...и заносим полученные данные в списки
                             }
+                            lock (locker_DB)
+                            {
+                                db.SetData(names_key, "names");
+                                db.SetData(names_title, "names");
+                                db.SetData(names_rights, "names", 1);
+                                db.SetData(names_pass, "names", 2);
+                            }
+                            reader.Close();
+                            iQuery.Dispose();
                         }
                     }
-                });
-                Th.Start();
+                }
+            });
+            Th.Start();
         }
         public void read_others(string Table) //Чтение таблицы names
         {
@@ -100,7 +100,7 @@ namespace Pikachu
                                     key.Add(reader.GetInt32(0));
                                     title.Add(reader.GetString(1));//...и заносим полученные данные в списки
                                 }
-                                db.SetData(key,Table);
+                                db.SetData(key, Table);
                                 db.SetData(title, Table);
                             }
                         }
@@ -134,7 +134,7 @@ namespace Pikachu
                 Debug.WriteLine(iConnect.State.ToString());
             };
 
-            _= Connect(); //открываем соеднение с БД
+            _ = Connect(); //открываем соеднение с БД
             read_names(); // чтение таблицы names
         }
 
@@ -176,7 +176,7 @@ namespace Pikachu
                     if (iConnect.State == ConnectionState.Open)
                     {
                         if (sql == "") { sql = "SELECT * FROM main ORDER BY RANDOM() LIMIT 20;"; }
-                        iQuery = new(sql, iConnect); 
+                        iQuery = new(sql, iConnect);
                         NpgsqlDataReader reader = iQuery.ExecuteReader();
                         if (iConnect.State == ConnectionState.Open)
                         {
@@ -184,24 +184,26 @@ namespace Pikachu
                             {
                                 while (reader.Read())
                                 {
-                                    List<string> pribor = new();
-                                    pribor.Add(reader.GetInt32(0).ToString());
-                                    pribor.Add(reader.GetInt32(1).ToString());
-                                    pribor.Add(reader.GetInt32(2).ToString());
-                                    pribor.Add(reader.GetInt32(3).ToString());
-                                    pribor.Add(reader.GetBoolean(4).ToString());
-                                    pribor.Add(reader.GetInt32(5).ToString());
-                                    pribor.Add(reader.GetInt32(6).ToString());
-                                    pribor.Add(reader.GetInt32(7).ToString());
-                                    pribor.Add(reader.GetInt32(8).ToString());
-                                    pribor.Add(reader.GetDateTime(9).ToString());
-                                    pribor.Add(reader.GetInt32(10).ToString());
-                                    pribor.Add(reader.GetInt32(11).ToString());
-                                    pribor.Add(reader.GetString(12));
+                                    List<string> pribor = new()
+                                    {
+                                        reader.GetInt32(0).ToString(),
+                                        reader.GetInt32(1).ToString(),
+                                        reader.GetInt32(2).ToString(),
+                                        reader.GetInt32(3).ToString(),
+                                        reader.GetBoolean(4).ToString(),
+                                        reader.GetInt32(5).ToString(),
+                                        reader.GetInt32(6).ToString(),
+                                        reader.GetInt32(7).ToString(),
+                                        reader.GetInt32(8).ToString(),
+                                        reader.GetDateTime(9).ToString(),
+                                        reader.GetInt32(10).ToString(),
+                                        reader.GetInt32(11).ToString(),
+                                        reader.GetString(12)
+                                    };
                                     if (reader.IsDBNull(13)) { pribor.Add(""); } else { pribor.Add(reader.GetDateTime(13).ToString()); }
                                     if (reader.IsDBNull(14)) { pribor.Add(""); } else { pribor.Add(reader.GetDateTime(14).ToString()); }
                                     if (reader.IsDBNull(15)) { pribor.Add(""); } else { pribor.Add(reader.GetDateTime(15).ToString()); }
-                                    if (reader.IsDBNull(16)) { pribor.Add(""); } else { pribor.Add(reader.GetDateTime(16).ToString()); }                                   
+                                    if (reader.IsDBNull(16)) { pribor.Add(""); } else { pribor.Add(reader.GetDateTime(16).ToString()); }
                                     pribor.Add(reader.GetInt32(17).ToString());
                                     pribor.Add(reader.GetInt32(18).ToString());
                                     pribor.Add(reader.GetInt32(19).ToString());

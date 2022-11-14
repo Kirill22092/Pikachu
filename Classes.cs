@@ -1,13 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml.Linq;
-using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace Pikachu
 {
@@ -284,7 +280,7 @@ namespace Pikachu
                         names_key = l;
                         break;
                     default:
-                        throw new DB_DataException("Неверное имя таблицы", name);                        
+                        throw new DB_DataException("Неверное имя таблицы", name);
                 }
             }
 
@@ -392,8 +388,8 @@ namespace Pikachu
             public string GetName(string index)
             {
                 if (index == null) throw new DB_DataException("Параметр index не может быть null");
-                if (Int32.Parse(index) == -1) return " ";
-                return names_title[names_key.FindIndex(p => p == Int32.Parse(index))];
+                if (int.Parse(index) == -1) return " ";
+                return names_title[names_key.FindIndex(p => p == int.Parse(index))];
             }
             ///<summary>Возвращает имя по индексу БД</summary>
             public string GetName(int? index)
@@ -483,7 +479,7 @@ namespace Pikachu
             {
                 if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
                 if (name == null) throw new DB_DataException("Поисковая строка не может быть null");
-                int i = Int32.Parse(name);
+                int i = int.Parse(name);
                 switch (table)
                 {
                     case "pribor":
@@ -563,7 +559,7 @@ namespace Pikachu
                     pribor_tip = FindTitle("pribor", l[0]),
                     pribor_num = l[1],
                     pribor_mat = FindTitle("material", l[2]),
-                    pribor_exp = exp[Int32.Parse(l[3])],
+                    pribor_exp = exp[int.Parse(l[3])],
                     pribor_rem = l[4],
                     msk_num = l[5],
                     pribor_gaz = FindTitle("gaz", l[6]),
@@ -597,7 +593,7 @@ namespace Pikachu
             /// <param name="note">Массив примечаний</param>
             /// <param name="count">Длинна архива</param>
             /// <returns></returns>
-            public List<archive> GetArchive(List<string> pribor, DateTime[] date, int[] name, int[] status, string[] note, int count )
+            public List<archive> GetArchive(List<string> pribor, DateTime[] date, int[] name, int[] status, string[] note, int count)
             {
                 List<archive> l = new();
                 for (int i = 0; i < count; i++)
@@ -661,7 +657,7 @@ namespace Pikachu
             /// <param name="message">Текст сообщения об ошибке</param>
             /// <param name="value">Параметр вызвавший ошибку</param>
             public DB_DataException(string message, string value) : base(message, value)
-            {}
+            { }
             /// <summary>
             /// Конструктор по умолчанию
             /// </summary>
