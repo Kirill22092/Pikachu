@@ -31,7 +31,7 @@
          BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
         <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="#ef9a9a" />
-        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" /> 
+        <Setter Property="wpf:HintAssist.HelperText" Value="Поле не может быть пустым" />
         <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource SecondaryHueMidBrush}" />

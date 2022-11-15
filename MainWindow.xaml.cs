@@ -276,10 +276,10 @@
         private void test_click(object sender, RoutedEventArgs e)
         {
             //Тут творится какая то хуйня... я хз что, как и зачем... Просто копипаста из инета...
-            var item = VisualTreeHelper.HitTest(ListView_pribors, Mouse.GetPosition(ListView_pribors)).VisualHit;
-            while (item != null && !(item is ListBoxItem))
+            DependencyObject? item = VisualTreeHelper.HitTest(ListView_pribors, Mouse.GetPosition(ListView_pribors)).VisualHit;
+            while (item != null && item is not ListBoxItem)
                 item = VisualTreeHelper.GetParent(item);
-            int i=-1;
+            int i = -1;
             if (item != null)
             {
                 i = ListView_pribors.Items.IndexOf(((ListBoxItem)item).DataContext);
@@ -328,7 +328,7 @@
                     DetailWindow detail = new(db.GetArchive(pr, date, name, status, note, lenght));
                     detail.Show();
                 }
-                
+
             }
         }
 
