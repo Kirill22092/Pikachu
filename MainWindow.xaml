@@ -14,6 +14,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow" Height="711" Width="1200" ResizeMode="NoResize" MouseLeftButtonDown="MainWindow1_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
     <Grid>
+       
 
         <TextBlock Margin="15,5,0,0" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="200">
   <Hyperlink Style="{DynamicResource MaterialDesignHeadline5Hyperlink}" Cursor="Hand" BaselineAlignment="Superscript" Click="Hyperlink_Click">
@@ -158,6 +159,7 @@
                     <TabItem
     Header="Внесение" Width="570">
                         <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp" Width="1178">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
@@ -201,8 +203,10 @@
                                 materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Stretch"  materialDesign:HintAssist.FloatingOffset="0, -18"
                                 HorizontalAlignment="Left" Margin="931,102,0,148" Width="200"
                                 FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" />
-                            <ComboBox x:Name="combo_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True"/>
+
                             <ComboBox x:Name="combo_sensor" HorizontalAlignment="Left" Margin="264,180,0,0" VerticalAlignment="Top" Width="200" materialDesign:HintAssist.Hint="Сенсор" Height="38" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5"/>
+                            <ComboBox x:Name="combo_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True"/>
+
 
 
 

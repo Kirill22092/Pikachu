@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
@@ -55,7 +56,12 @@ namespace Pikachu
             private List<string> sensor_title = new();
             private List<int> status_key = new();
             private List<string> status_title = new();
-            private List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
+            private readonly List<string> exp = new() { "РФ", "НЕ РФ", "Точно не РФ" };
+            private List<string> status_100 = new();
+            private List<string> status_200 = new();
+            private List<string> status_300 = new();
+            private List<string> status_400 = new();
+            private List<string> status_500 = new();
             /// <summary>
             /// Список приборов
             /// </summary>
@@ -479,6 +485,7 @@ namespace Pikachu
             {
                 if (table == null) throw new DB_DataException("Имя таблицы не может быть null");
                 if (name == null) throw new DB_DataException("Поисковая строка не может быть null");
+                Debug.WriteLine(name);
                 int i = int.Parse(name);
                 switch (table)
                 {
@@ -636,14 +643,70 @@ namespace Pikachu
             {
                 pribors.Clear();
             }
+            /// <summary>
+            /// Получение индексов прибора для запроса к БД
+            /// </summary>
+            /// <param name="i">Индекс прибора в списке приборов</param>
+            /// <returns></returns>
             public List<string> GetIndex(int i)
             {
+                if (pribors[i] is null) { throw new DB_DataException("Прибора с таким индексом нет в БД"); }
                 List<string> l = new();// { tip, num, exp, mod };
                 l.Add(FindKey("pribor", pribors[i].pribor_tip).ToString());
                 l.Add(pribors[i].pribor_num);
                 l.Add(exp.FindIndex(p => p == pribors[i].pribor_exp).ToString());
                 l.Add(FindKey("modify", pribors[i].pribor_mod).ToString());
                 return l;
+            }
+            public void SetStatuses()
+            {
+                if ((status_key is null) || (status_title is null)) { throw new DB_DataException("Статусы не загружены из БД"); }
+                status_100.Clear();
+                status_200.Clear();
+                status_300.Clear();
+                status_400.Clear();
+                status_500.Clear();
+                foreach (var i in status_key)
+                {
+                    if ((i > 0) && (i < 200))
+                    { 
+                        status_100.Add(FindTitle("status", i));
+                    }
+                    if ((i > 200) && (i < 300))
+                    {
+                        status_200.Add(FindTitle("status", i));
+                    }
+                    if ((i > 300) && (i < 400))
+                    {
+                        status_300.Add(FindTitle("status", i));
+                    }
+                    if ((i > 400) && (i < 500))
+                    {
+                        status_400.Add(FindTitle("status", i));
+                    }
+                    if ((i > 500) && (i < 600))
+                    {
+                        status_500.Add(FindTitle("status", i));
+                    }
+                }
+            }
+            public List<string> GetStatuses(int i)
+            {
+                switch (i)
+                {
+                    case 100:
+                        return status_100;                        
+                    case 200:
+                        return status_200;
+                    case 300:
+                        return status_300;
+                    case 400:
+                        return status_400;
+                    case 500:
+                        return status_500;
+                    default:
+                        return status_title;
+                }
             }
         }
         /// <summary>
