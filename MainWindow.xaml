@@ -159,7 +159,21 @@
                     <TabItem
     Header="Внесение" Width="570">
                         <Grid LostFocus="Grid_LostFocus" GotFocus="Grid_GotFocus" KeyUp="Grid_KeyUp" Width="1178">
-
+                            <Grid.Resources>
+                                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>

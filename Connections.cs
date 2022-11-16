@@ -167,10 +167,10 @@ namespace Pikachu
                 combo_range.ItemsSource = db.GetData("range");
                // combo_status.ItemsSource = db.GetData("status");
                 combo_sensor.ItemsSource = db.GetData("sensor");
-                List<object?> a = new();
+                List<string?> a = new();
                 for (int i = 0; i < db.GetStatuses(100).Count; i++)
                 {
-                    a.Add((object)db.GetStatuses(100)[i]);
+                    a.Add(db.GetStatuses(100)[i]);
                 }
                 a.Add(new Separator());
                /* for (int i = 0; i < db.GetStatuses(200).Count; i++)
