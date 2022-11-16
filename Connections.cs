@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using ThreadState = System.Threading.ThreadState;
 #pragma warning disable CS1591
@@ -13,6 +14,7 @@ namespace Pikachu
 {
     public partial class MainWindow : Window
     {
+
         public bool Connect()
         {
             try
@@ -147,6 +149,7 @@ namespace Pikachu
             read_others("range");
             read_others("sensor");
             read_others("status");
+            db.SetStatuses();
             date_snu.SelectedDate = DateTime.Now.Date;
             date_snu.DisplayDateEnd = DateTime.Now.Date;
             date_oki.SelectedDate = DateTime.Now.Date;
@@ -162,8 +165,35 @@ namespace Pikachu
                 combo_materials.ItemsSource = db.GetData("material");
                 combo_modify.ItemsSource = db.GetData("modify");
                 combo_range.ItemsSource = db.GetData("range");
-                combo_status.ItemsSource = db.GetData("status");
+               // combo_status.ItemsSource = db.GetData("status");
                 combo_sensor.ItemsSource = db.GetData("sensor");
+                List<object?> a = new();
+                for (int i = 0; i < db.GetStatuses(100).Count; i++)
+                {
+                    a.Add((object)db.GetStatuses(100)[i]);
+                }
+                a.Add(new Separator());
+               /* for (int i = 0; i < db.GetStatuses(200).Count; i++)
+                {
+                    a.Add(db.GetStatuses(200)[i]);
+                }
+                a.Add(null);
+                for (int i = 0; i < db.GetStatuses(300).Count; i++)
+                {
+                    a.Add(db.GetStatuses(300)[i]);
+                }
+                a.Add(null);
+                for (int i = 0; i < db.GetStatuses(400).Count; i++)
+                {
+                    a.Add(db.GetStatuses(400)[i]);
+                }
+                a.Add(null);
+                for (int i = 0; i < db.GetStatuses(500).Count; i++)
+                {
+                    a.Add(db.GetStatuses(500)[i]);
+                }
+                a.Add(null);*/
+                combo_status.ItemsSource = a;
             }
         }
 
