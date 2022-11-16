@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
-        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
@@ -205,7 +205,23 @@
                                 FirstDayOfWeek="Monday" materialDesign:HintAssist.Hint="Дата последней операции&#xA;на УУиО" Padding="5,0,5,0" />
 
                             <ComboBox x:Name="combo_sensor" HorizontalAlignment="Left" Margin="264,180,0,0" VerticalAlignment="Top" Width="200" materialDesign:HintAssist.Hint="Сенсор" Height="38" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5"/>
-                            <ComboBox x:Name="combo_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource MaterialDesignFilledComboBox}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True"/>
+                            <ComboBox x:Name="combo_status" HorizontalAlignment="Left" Margin="486,13,0,0" VerticalAlignment="Top" Width="200" Height="38" materialDesign:HintAssist.Hint="Статус" Style="{DynamicResource ComboBoxWithSeparator}" Padding="5,5,15,5" ScrollViewer.CanContentScroll="True">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                            <Separator HorizontalAlignment="Stretch" IsEnabled="False"/>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
 
 
 
