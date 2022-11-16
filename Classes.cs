@@ -17,7 +17,7 @@ namespace Pikachu
         internal readonly Style PassBoxValid = (Style)Application.Current.FindResource("MaterialDesignFloatingHintPasswordBox");
         internal readonly Style PassBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidPassBox");
         internal readonly Style PassBoxNotValidCheck = (Style)Application.Current.FindResource("CheckNotValidPassBox");
-        internal readonly Style ComboBoxValid = (Style)Application.Current.FindResource("MaterialDesignFilledComboBox");
+        internal readonly Style ComboBoxValid = (Style)Application.Current.FindResource("ComboBoxWithSeparator");
         internal readonly Style ComboBoxNotValidEmpty = (Style)Application.Current.FindResource("EmptyNotValidComboBox");
         internal readonly Style ComboBoxNotValidVerify = (Style)Application.Current.FindResource("VerifyNotValidComboBox");
         internal readonly Style DatePickerValid = (Style)Application.Current.FindResource("MaterialDesignFilledDatePicker");

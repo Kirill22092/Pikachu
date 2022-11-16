@@ -108,5 +108,24 @@
          TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignTextBoxBorder}" />
     </Style>
-
+    <Style x:Key="ComboBoxWithSeparator"
+        TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFilledComboBox}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False" Margin="10, 0, 10, 0" Style="{StaticResource MaterialDesignSeparator}"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
