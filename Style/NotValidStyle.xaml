@@ -118,7 +118,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False"/>
+                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False" Style="{StaticResource MaterialDesignSeparator}"/>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
